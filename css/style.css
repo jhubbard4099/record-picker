@@ -1,0 +1,30 @@
+/* Universal Rules */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {border:1px solid red}
+
+/* Main Rules */
+body {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.header, .footer {
+  display: flex;
+  align-items: center;
+}
+
+/* Style Rules */
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
