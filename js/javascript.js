@@ -1,17 +1,11 @@
+// Website for browsing & selecting from my vinyl record collection
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
-const sheetID = "1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ";
-const sheetName = "Records";
-const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}`;
-
-const testID = "13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k"
-const testURL = `https://docs.google.com/spreadsheets/d/${testID}/gviz/tq?sheet=${sheetName}`;
-
 // Object representing a vinyl record
-// album - string representing the album name
-// artist - string representing the artist of the album
-// keywords - array of strings including genre & other relevant info
+// Parameters:  album - string representing the album name
+//              artist - string representing the artist of the album
+//              keywords - array of strings including genre & other relevant info
 function Record(album, artist, keywords)
 {
   this.album = album;
@@ -54,7 +48,6 @@ function createRecord(row)
   }
 
   // build and return a Record object
-  console.log(typeof(curAlbum) + typeof(curArtist) + typeof(curKeywords))
   return new Record(curAlbum, curArtist, curKeywords);
 }
 
@@ -64,25 +57,29 @@ function createRecord(row)
 function rowIsValid(row)
 {
   // Checks if the artist exists & the record is currently owned
-  return (row[0] !== null && row[2] !== false);
+  return (row[0].v !== null && row[2].v !== false);
 }
 
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
 async function fetchSheetData()
 {
+  const sheetID = "1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ";
+  const sheetName = "Records";
+  const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}`;
+
+  const testID = "13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k"
+  const testURL = `https://docs.google.com/spreadsheets/d/${testID}/gviz/tq?sheet=${sheetName}`;
+
   var sheet = null;
 
-  await fetch(testURL).then(response => response.text()).then(data => {
-    //console.log(data)
+  await fetch(URL).then(response => response.text()).then(data => {
 
     const jsonBody = (data.split("setResponse(")[1]);
     const jsonText = jsonBody.slice(0, jsonBody.length - 2);
     
     sheet = JSON.parse(jsonText);
 
-    console.log(sheet);
-    console.log(sheet.table.rows[0].c[0].v);
   }).catch(error => console.log(error));
 
   console.log(sheet);
