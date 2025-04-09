@@ -57,7 +57,7 @@ function createRecord(row)
 function rowIsValid(row)
 {
   // Checks if the artist exists & the record is currently owned
-  return (row[0].v !== null && row[2].v !== false);
+  return (row[0] !== null && row[2].v !== false);
 }
 
 // Accesses the Google sheet & parses the information into a json object
@@ -73,7 +73,7 @@ async function fetchSheetData()
 
   var sheet = null;
 
-  await fetch(URL).then(response => response.text()).then(data => {
+  await fetch(testURL).then(response => response.text()).then(data => {
 
     const jsonBody = (data.split("setResponse(")[1]);
     const jsonText = jsonBody.slice(0, jsonBody.length - 2);
