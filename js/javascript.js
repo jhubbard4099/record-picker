@@ -8,17 +8,7 @@ const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${s
 const testID = "13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k"
 const testURL = `https://docs.google.com/spreadsheets/d/${testID}/gviz/tq?sheet=${sheetName}`;
 
-fetch(testURL).then(response => response.text()).then(data => {
-  console.log(data)
-
-  const jsonBody = (data.split("setResponse(")[1]);
-  const jsonText = jsonBody.slice(0, jsonBody.length - 2);
-  const sheet = JSON.parse(jsonText);
-
-  console.log(sheet);
-  console.log(sheet.table.rows[0].c[0].v);
-}).catch(error => console.log(error));
-
+// Object representing a vinyl record
 // album - string representing the album name
 // artist - string representing the artist of the album
 // keywords - array of strings including genre & other relevant info
@@ -29,5 +19,100 @@ function Record(album, artist, keywords)
   this.keywords = keywords;
 }
 
-var temp = new Record("Album", "Author", ["test1", "test2"]);
-console.log(`Album: ${temp.album}\nAuthor: ${temp.artist}\nKeywords: ${temp.keywords}`);
+// Convert record to a printable string, which is also sent to the console
+function recordToString(record)
+{
+  var recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
+  console.log(recordString);
+  return recordString
+}
+
+// Create a record object from input spreadsheet row
+// Note: assumes the following row format:
+//    Artist - Album - Owned - Genre - Media - Misc
+function createRecord(row)
+{
+  // fetch album and artist strings
+  var curAlbum = row[0].v;
+  var curArtist = row[1].v;
+
+  // fetch genre, media, and misc strings,
+  // then split them into arrays
+  var curGenre = row[3].v.split(", ");
+  var curMedia = row[4].v.split(", ");
+  var curMisc = row[5].v.split(", ");
+  
+  // build keywords based on what sections aren't empty
+  var curKeywords = curGenre;
+  if(curMedia[0] !== " ")
+  {
+    curKeywords = curKeywords.concat(curMedia);
+  } 
+  if(curMisc[0] !== " ")
+  {
+    curKeywords = curKeywords.concat(curMisc);
+  }
+
+  // build and return a Record object
+  console.log(typeof(curAlbum) + typeof(curArtist) + typeof(curKeywords))
+  return new Record(curAlbum, curArtist, curKeywords);
+}
+
+// Checks if a row is valid to be turned into a record
+// Note: assumes the following row format:
+//    Artist - Album - Owned - Genre - Media - Misc
+function rowIsValid(row)
+{
+  // Checks if the artist exists & the record is currently owned
+  return (row[0] !== null && row[2] !== false);
+}
+
+// Accesses the Google sheet & parses the information into a json object
+// Returns the json object representing the full spreadsheet
+async function fetchSheetData()
+{
+  var sheet = null;
+
+  await fetch(testURL).then(response => response.text()).then(data => {
+    //console.log(data)
+
+    const jsonBody = (data.split("setResponse(")[1]);
+    const jsonText = jsonBody.slice(0, jsonBody.length - 2);
+    
+    sheet = JSON.parse(jsonText);
+
+    console.log(sheet);
+    console.log(sheet.table.rows[0].c[0].v);
+  }).catch(error => console.log(error));
+
+  console.log(sheet);
+  return sheet;
+}
+
+// Main function; fetches the spreadsheet json, then creates records
+// for each valid row of the spreadsheet
+async function buildCollection()
+{
+  var sheet = await fetchSheetData();
+  console.log(sheet);
+
+  // total number of rows to check
+  const count = sheet.table.rows.length;
+
+  for(i = 0; i < count; i++)
+  {
+    var curRow = sheet.table.rows[i].c;
+    console.log(curRow);
+
+    if(rowIsValid(curRow))
+    {
+      var curRecord = createRecord(curRow);
+      recordToString(curRecord);
+    }
+  }
+}
+
+var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
+recordToString(temp);
+
+buildCollection();
