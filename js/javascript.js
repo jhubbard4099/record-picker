@@ -2,6 +2,8 @@
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
+const DEBUG = true;
+
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
 //              artist - string representing the artist of the album
@@ -17,7 +19,9 @@ function Record(album, artist, keywords)
 function recordToString(record)
 {
   var recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
-  console.log(recordString);
+  
+  if (DEBUG) console.log(recordString);
+  
   return recordString
 }
 
@@ -82,7 +86,7 @@ async function fetchSheetData()
 
   }).catch(error => console.log(error));
 
-  console.log(sheet);
+  if (DEBUG) console.log(sheet);
   return sheet;
 }
 
@@ -93,7 +97,7 @@ async function buildCollection()
 {
   const recordCollection = [];
   var sheet = await fetchSheetData();
-  console.log(sheet);
+  if (DEBUG) console.log(sheet);
 
   // total number of rows to check
   const count = sheet.table.rows.length;
@@ -101,13 +105,13 @@ async function buildCollection()
   for(i = 0; i < count; i++)
   {
     var curRow = sheet.table.rows[i].c;
-    console.log(curRow);
+    if (DEBUG) console.log(curRow);
 
     if(rowIsValid(curRow))
     {
       var curRecord = createRecord(curRow);
       recordCollection.push(curRecord);
-      //recordToString(curRecord);
+      if (DEBUG) recordToString(curRecord);
     }
   }
 
@@ -118,10 +122,10 @@ async function buildCollection()
 // displays it as a table
 async function readCollection(recordCollection)
 {
-  console.log(recordCollection.length);
+  if (DEBUG) console.log(recordCollection.length);
   for(i = 0; i < recordCollection.length; i++)
   {
-    console.log(i);
+    if (DEBUG) console.log(i);
     recordToString(recordCollection[i]);
   }
 }
