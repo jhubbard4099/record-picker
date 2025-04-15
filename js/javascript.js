@@ -61,7 +61,11 @@ function createRecord(row)
 function rowIsValid(row)
 {
   // Checks if the artist exists & the record is currently owned
-  return (row[0] !== null && row[2].v !== false);
+  const isValid = row[0] !== null && row[2].v !== false;
+
+  if (DEBUG && !isValid) console.error("INVALID RECORD");
+
+  return isValid;
 }
 
 // Accesses the Google sheet & parses the information into a json object
@@ -77,7 +81,7 @@ async function fetchSheetData()
 
   var sheet = null;
 
-  await fetch(testURL).then(response => response.text()).then(data => {
+  await fetch(URL).then(response => response.text()).then(data => {
 
     const jsonBody = (data.split("setResponse(")[1]);
     const jsonText = jsonBody.slice(0, jsonBody.length - 2);
@@ -122,10 +126,10 @@ async function buildCollection()
 // displays it as a table
 async function readCollection(recordCollection)
 {
-  if (DEBUG) console.log(recordCollection.length);
+  if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
   for(i = 0; i < recordCollection.length; i++)
   {
-    if (DEBUG) console.log(i);
+    if (DEBUG) console.log(`Record #${i+1}:`);
     recordToString(recordCollection[i]);
   }
 }
@@ -133,7 +137,7 @@ async function readCollection(recordCollection)
 async function main()
 {
   var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
-  recordToString(temp);
+  if (DEBUG) recordToString(temp);
 
   var recordCollection = await buildCollection();
   readCollection(recordCollection);
