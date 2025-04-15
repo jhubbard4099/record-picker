@@ -3,6 +3,7 @@
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
 const DEBUG = true;
+const TEST_URL = true;
 
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
@@ -36,6 +37,7 @@ function createRecord(row)
 
   // fetch genre, media, and misc strings,
   // then split them into arrays
+  // TODO: use trim()?
   var curGenre = row[3].v.split(", ");
   var curMedia = row[4].v.split(", ");
   var curMisc = row[5].v.split(", ");
@@ -79,7 +81,7 @@ async function fetchSheetData()
   const testID = "13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k"
   const testURL = `https://docs.google.com/spreadsheets/d/${testID}/gviz/tq?sheet=${sheetName}`;
 
-  const URL = (DEBUG) ? testURL : mainURL;
+  const URL = (TEST_URL) ? testURL : mainURL;
 
   var sheet = null;
 
@@ -147,13 +149,80 @@ async function readCollection(recordCollection)
   document.getElementById("htmlCollection").innerHTML = outputHTML;
 }
 
+// Searches the collection and returns all matches
+// Parameters:  recordCollection: collection to search
+//              searchTerms: comma seperated string of terms
+//              isAnd: boolean for if the search terms should be AND'd
+async function searchCollection(recordCollection, searchTerms, isAnd)
+{
+  const searchedCollection = [];
+
+  // split terms into an array and trim all whitespace
+  const searchArray = searchTerms.split(",");
+  for(i = 0; i < searchArray.length; i++)
+  {
+    searchArray[i] = searchArray[i].trim().toLowerCase();
+  }
+  if (DEBUG) console.log(searchTerms, searchArray);
+
+  // Iterate through collection and through search terms
+  for(i = 0; i < recordCollection.length; i++)
+  {
+    var curRecord = recordCollection[i];
+    var isAndMatch = true;
+
+    if (DEBUG) recordToString(curRecord);
+
+    for(j = 0; j < searchArray.length; j++)
+    {
+      curSearch = searchArray[j];
+      if(curRecord.album.toLowerCase().includes(curSearch) != false ||
+         curRecord.artist.toLowerCase().includes(curSearch) != false ||
+         curRecord.keywords.findIndex(element => element.includes(curSearch)) != -1)
+      {
+        if(!isAnd)
+        {
+          if (DEBUG) console.warn("Match found!");
+          searchedCollection.push(curRecord);
+          break;
+        }
+      }
+      else
+      {
+        var isAndMatch = false;
+      }
+    }
+
+    if(isAnd && isAndMatch)
+    {
+      if (DEBUG) console.warn("Match found!");
+      searchedCollection.push(curRecord);
+    }
+  }
+
+  return searchedCollection;
+}
+
+// Wrapper function to be called by the HTML
+// to display the collection on button press
+async function htmlReadCollection()
+{
+  var recordCollection = await buildCollection();
+  readCollection(recordCollection);
+}
+
 async function main()
 {
   var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
   if (DEBUG) recordToString(temp);
 
-  var recordCollection = await buildCollection();
-  readCollection(recordCollection);
+  const recordCollection = await buildCollection();
+  //readCollection(recordCollection);
+
+  //const searchTest = await searchCollection(recordCollection, "metal, test,everhood, Helynt", false)
+  const searchTest = await searchCollection(recordCollection, "electronic, techno", true)
+
+  readCollection(searchTest);
 }
 
 main();
