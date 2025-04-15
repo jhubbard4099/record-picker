@@ -74,10 +74,12 @@ async function fetchSheetData()
 {
   const sheetID = "1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ";
   const sheetName = "Records";
-  const URL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}`;
+  const mainURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}`;
 
   const testID = "13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k"
   const testURL = `https://docs.google.com/spreadsheets/d/${testID}/gviz/tq?sheet=${sheetName}`;
+
+  const URL = (DEBUG) ? testURL : mainURL;
 
   var sheet = null;
 
@@ -122,16 +124,27 @@ async function buildCollection()
   return recordCollection;
 }
 
-// Reads the global record collection, and
-// displays it as a table
+// Reads the global record collection,
+// and displays it as a table
 async function readCollection(recordCollection)
 {
+  var outputHTML = "<table border='2px' width='400'>";
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
+
   for(i = 0; i < recordCollection.length; i++)
   {
     if (DEBUG) console.log(`Record #${i+1}:`);
     recordToString(recordCollection[i]);
+
+    outputHTML += `<tr>
+                    <td>${recordCollection[i].album}</td>
+                    <td>${recordCollection[i].artist}</td>
+                    <td>${recordCollection[i].keywords}</td>
+                   </tr>`;
   }
+
+  outputHTML += "</table>";
+  document.getElementById("htmlCollection").innerHTML = outputHTML;
 }
 
 async function main()
