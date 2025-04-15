@@ -86,10 +86,12 @@ async function fetchSheetData()
   return sheet;
 }
 
-// Main function; fetches the spreadsheet json, then creates records
-// for each valid row of the spreadsheet
+// Fetches the spreadsheet json, creates records
+// for each valid row of the spreadsheet, and stores
+// them into the global record collection
 async function buildCollection()
 {
+  const recordCollection = [];
   var sheet = await fetchSheetData();
   console.log(sheet);
 
@@ -104,12 +106,33 @@ async function buildCollection()
     if(rowIsValid(curRow))
     {
       var curRecord = createRecord(curRow);
-      recordToString(curRecord);
+      recordCollection.push(curRecord);
+      //recordToString(curRecord);
     }
+  }
+
+  return recordCollection;
+}
+
+// Reads the global record collection, and
+// displays it as a table
+async function readCollection(recordCollection)
+{
+  console.log(recordCollection.length);
+  for(i = 0; i < recordCollection.length; i++)
+  {
+    console.log(i);
+    recordToString(recordCollection[i]);
   }
 }
 
-var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
-recordToString(temp);
+async function main()
+{
+  var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
+  recordToString(temp);
 
-buildCollection();
+  var recordCollection = await buildCollection();
+  readCollection(recordCollection);
+}
+
+main();
