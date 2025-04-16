@@ -18,12 +18,20 @@
 
     <div class="content">
       <ul>
-        <div id="htmlCollection">
-          <button onclick="Javascript:htmlReadCollection()">Browse</button>
+        <div id="htmlBrowse">
+          <button id="browseButton">Browse</button>
         </div>
-        <button>Search</button>
-        <button>Queue</button>
-        <button>Random</button>
+        <div id="htmlSearch">
+          <button id="searchButton">Search:</button>
+          <input type="search" id="htmlSearchTerms" />
+          <label>
+            <input type="checkbox" id="htmlIsAnd" />
+            AND results
+          </label>
+        </div>
+        <!-- <button>Queue</button> -->
+        <!-- <button>Random</button> -->
+        <div id="htmlCollection"></div>
       </ul>
     </div>
     

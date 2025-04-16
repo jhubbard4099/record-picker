@@ -2,8 +2,11 @@
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
+// Wait to do anything until page is loaded
+window.onload=function(){
+
 const DEBUG = true;
-const TEST_URL = true;
+const TEST_URL = false;
 
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
@@ -21,7 +24,7 @@ function recordToString(record)
 {
   var recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
   
-  if (DEBUG) console.log(recordString);
+  //if (DEBUG) console.log(recordString);
   
   return recordString
 }
@@ -119,7 +122,7 @@ async function buildCollection()
     {
       var curRecord = createRecord(curRow);
       recordCollection.push(curRecord);
-      if (DEBUG) recordToString(curRecord);
+      //if (DEBUG) recordToString(curRecord);
     }
   }
 
@@ -135,7 +138,7 @@ async function readCollection(recordCollection)
 
   for(i = 0; i < recordCollection.length; i++)
   {
-    if (DEBUG) console.log(`Record #${i+1}:`);
+    //if (DEBUG) console.log(`Record #${i+1}:`);
     recordToString(recordCollection[i]);
 
     outputHTML += `<tr>
@@ -211,7 +214,22 @@ async function htmlReadCollection()
   readCollection(recordCollection);
 }
 
-async function main()
+// Wrapper function to be called by the HTML
+// to search the collection on button press
+async function htmlSearchCollection(inputSearch)
+{
+  var recordCollection = await buildCollection();
+
+  // Read state of the "AND results" checkbox
+  const inputIsAnd = document.getElementById("htmlIsAnd").checked;
+
+  console.log(`TERMS: ${inputSearch} | AND: ${inputIsAnd}`)
+
+  const searchedCollection = await searchCollection(recordCollection, inputSearch, inputIsAnd);
+  readCollection(searchedCollection);
+}
+
+async function test()
 {
   var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
   if (DEBUG) recordToString(temp);
@@ -224,5 +242,31 @@ async function main()
 
   readCollection(searchTest);
 }
+//test();
 
-main();
+// Browse button functionality
+const browseButton = document.getElementById("browseButton")
+browseButton.addEventListener("click", htmlReadCollection);
+
+// Search form functionality
+const searchButton = document.getElementById("searchButton")
+const htmlSearchTerms = document.getElementById("htmlSearchTerms")
+const htmlIsAnd = document.getElementById("htmlIsAnd")
+
+// Listener for search button
+searchButton.addEventListener("click", (e) => {
+  // get value of input field first
+  htmlSearchCollection(htmlSearchTerms.value);
+});
+
+// Listener for AND checkbox
+htmlIsAnd.addEventListener("click", (e) => {
+  // get value of input field first
+  htmlSearchCollection(htmlSearchTerms.value);
+});
+
+// Listener for typing in the search bar
+htmlSearchTerms.addEventListener("keyup", (e) => htmlSearchCollection(e.target.value));
+
+
+}
