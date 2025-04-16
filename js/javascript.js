@@ -6,7 +6,7 @@
 window.onload=function(){
 
 const DEBUG = true;
-const TEST_URL = false;
+const TEST_URL = true;
 
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
@@ -156,6 +156,8 @@ async function readCollection(recordCollection)
 // Parameters:  recordCollection: collection to search
 //              searchTerms: comma seperated string of terms
 //              isAnd: boolean for if the search terms should be AND'd
+// TODO: Break out smaller record search function
+// TODO: Add blacklist support
 async function searchCollection(recordCollection, searchTerms, isAnd)
 {
   const searchedCollection = [];
@@ -208,6 +210,7 @@ async function searchCollection(recordCollection, searchTerms, isAnd)
 
 // Wrapper function to be called by the HTML
 // to display the collection on button press
+// TODO: Color each row dependent on either artist or game
 async function htmlReadCollection()
 {
   var recordCollection = await buildCollection();
@@ -249,15 +252,8 @@ const browseButton = document.getElementById("browseButton")
 browseButton.addEventListener("click", htmlReadCollection);
 
 // Search form functionality
-const searchButton = document.getElementById("searchButton")
 const htmlSearchTerms = document.getElementById("htmlSearchTerms")
 const htmlIsAnd = document.getElementById("htmlIsAnd")
-
-// Listener for search button
-searchButton.addEventListener("click", (e) => {
-  // get value of input field first
-  htmlSearchCollection(htmlSearchTerms.value);
-});
 
 // Listener for AND checkbox
 htmlIsAnd.addEventListener("click", (e) => {
@@ -267,6 +263,5 @@ htmlIsAnd.addEventListener("click", (e) => {
 
 // Listener for typing in the search bar
 htmlSearchTerms.addEventListener("keyup", (e) => htmlSearchCollection(e.target.value));
-
 
 }
