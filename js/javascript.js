@@ -131,6 +131,7 @@ async function buildCollection()
 
 // Reads the global record collection,
 // and displays it as a table
+// TODO: Find different way to convert to table
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table border='2px' width='400'>";

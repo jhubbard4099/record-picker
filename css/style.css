@@ -10,10 +10,17 @@
 /* Main Rules */
 body {
   min-height: 100vh;
-  background: darkslategray;
+  background: rgb(37, 59, 65);
 
   display: flex;
   flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .header, .footer {
@@ -21,7 +28,30 @@ body {
   align-items: center;
 }
 
-/* Style Rules */
+/* Element Rules */
+button {
+  background: rgba(255, 0, 0, 0.377);
+  color: lightgrey;
+  font-size: 16px;
+  font-weight: 900;
+  width: 80px;
+
+  border: solid;
+  border-width: 2px;
+  border-color: rgba(255, 0, 0, 0.438);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+table {
+  background-color: rgb(95, 0, 0);
+  color: lightgrey;
+}
+
+.checkboxLabel {
+  color: lightgrey;
+}
+
 ul {
   list-style-type: none;
 }

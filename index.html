@@ -12,25 +12,34 @@
   </head>
 
   <body>
-    <div id="header">
+    <div class="header">
 
     </div>
 
-    <div id="content">
-      <div id="forms">
-        <button id="browseButton">Browse</button>
-        <input type="search" id="htmlSearchTerms" />
-        <label>
-          <input type="checkbox" id="htmlIsAnd" />
-          AND results
-        </label>
-        <!-- <button>Queue</button> -->
-        <!-- <button>Random</button> -->
-        <div id="htmlCollection"></div>
+    <div class="content">
+      <div class="spinningRecord">
+        <p><img src="./img/record.png" alt="This is an image" height="200" width="200"></p>
       </div>
+      <div class="formContainer">
+        <div class="rowContainer1">
+          <button id="browseButton">Browse</button>
+          <input type="search" id="htmlSearchTerms" />
+        </div>
+        <div class="rowContainer2">
+          <button>Random</button>
+          <label class="checkboxLabel">
+            <input type="checkbox" id="htmlIsAnd" />
+            AND results
+          </label>
+        </div>
+      </div>
+      
+      <!-- TODO: <button>Queue</button> -->
+
+      <div id="htmlCollection"></div>
     </div>
     
-    <div id="footer">
+    <div class="footer">
 
     </div>
   </body>
