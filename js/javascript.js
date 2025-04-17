@@ -22,8 +22,13 @@ function Record(album, artist, keywords)
 // Convert record to a printable string, which is also sent to the console
 function recordToString(record)
 {
-  var recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
-  
+  var recordString = "";
+
+  if(record !== undefined)
+  {
+    recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
+  }
+
   //if (DEBUG) console.log(recordString);
   
   return recordString
@@ -75,6 +80,7 @@ function rowIsValid(row)
 
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
+// TODO: Refactor to only fetch spreadsheet once
 async function fetchSheetData()
 {
   const sheetID = "1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ";
@@ -139,14 +145,19 @@ async function readCollection(recordCollection)
 
   for(i = 0; i < recordCollection.length; i++)
   {
-    //if (DEBUG) console.log(`Record #${i+1}:`);
-    recordToString(recordCollection[i]);
+    var curRecord = recordCollection[i];
 
-    outputHTML += `<tr>
-                    <td>${recordCollection[i].album}</td>
-                    <td>${recordCollection[i].artist}</td>
-                    <td>${recordCollection[i].keywords}</td>
-                   </tr>`;
+    //if (DEBUG) console.log(`Record #${i+1}:`);
+    recordToString(curRecord);
+
+    if(curRecord !== undefined)
+    {
+      outputHTML += `<tr>
+                      <td>${curRecord.album}</td>
+                      <td>${curRecord.artist}</td>
+                      <td>${curRecord.keywords}</td>
+                    </tr>`;
+    }
   }
 
   outputHTML += "</table>";
@@ -162,6 +173,11 @@ async function readCollection(recordCollection)
 async function searchCollection(recordCollection, searchTerms, isAnd)
 {
   const searchedCollection = [];
+
+  if(recordCollection.length === 0 || searchTerms.length === 0)
+  {
+    return searchedCollection;
+  }
 
   // split terms into an array and trim all whitespace
   const searchArray = searchTerms.split(",");
@@ -227,10 +243,39 @@ async function htmlSearchCollection(inputSearch)
   // Read state of the "AND results" checkbox
   const inputIsAnd = document.getElementById("htmlIsAnd").checked;
 
-  console.log(`TERMS: ${inputSearch} | AND: ${inputIsAnd}`)
+  if (DEBUG) console.log(`TERMS: ${inputSearch} | AND: ${inputIsAnd}`)
 
   const searchedCollection = await searchCollection(recordCollection, inputSearch, inputIsAnd);
   readCollection(searchedCollection);
+}
+
+// Wrapper function to be called by the HTML
+// to show a single random record on button press
+async function htmlRandomRecord(inputSearch)
+{
+  var recordCollection = await buildCollection();
+  var randomNum = 0;
+  var randomRecord = [];
+
+  // Read state of the "AND results" checkbox
+  const inputIsAnd = document.getElementById("htmlIsAnd").checked;
+
+  if(inputSearch != "")
+  {
+    if (DEBUG) console.log("Random with Search")
+    const searchedCollection = await searchCollection(recordCollection, inputSearch, inputIsAnd);
+    randomNum = Math.floor(Math.random() * searchedCollection.length);
+    randomRecord = [searchedCollection[randomNum]];
+  }
+  else
+  {
+    if (DEBUG) console.log("Random without Search")
+    randomNum = Math.floor(Math.random() * recordCollection.length);
+    randomRecord = [recordCollection[randomNum]];
+  }
+
+  if (DEBUG) console.log(`TERMS: ${inputSearch} | AND: ${inputIsAnd} | RNG: ${randomNum}`)
+  readCollection(randomRecord);
 }
 
 async function test()
@@ -251,6 +296,13 @@ async function test()
 // Browse button functionality
 const browseButton = document.getElementById("browseButton")
 browseButton.addEventListener("click", htmlReadCollection);
+
+// Random button functionality
+const randomButton = document.getElementById("randomButton")
+randomButton.addEventListener("click", (e) => {
+  // get value of input field first
+  htmlRandomRecord(htmlSearchTerms.value);
+});
 
 // Search form functionality
 const htmlSearchTerms = document.getElementById("htmlSearchTerms")
