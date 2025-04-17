@@ -5,12 +5,22 @@
   box-sizing: border-box;
 }
 
-/* * {border:1px solid red} */
+/* * {border:1px solid lightblue} */
+
+/* Animations */
+.spinningRecord {
+  animation: rotate 10s linear infinite ;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
 
 /* Main Rules */
 body {
   min-height: 100vh;
-  background: rgb(37, 59, 65);
+  background: rgb(39, 48, 56);
 
   display: flex;
   flex-direction: column;
@@ -21,6 +31,32 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+}
+
+#htmlSearchTerms {
+  background-color: darkred;
+  color: lightgrey;
+  font-size: large;
+}
+
+.checkboxForm {
+  display: flex;
+  align-items: center;
+
+  accent-color: darkred;
+  color: lightgrey;
+  font-size: small;
+  zoom: 2;
+}
+
+.rowContainer1 {
+  display: flex;
+}
+
+.rowContainer2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
 }
 
 .header, .footer {
@@ -36,20 +72,28 @@ button {
   font-weight: 900;
   width: 80px;
 
-  border: solid;
-  border-width: 2px;
+  border: 2px solid;
   border-color: rgba(255, 0, 0, 0.438);
   border-radius: 8px;
   padding: 8px;
 }
 
-table {
-  background-color: rgb(95, 0, 0);
-  color: lightgrey;
+button:hover {
+  background-color: rgba(255, 0, 0, 0.226);
 }
 
-.checkboxLabel {
+button:active {
+  background-color: rgba(255, 0, 0, 0.527);
+}
+
+table, td {
+  background-color: rgb(95, 0, 0);
   color: lightgrey;
+
+  border: 2px solid;
+  border-color: rgb(56, 0, 0);
+  border-collapse: collapse;
+  width: 100%;
 }
 
 ul {

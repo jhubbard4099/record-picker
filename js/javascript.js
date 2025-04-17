@@ -140,7 +140,7 @@ async function buildCollection()
 // TODO: Find different way to convert to table
 async function readCollection(recordCollection)
 {
-  var outputHTML = "<table border='2px' width='400'>";
+  var outputHTML = "<table>";
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
 
   for(i = 0; i < recordCollection.length; i++)
@@ -152,6 +152,7 @@ async function readCollection(recordCollection)
 
     if(curRecord !== undefined)
     {
+      //TODO: <td><button id="queueButton">Submit</button></td>
       outputHTML += `<tr>
                       <td>${curRecord.album}</td>
                       <td>${curRecord.artist}</td>
@@ -278,6 +279,7 @@ async function htmlRandomRecord(inputSearch)
   readCollection(randomRecord);
 }
 
+// Tests various parts of the website functionality
 async function test()
 {
   var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);

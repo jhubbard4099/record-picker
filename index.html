@@ -17,20 +17,18 @@
     </div>
 
     <div class="content">
-      <div class="spinningRecord">
-        <p><img src="./img/record.png" alt="A black record with a blank red label" height="200" width="200"></p>
-      </div>
+      <img class="spinningRecord" src="./img/record.png" alt="A black record with a blank red label" height="300" width="300"/>
       <div class="formContainer">
         <div class="rowContainer1">
           <button id="browseButton">Browse</button>
-          <input type="search" id="htmlSearchTerms" />
+          <input type="search" id="htmlSearchTerms" placeholder="Search..."/>
         </div>
         <div class="rowContainer2">
           <button id="randomButton">Random</button>
-          <label class="checkboxLabel">
-            <input type="checkbox" id="htmlIsAnd" />
-            AND results
-          </label>
+          <div class="checkboxForm">
+            <input type="checkbox" id="htmlIsAnd"/>
+            <label id="checkboxLabel">AND results</label>
+          </div>
         </div>
       </div>
       
