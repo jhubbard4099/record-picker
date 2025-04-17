@@ -6,7 +6,7 @@
 window.onload=function(){
 
 const DEBUG = true;
-const TEST_URL = true;
+const TEST_URL = false;
 
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
@@ -138,6 +138,7 @@ async function buildCollection()
 // Reads the global record collection,
 // and displays it as a table
 // TODO: Find different way to convert to table
+// TODO: Format table row size better
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table>";

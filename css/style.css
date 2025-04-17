@@ -8,6 +8,7 @@
 /* * {border:1px solid lightblue} */
 
 /* Animations */
+/* TODO: Make record spin faster after clicking */
 .spinningRecord {
   animation: rotate 10s linear infinite ;
 }
@@ -41,12 +42,12 @@ body {
 
 .checkboxForm {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   accent-color: darkred;
   color: lightgrey;
   font-size: small;
-  zoom: 2;
+  zoom: 1.5;
 }
 
 .rowContainer1 {
@@ -86,6 +87,7 @@ button:active {
   background-color: rgba(255, 0, 0, 0.527);
 }
 
+/* TODO: Format table better for mobile */
 table, td {
   background-color: rgb(95, 0, 0);
   color: lightgrey;
