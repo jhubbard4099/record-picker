@@ -141,14 +141,14 @@ async function buildCollection()
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table>"
-  outputHTML += `<tr>
-                  <th class="TBLTraditional">Traditional Music</th>
-                  <th class="TBLScore">Show/Film Score</th>
+  outputHTML += `<tr class="keyHeader">
+                  <th class="TBLTraditional">Normal Music</th>
+                  <th class="TBLScore">Show & Film Score</th>
                   <th class="TBLCover">VGM Cover</th>
-                  <th class="TBLVGM">VGM Soundtrack</th>
+                  <th class="TBLVGM">VGM Score</th>
                   <th class="TBLMystery">Mystery</th>
                 </tr>`;
-  outputHTML += `<tr>
+  outputHTML += `<tr class="labelHeader">
                   <th colspan="2">Artist</th>
                   <th colspan="3">Album</th>
                 </tr>`;
