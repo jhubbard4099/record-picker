@@ -154,12 +154,36 @@ async function readCollection(recordCollection)
     //if (DEBUG) console.log(`Record #${i+1}:`);
     recordToString(curRecord);
 
+    // Choose class for table coloring
+    // TODO: Seperate function
+    var recordType = "";
+    if(!curRecord.keywords.includes("soundtrack") && !curRecord.keywords.includes("cover") && !curRecord.keywords.includes("mystery"))
+    {
+      recordType = "TBLTraditional";
+    }
+    else if(curRecord.keywords.includes("soundtrack") && !curRecord.keywords.includes("vgm"))
+    {
+      recordType = "TBLScore";
+    }
+    else if(curRecord.keywords.includes("cover"))
+    {
+      recordType = "TBLCover";
+    }
+    else if(curRecord.keywords.includes("soundtrack") && curRecord.keywords.includes("vgm"))
+    {
+      recordType = "TBLVGM";
+    }
+    else
+    {
+      recordType = "TBLMystery";
+    }
+
     if(curRecord !== undefined)
     {
       //TODO: <td><button id="queueButton">Submit</button></td>
       outputHTML += `<tr>
-                      <td>${curRecord.album}</td>
-                      <td>${curRecord.artist}</td>
+                      <td class=${recordType}>${curRecord.album}</td>
+                      <td class=${recordType}>${curRecord.artist}</td>
                     </tr>`;
     }
   }

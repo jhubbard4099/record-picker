@@ -112,16 +112,37 @@ table, td {
 
   height: 40px;
   padding: 4px;
-  filter: drop-shadow(0px 0px 5px #270000c7);
+  filter: drop-shadow(0px 0px 5px #000000c7);
   border: 2px solid;
-  border-color: rgb(56, 0, 0);
+  border-color: rgb(0, 0, 0);
   border-collapse: collapse;
   width: 90%;
 }
 
 th {
+  background-color: rgb(59, 58, 68);
   height: 30px;
   font-size: larger;
+}
+
+.TBLTraditional {
+  background-color: rgb(114, 0, 0);
+}
+
+.TBLScore {
+  background-color: rgb(129, 71, 0);
+}
+
+.TBLCover {
+  background-color: rgb(99, 99, 0);
+}
+
+.TBLVGM {
+  background-color: rgb(0, 82, 31);
+}
+
+.TBLMystery {
+  background-color: rgb(30, 57, 131);
 }
 
 ul {
