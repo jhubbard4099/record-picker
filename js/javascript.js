@@ -5,7 +5,7 @@
 // Wait to do anything until page is loaded
 window.onload=function(){
 
-const DEBUG = true;
+const DEBUG = false;
 const TEST_URL = false;
 
 // Object representing a vinyl record
@@ -138,10 +138,13 @@ async function buildCollection()
 // Reads the global record collection,
 // and displays it as a table
 // TODO: Find different way to convert to table
-// TODO: Format table row size better
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table>";
+  outputHTML += `<tr>
+                  <th style="width:40%">Artist</th>
+                  <th>Album</th>
+                </tr>`;
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
 
   for(i = 0; i < recordCollection.length; i++)
@@ -157,7 +160,6 @@ async function readCollection(recordCollection)
       outputHTML += `<tr>
                       <td>${curRecord.album}</td>
                       <td>${curRecord.artist}</td>
-                      <td>${curRecord.keywords}</td>
                     </tr>`;
     }
   }
