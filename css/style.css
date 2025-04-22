@@ -24,6 +24,7 @@
 /* TODO: Fix horizontal scroll on record rotation */
 body {
   min-height: 100vh;
+  font-family: Roboto, sans-serif;
   background: rgb(39, 48, 56);
 
   display: flex;
@@ -43,6 +44,7 @@ body {
   background-color: darkred;
   color: lightgrey;
   font-size: large;
+  padding: 0px 5px 0px 5px;
 }
 
 .checkboxForm {
@@ -84,7 +86,7 @@ button {
   color: lightgrey;
   font-size: 16px;
   font-weight: 900;
-  width: 80px;
+  width: 90px;
 
   border: 2px solid;
   border-color: rgba(255, 0, 0, 0.438);

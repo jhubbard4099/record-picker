@@ -138,6 +138,8 @@ async function buildCollection()
 // Reads the global record collection,
 // and displays it as a table
 // TODO: Find different way to convert to table
+// TODO: Make key boxes clickable
+// TODO: Display keyword column when there's enough room
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table>"
