@@ -1,6 +1,7 @@
 // Website for browsing & selecting from my vinyl record collection
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
+// TODO: Split JS code into multiple files
 
 // Wait to do anything until page is loaded
 window.onload=function(){
@@ -148,7 +149,7 @@ async function readCollection(recordCollection)
                   <th class="TBLScore">Show & Film Score</th>
                   <th class="TBLCover">VGM Cover</th>
                   <th class="TBLVGM">VGM Score</th>
-                  <th class="TBLMystery">Mystery</th>
+                  <th class="TBLMisc">Misc</th>
                 </tr>`;
   outputHTML += `<tr class="labelHeader">
                   <th colspan="2">Artist</th>
@@ -166,7 +167,7 @@ async function readCollection(recordCollection)
     // Choose class for table coloring
     // TODO: Seperate function
     var recordType = "";
-    if(!curRecord.keywords.includes("soundtrack") && !curRecord.keywords.includes("cover") && !curRecord.keywords.includes("mystery"))
+    if(!curRecord.keywords.includes("soundtrack") && !curRecord.keywords.includes("cover") && !curRecord.keywords.includes("mystery") && !curRecord.keywords.includes("non-music"))
     {
       recordType = "TBLTraditional";
     }
@@ -184,7 +185,7 @@ async function readCollection(recordCollection)
     }
     else
     {
-      recordType = "TBLMystery";
+      recordType = "TBLMisc";
     }
 
     if(curRecord !== undefined)
