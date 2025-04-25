@@ -24,12 +24,12 @@
 /* TODO: Fix horizontal scroll on record rotation */
 body {
   min-height: 100vh;
-  font-family: Roboto, sans-serif;
-  background: rgb(39, 48, 56);
-
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  font-family: Roboto, sans-serif;
+  background: rgb(39, 48, 56);
 }
 
 .content {
@@ -41,38 +41,37 @@ body {
 }
 
 #htmlSearchTerms {
+  padding: 0px 5px 0px 5px;
+
+  font-size: large;
   background-color: darkred;
   color: lightgrey;
-  font-size: large;
-  padding: 0px 5px 0px 5px;
 }
 
 .checkboxForm {
   display: flex;
   align-items: flex-start;
+  gap: 2px;
+  zoom: 1.5;
 
+  font-size: small;
   accent-color: darkred;
   color: lightgrey;
-  font-size: small;
-  zoom: 1.5;
-  gap: 2px;
   filter: drop-shadow(1px 1px 2px #000000b4);
 }
 
-.rowContainer1 {
+.rowContainer1,
+.rowContainer2 {
   display: flex;
   gap: 2px;
   padding: 2px;
+
   filter: drop-shadow(0px 0px 4px #000000b4);
 }
 
 .rowContainer2 {
-  display: flex;
   justify-content: space-between;
   align-items: stretch;
-  gap: 2px;
-  padding: 2px;
-  filter: drop-shadow(0px 0px 4px #000000b4);
 }
 
 .header, .footer {
@@ -82,16 +81,16 @@ body {
 
 /* Element Rules */
 button {
-  background: rgb(117, 13, 13);
-  color: lightgrey;
+  width: 90px;
+  padding: 8px;
+  border: 2px solid;
+
   font-size: 16px;
   font-weight: 900;
-  width: 90px;
-
-  border: 2px solid;
-  border-color: rgba(255, 0, 0, 0.438);
   border-radius: 8px;
-  padding: 8px;
+  border-color: rgba(255, 0, 0, 0.438);
+  background: rgb(117, 13, 13);
+  color: lightgrey;
 }
 
 button:hover {
@@ -110,16 +109,17 @@ table, td {
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgb(95, 0, 0);
-  color: lightgrey;
+  border-collapse: collapse;
 
+  width: 90%;
   height: 40px;
   padding: 4px;
-  filter: drop-shadow(0px 0px 5px #000000c7);
   border: 2px solid;
+
   border-color: rgb(0, 0, 0);
-  border-collapse: collapse;
-  width: 90%;
+  background-color: rgb(95, 0, 0);
+  color: lightgrey;
+  filter: drop-shadow(0px 0px 5px #000000c7);
 }
 
 .keyHeader {
@@ -128,9 +128,9 @@ table, td {
 }
 
 .labelHeader {
-  background-color: rgb(59, 58, 68);
   height: 30px;
   font-size: larger;
+  background-color: rgb(59, 58, 68);
 }
 
 .TBLTraditional {
@@ -140,6 +140,7 @@ table, td {
 .TBLScore {
   background-color: rgb(52, 0, 95);
 }
+
 .TBLCover {
   background-color: rgb(0, 45, 82);
 }

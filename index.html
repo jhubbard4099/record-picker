@@ -9,6 +9,8 @@
     <title>Record Picker</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="js/javascript.js"></script>
+    <script src="js/record.js"></script>
+    <script src="js/collection.js"></script>
   </head>
 
   <body>
@@ -23,16 +25,26 @@
 
         <div class="rowContainer1">
           <button id="browseButton">Browse</button>
-          <input type="search" id="htmlSearchTerms" placeholder="Search..."/>
+          <input type="search" class="searchForm" id="htmlSearchTerms" placeholder="Search..."/>
         </div>
         
         <div class="rowContainer2">
           <button id="randomButton">Random</button>
           <div class="checkboxForm">
             <input type="checkbox" id="htmlIsAnd"/>
-            <label id="checkboxLabel">AND results</label>
+            <label class="checkboxLabel">AND results</label>
           </div>
         </div>
+
+        <!-- <div class="checkboxForm">
+          <input type="checkbox" id="htmlIsBlacklist"/>
+          <label class="checkboxLabel">Blacklist</label>
+        </div>
+      </div>
+
+      <div class="rowContainer3">
+        <input type="search" id="htmlBlacklist" placeholder="Blacklist"/>
+      </div> -->
 
       </div>
       
