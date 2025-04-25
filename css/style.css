@@ -40,12 +40,19 @@ body {
   gap: 10px;
 }
 
-#htmlSearchTerms {
+#htmlSearchTerms,
+#htmlBlacklist {
   padding: 0px 5px 0px 5px;
-
   font-size: large;
-  background-color: darkred;
   color: lightgrey;
+}
+
+#htmlSearchTerms {
+  background-color: darkred;
+}
+
+#htmlBlacklist {
+  background-color: black;
 }
 
 .checkboxForm {
@@ -61,15 +68,20 @@ body {
 }
 
 .rowContainer1,
-.rowContainer2 {
+.rowContainer2,
+.rowContainer3 {
   display: flex;
   gap: 2px;
   padding: 2px;
-
   filter: drop-shadow(0px 0px 4px #000000b4);
 }
 
 .rowContainer2 {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.rowContainer3 {
   justify-content: space-between;
   align-items: stretch;
 }

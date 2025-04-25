@@ -58,7 +58,7 @@ async function buildCollection()
   // total number of rows to check
   const count = sheet.table.rows.length;
 
-  for(i = 0; i < count; i++)
+  for(var i = 0; i < count; i++)
   {
     var curRow = sheet.table.rows[i].c;
     if (DEBUG) console.log(curRow);
@@ -88,7 +88,7 @@ async function readCollection(recordCollection)
                 </tr>`;
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
 
-  for(i = 0; i < recordCollection.length; i++)
+  for(var i = 0; i < recordCollection.length; i++)
   {
     var curRecord = recordCollection[i];
 
@@ -112,30 +112,47 @@ async function readCollection(recordCollection)
   document.getElementById("htmlCollection").innerHTML = outputHTML;
 }
 
+// Converts an input string (comma separated list) to an array
+// Parameters:  inputString - comma separated string list
+// Returns:     an array of strings
+function stringToArray(inputString)
+{
+  if(inputString === undefined || inputString === "")
+  {
+    if (DEBUG) console.log("returning empty array");
+    return [];
+  }
+
+  var outputArray = inputString.split(",");
+  for(var i = 0; i < outputArray.length; i++)
+  {
+    outputArray[i] = outputArray[i].trim().toLowerCase();
+  }
+
+  if (DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
+  return outputArray;
+}
+
 // Searches the collection and returns all matches
 // Parameters:  recordCollection: collection to search
 //              searchTerms: comma seperated string of terms
 //              isAnd: boolean for if the search terms should be AND'd
 // TODO: Add blacklist support
-async function searchCollection(recordCollection, searchTerms, isAnd)
+async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
 
-  if(recordCollection.length === 0 || searchTerms.length === 0)
+  if(recordCollection.length === 0)
   {
     return searchedCollection;
   }
 
   // split terms into an array and trim all whitespace
-  const searchArray = searchTerms.split(",");
-  for(i = 0; i < searchArray.length; i++)
-  {
-    searchArray[i] = searchArray[i].trim().toLowerCase();
-  }
-  if (DEBUG) console.log(searchTerms, searchArray);
+  const searchArray = stringToArray(searchTerms);
+  const blacklistArray = stringToArray(blacklist);
 
   // Iterate through record collection
-  for(i = 0; i < recordCollection.length; i++)
+  for(var i = 0; i < recordCollection.length; i++)
   {
     var curRecord = recordCollection[i];
 
@@ -143,8 +160,9 @@ async function searchCollection(recordCollection, searchTerms, isAnd)
 
     // Normal case: check if the current record contains any of the search terms
     // AND case:    check if the current record contains ALL of the search terms
-    if(searchRecord(curRecord, searchArray, isAnd))
+    if(searchRecord(curRecord, searchArray, isAnd) && !isRecordOnBlacklist(curRecord, blacklistArray))
     {
+      if (DEBUG) console.warn("Pushing record to collection");
       searchedCollection.push(curRecord);
     }
   }
