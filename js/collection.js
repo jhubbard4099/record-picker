@@ -82,16 +82,9 @@ async function buildCollection()
 async function readCollection(recordCollection)
 {
   var outputHTML = "<table>"
-  outputHTML += `<tr class="keyHeader">
-                  <th class="TBLTraditional">Normal Music</th>
-                  <th class="TBLScore">Show & Film Score</th>
-                  <th class="TBLCover">VGM Cover</th>
-                  <th class="TBLVGM">VGM Score</th>
-                  <th class="TBLMisc">Misc</th>
-                </tr>`;
   outputHTML += `<tr class="labelHeader">
-                  <th colspan="2">Artist</th>
-                  <th colspan="3">Album</th>
+                  <th style="width:40%">Artist</th>
+                  <th>Album</th>
                 </tr>`;
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
 
@@ -109,8 +102,8 @@ async function readCollection(recordCollection)
     {
       //TODO: <td><button id="queueButton">Submit</button></td>
       outputHTML += `<tr>
-                      <td class=${recordType} colspan="2" >${curRecord.album}</td>
-                      <td class=${recordType} colspan="3" >${curRecord.artist}</td>
+                      <td class=${recordType}>${curRecord.album}</td>
+                      <td class=${recordType}>${curRecord.artist}</td>
                     </tr>`;
     }
   }
