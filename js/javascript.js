@@ -5,8 +5,8 @@
 //    record.js - all functions specific to the Record objects
 //    collection.js - all functions specific to the collection of Record objects
 
-const DEBUG = false;
-const TEST_URL = false;
+const DEBUG = true;
+const TEST_URL = true;
 
 // Wait to do anything until page is loaded
 window.onload=function(){
@@ -108,6 +108,17 @@ function htmlBlacklistToggle(inputSearch, inputBlacklist)
   htmlSearchCollection(inputSearch, inputBlacklist)
 }
 
+// HTML wrapped function to clear all fields
+function htmlClearAll()
+{
+  document.getElementById("htmlSearchTerms").value = "";
+  document.getElementById("htmlBlacklist").value = "";
+  document.getElementById("htmlBlacklist").style.visibility = "hidden";
+  document.getElementById("htmlIsAnd").checked = false;
+  document.getElementById("htmlIsBlacklist").checked = false;
+  htmlSearchCollection("", "");
+}
+
 // TODO
 function htmlDisplayQueue()
 {
@@ -132,21 +143,35 @@ async function test()
 
 // Element declarations
 const browseButton = document.getElementById("browseButton")
+const searchButton = document.getElementById("searchButton")
 const randomButton = document.getElementById("randomButton")
+const clearButton = document.getElementById("clearButton")
 const queueButton = document.getElementById("queueButton")
+
 const htmlSearchTerms = document.getElementById("htmlSearchTerms")
-const htmlIsAnd = document.getElementById("htmlIsAnd")
 const htmlBlacklist = document.getElementById("htmlBlacklist")
+
+const htmlIsAnd = document.getElementById("htmlIsAnd")
 const htmlIsBlacklist = document.getElementById("htmlIsBlacklist")
 
 // Browse button functionality
+// TODO: Fixing missing parenthesis bug makes it auto click on load?
 browseButton.addEventListener("click", htmlReadCollection);
+
+// Search button functionality
+searchButton.addEventListener("click", (e) => {
+  // get value of input field first
+  htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value);
+});
 
 // Random button functionality
 randomButton.addEventListener("click", (e) => {
   // get value of input field first
   htmlRandomRecord(htmlSearchTerms.value, htmlBlacklist.value);
 });
+
+// Clear button functionality
+clearButton.addEventListener("click", htmlClearAll);
 
 // Queue button functionality
 queueButton.addEventListener("click", htmlDisplayQueue);

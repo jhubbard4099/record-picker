@@ -19,17 +19,12 @@
     </div>
 
     <div class="content">
-      <img class="spinningRecord" src="./img/record.png" alt="A black record with a blank red label" height="300" width="300"/>
+      <img class="spinningRecord" src="./img/record.png" alt="A black record with a blank red label" height="250" width="250"/>
       
       <div class="formContainer">
 
         <div class="rowContainer1">
           <button id="browseButton">Browse</button>
-          <input type="search" class="searchForm" id="htmlSearchTerms" placeholder="Search..."/>
-        </div>
-        
-        <div class="rowContainer2">
-          <button id="randomButton">Random</button>
           <div class="checkboxForm">
             <input type="checkbox" id="htmlIsAnd"/>
             <label class="checkboxLabel">AND results</label>
@@ -39,10 +34,20 @@
             <label class="checkboxLabel">Blacklist</label>
           </div>
         </div>
+        
+        <div class="rowContainer2">
+          <button id="searchButton">Search</button>
+          <input type="search" class="searchForm" id="htmlSearchTerms" placeholder="Search..."/>
+        </div>
 
         <div class="rowContainer3">
-          <button id="queueButton" style="visibility:hidden">Queue</button> <!-- TODO -->
+          <button id="randomButton">Random</button>
           <input type="search" id="htmlBlacklist" style="visibility:hidden" placeholder="Blacklist"/>
+        </div>
+
+        <div class="rowContainer4">
+          <button id="clearButton">Clear</button>
+          <button id="queueButton" style="visibility:hidden">Queue</button> <!-- TODO -->
         </div>
 
       </div>

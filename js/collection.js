@@ -142,7 +142,7 @@ async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
 
-  if(recordCollection.length === 0)
+  if(recordCollection.length === 0 || (searchTerms === "" && blacklist === ""))
   {
     return searchedCollection;
   }

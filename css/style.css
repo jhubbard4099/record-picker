@@ -69,21 +69,17 @@ body {
 
 .rowContainer1,
 .rowContainer2,
-.rowContainer3 {
+.rowContainer3,
+.rowContainer4 {
   display: flex;
+  justify-content: space-between;
   gap: 2px;
   padding: 2px;
   filter: drop-shadow(0px 0px 4px #000000b4);
 }
 
-.rowContainer2 {
-  justify-content: space-between;
-  align-items: stretch;
-}
-
-.rowContainer3 {
-  justify-content: space-between;
-  align-items: stretch;
+.rowContainer1 {
+  align-items: flex-end;
 }
 
 .header, .footer {
