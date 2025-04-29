@@ -2,6 +2,7 @@
 // This file contains all the functions related to Record objects
 // Note: relies on DEBUG variable from the main javascript.js file
 
+
 // Object representing a vinyl record
 // Parameters:  album - string representing the album name
 //              artist - string representing the artist of the album
@@ -33,18 +34,18 @@ function recordToString(record)
 //    Artist - Album - Owned - Genre - Media - Misc
 function createRecord(row)
 {
-  // fetch album and artist strings
+  // Fetch album and artist strings
   var curAlbum = row[0].v;
   var curArtist = row[1].v;
 
-  // fetch genre, media, and misc strings,
+  // Fetch genre, media, and misc strings,
   // then split them into arrays
   // TODO: use trim()?
   var curGenre = row[3].v.split(", ");
   var curMedia = row[4].v.split(", ");
   var curMisc = row[5].v.split(", ");
   
-  // build keywords based on what sections aren't empty
+  // Build keywords based on what sections aren't empty
   var curKeywords = curGenre;
   if(curMedia[0] !== " ")
   {
@@ -55,7 +56,7 @@ function createRecord(row)
     curKeywords = curKeywords.concat(curMisc);
   }
 
-  // build and return a Record object
+  // Build and return a Record object
   return new Record(curAlbum, curArtist, curKeywords);
 }
 
@@ -71,6 +72,7 @@ function findRecordType(record)
     return "";
   }
 
+  // Determine record type based on specific criteria
   if(!record.keywords.includes("soundtrack") && !record.keywords.includes("cover") && !record.keywords.includes("mystery") && !record.keywords.includes("non-music"))
   {
     recordType = "TBLTraditional";

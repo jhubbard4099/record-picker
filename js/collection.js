@@ -5,11 +5,13 @@
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
+
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
 // TODO: Refactor to only fetch spreadsheet once
 async function fetchSheetData()
 {
+  // Declare scraper variables
   const sheetID = "1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ";
   const sheetName = "Records";
   const mainURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${sheetName}`;
@@ -21,6 +23,7 @@ async function fetchSheetData()
 
   var sheet = null;
 
+  // Retrieve webpage, then trim it down to just the spreadsheet
   await fetch(URL).then(response => response.text()).then(data => {
 
     const jsonBody = (data.split("setResponse(")[1]);
@@ -31,6 +34,7 @@ async function fetchSheetData()
   }).catch(error => console.log(error));
 
   if (DEBUG) console.log(sheet);
+
   return sheet;
 }
 
@@ -58,6 +62,7 @@ async function buildCollection()
   // total number of rows to check
   const count = sheet.table.rows.length;
 
+  // Iterate through spreadsheet rows
   for(var i = 0; i < count; i++)
   {
     var curRow = sheet.table.rows[i].c;
@@ -81,13 +86,16 @@ async function buildCollection()
 // TODO: Display keyword column when there's enough room
 async function readCollection(recordCollection)
 {
+  // Begin building record table
   var outputHTML = "<table>"
   outputHTML += `<tr class="labelHeader">
                   <th style="width:40%">Artist</th>
                   <th>Album</th>
                 </tr>`;
+
   if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
 
+  // Iterate through collection
   for(var i = 0; i < recordCollection.length; i++)
   {
     var curRecord = recordCollection[i];
@@ -100,16 +108,26 @@ async function readCollection(recordCollection)
 
     if(curRecord !== undefined)
     {
-      //TODO: <td><button id="queueButton">Submit</button></td>
+      // Dynamically add current record to the table
+      // TODO: <td><button id="queueButton">Submit</button></td>
+      // TODO: <td class=${recordType}>${curRecord.keywords}</td>
       outputHTML += `<tr>
                       <td class=${recordType}>${curRecord.album}</td>
                       <td class=${recordType}>${curRecord.artist}</td>
                     </tr>`;
     }
   }
-
   outputHTML += "</table>";
-  document.getElementById("htmlCollection").innerHTML = outputHTML;
+
+  // Only display if there are actually records to show
+  if(recordCollection.length > 0)
+  {
+    document.getElementById("htmlCollection").innerHTML = outputHTML;
+  }
+  else
+  {
+    document.getElementById("htmlCollection").innerHTML = "";
+  }
 }
 
 // Converts an input string (comma separated list) to an array
@@ -117,12 +135,14 @@ async function readCollection(recordCollection)
 // Returns:     an array of strings
 function stringToArray(inputString)
 {
+  // Return empty string if input is undefined or empty
   if(inputString === undefined || inputString === "")
   {
     if (DEBUG) console.log("returning empty array");
     return [];
   }
 
+  // Split and trim all whitespace from input string
   var outputArray = inputString.split(",");
   for(var i = 0; i < outputArray.length; i++)
   {
@@ -130,6 +150,7 @@ function stringToArray(inputString)
   }
 
   if (DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
+
   return outputArray;
 }
 
@@ -142,6 +163,7 @@ async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
 
+  // Return empty collection if input is empty or BOTH input fields are
   if(recordCollection.length === 0 || (searchTerms === "" && blacklist === ""))
   {
     return searchedCollection;

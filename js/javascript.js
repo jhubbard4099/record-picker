@@ -11,6 +11,7 @@ const TEST_URL = true;
 // Wait to do anything until page is loaded
 window.onload=function(){
 
+  
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
@@ -33,11 +34,13 @@ async function htmlSearchCollection(inputSearch, inputBlacklist)
 
   if (DEBUG) console.log(`TERMS: ${inputSearch} | BLACKLIST: ${inputBlacklist} | AND: ${inputIsAnd}`)
 
+  // Ignore blacklist if it isn't shown
   if(!isBlacklistVisible())
   {
     inputBlacklist = "";
   }
 
+  // Search record collection, read it, then return
   const searchedCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
   readCollection(searchedCollection);
   return searchedCollection;
@@ -61,7 +64,8 @@ async function htmlRandomRecord(inputSearch, inputBlacklist)
 
     const searchedCollection = await htmlSearchCollection(inputSearch, inputBlacklist);
 
-    if( searchedCollection !== undefined )
+    // Only pick a record if there is one to be picked
+    if( searchedCollection !== undefined && searchedCollection.length > 0 )
     {
       randomNum = Math.floor(Math.random() * searchedCollection.length);
       randomRecord = [searchedCollection[randomNum]];
@@ -71,6 +75,7 @@ async function htmlRandomRecord(inputSearch, inputBlacklist)
   {
     if (DEBUG) console.log("Random without Search")
     
+    // Pick a record from the full collection
     var recordCollection = await buildCollection();
     randomNum = Math.floor(Math.random() * recordCollection.length);
     randomRecord = [recordCollection[randomNum]];
@@ -125,6 +130,67 @@ function htmlDisplayQueue()
   window.alert("Our dev gnomes are working very hard on this button right now!");
 }
 
+
+// Element declarations
+const browseButton = document.getElementById("browseButton")
+const searchButton = document.getElementById("searchButton")
+const randomButton = document.getElementById("randomButton")
+const clearButton = document.getElementById("clearButton")
+const queueButton = document.getElementById("queueButton")
+
+const htmlSearchTerms = document.getElementById("htmlSearchTerms")
+const htmlBlacklist = document.getElementById("htmlBlacklist")
+
+const htmlIsAnd = document.getElementById("htmlIsAnd")
+const htmlIsBlacklist = document.getElementById("htmlIsBlacklist")
+
+
+// Browse button functionality
+browseButton.addEventListener("click", () => 
+  htmlReadCollection()
+);
+
+// Search button functionality
+searchButton.addEventListener("click", () => 
+  htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value)
+);
+
+// Random button functionality
+randomButton.addEventListener("click", () => 
+  htmlRandomRecord(htmlSearchTerms.value, htmlBlacklist.value)
+);
+
+// Clear button functionality
+clearButton.addEventListener("click", () => 
+  htmlClearAll()
+);
+
+// Queue button functionality
+queueButton.addEventListener("click", () => 
+  htmlDisplayQueue()
+);
+
+// Listener for typing in the search bar
+htmlSearchTerms.addEventListener("keyup", (e) => 
+  htmlSearchCollection(e.target.value, htmlBlacklist.value)
+);
+
+// Listener for typing in the blacklist bar
+htmlBlacklist.addEventListener("keyup", (e) => 
+  htmlSearchCollection(htmlSearchTerms.value, e.target.value)
+);
+
+// Listener for AND checkbox
+htmlIsAnd.addEventListener("click", () => 
+  htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value)
+);
+
+// Listener for blacklist checkbox
+htmlIsBlacklist.addEventListener("click", () => 
+  htmlBlacklistToggle(htmlSearchTerms.value, htmlBlacklist.value)
+);
+
+
 // Tests various parts of the website functionality
 async function test()
 {
@@ -140,58 +206,5 @@ async function test()
   readCollection(searchTest);
 }
 //test();
-
-// Element declarations
-const browseButton = document.getElementById("browseButton")
-const searchButton = document.getElementById("searchButton")
-const randomButton = document.getElementById("randomButton")
-const clearButton = document.getElementById("clearButton")
-const queueButton = document.getElementById("queueButton")
-
-const htmlSearchTerms = document.getElementById("htmlSearchTerms")
-const htmlBlacklist = document.getElementById("htmlBlacklist")
-
-const htmlIsAnd = document.getElementById("htmlIsAnd")
-const htmlIsBlacklist = document.getElementById("htmlIsBlacklist")
-
-// Browse button functionality
-// TODO: Fixing missing parenthesis bug makes it auto click on load?
-browseButton.addEventListener("click", htmlReadCollection);
-
-// Search button functionality
-searchButton.addEventListener("click", (e) => {
-  // get value of input field first
-  htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value);
-});
-
-// Random button functionality
-randomButton.addEventListener("click", (e) => {
-  // get value of input field first
-  htmlRandomRecord(htmlSearchTerms.value, htmlBlacklist.value);
-});
-
-// Clear button functionality
-clearButton.addEventListener("click", htmlClearAll);
-
-// Queue button functionality
-queueButton.addEventListener("click", htmlDisplayQueue);
-
-// Listener for typing in the search bar
-htmlSearchTerms.addEventListener("keyup", (e) => htmlSearchCollection(e.target.value, htmlBlacklist.value));
-
-// Listener for typing in the blacklist bar
-htmlBlacklist.addEventListener("keyup", (e) => htmlSearchCollection(htmlSearchTerms.value, e.target.value));
-
-// Listener for AND checkbox
-htmlIsAnd.addEventListener("click", (e) => {
-  // get value of input field first
-  htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value);
-});
-
-// Listener for blacklist checkbox
-htmlIsBlacklist.addEventListener("click", (e) => {
-  // get value of input field first
-  htmlBlacklistToggle(htmlSearchTerms.value, htmlBlacklist.value);
-});
 
 }
