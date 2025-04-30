@@ -23,36 +23,42 @@
       
       <div class="formContainer">
 
+        <!-- TODO: Work on layout -->
         <div class="rowContainer1">
           <button id="browseButton">Browse</button>
           <div class="checkboxForm">
             <input type="checkbox" id="htmlIsAnd"/>
-            <label class="checkboxLabel">AND results</label>
+            <label class="checkboxLabel">AND Results</label>
           </div>
           <div class="checkboxForm">
             <input type="checkbox" id="htmlIsBlacklist"/>
             <label class="checkboxLabel">Blacklist</label>
           </div>
         </div>
-        
+
         <div class="rowContainer2">
+          <button id="randomButton">Random</button>
+          <div class="checkboxForm">
+            <input type="checkbox" id="htmlShowKeywords"/>
+            <label class="checkboxLabel">Show Keywords</label>
+          </div>
+        </div>
+
+        <div class="rowContainer3">
           <button id="searchButton">Search</button>
           <input type="search" class="searchForm" id="htmlSearchTerms" placeholder="Search..."/>
         </div>
 
-        <div class="rowContainer3">
-          <button id="randomButton">Random</button>
+        <div class="rowContainer4">
+          <button id="clearButton">Clear</button>
           <input type="search" id="htmlBlacklist" style="visibility:hidden" placeholder="Blacklist"/>
         </div>
 
-        <div class="rowContainer4">
-          <button id="clearButton">Clear</button>
-          <button id="queueButton" style="visibility:hidden">Queue</button> <!-- TODO -->
-        </div>
+        <!-- TODO: <button id="queueButton" style="visibility:hidden">Queue</button> -->
 
       </div>
 
-      <table id="colorKey">
+      <table id="colorKey" style="visibility:hidden">
         <tr class="keyHeader">
           <th class="TBLTraditional">Normal Music</th>
           <th class="TBLScore">Show & Film</th>

@@ -4,21 +4,32 @@
 // Breakdown of helper files:
 //    record.js - all functions specific to the Record objects
 //    collection.js - all functions specific to the collection of Record objects
+// TODO: Code cleanup
 
+// Testing constants
 const DEBUG = true;
-const TEST_URL = true;
+const TEST_URL = false;
 
 // Wait to do anything until page is loaded
 window.onload=function(){
 
-  
+
+// Variables used for the Show Keywords toggle
+var lastFunction = "CLEAR";
+var rngSeed = -1;
+
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
 async function htmlReadCollection()
 {
   var recordCollection = await buildCollection();
-  readCollection(recordCollection);
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  readCollection(recordCollection, inputShowKeywords);
+  lastFunction = "READ";
 }
 
 // Wrapper function to be called by the HTML
@@ -32,6 +43,9 @@ async function htmlSearchCollection(inputSearch, inputBlacklist)
   // Read state of the "AND results" checkbox
   const inputIsAnd = document.getElementById("htmlIsAnd").checked;
 
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
   if (DEBUG) console.log(`TERMS: ${inputSearch} | BLACKLIST: ${inputBlacklist} | AND: ${inputIsAnd}`)
 
   // Ignore blacklist if it isn't shown
@@ -40,9 +54,10 @@ async function htmlSearchCollection(inputSearch, inputBlacklist)
     inputBlacklist = "";
   }
 
-  // Search record collection, read it, then return
   const searchedCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
-  readCollection(searchedCollection);
+  readCollection(searchedCollection, inputShowKeywords);
+  lastFunction = "SEARCH";
+
   return searchedCollection;
 }
 
@@ -50,10 +65,16 @@ async function htmlSearchCollection(inputSearch, inputBlacklist)
 // to show a single random record on button press
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
-async function htmlRandomRecord(inputSearch, inputBlacklist)
+async function htmlRandomRecord(inputSearch, inputBlacklist, inputSeed=-1)
 {
-  var randomNum = 0;
+  var recordCollection = await buildCollection();
   var randomRecord = [];
+
+  // Read state of the "AND results" checkbox
+  const inputIsAnd = document.getElementById("htmlIsAnd").checked;
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
 
   if (DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`)
 
@@ -62,28 +83,41 @@ async function htmlRandomRecord(inputSearch, inputBlacklist)
   {
     if (DEBUG) console.log("Random with Search")
 
-    const searchedCollection = await htmlSearchCollection(inputSearch, inputBlacklist);
+    const searchedCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd)
 
     // Only pick a record if there is one to be picked
     if( searchedCollection !== undefined && searchedCollection.length > 0 )
     {
-      randomNum = Math.floor(Math.random() * searchedCollection.length);
-      randomRecord = [searchedCollection[randomNum]];
+      if(inputSeed !== -1)
+      {
+        randomRecord = [searchedCollection[inputSeed]];
+      }
+      else
+      {
+        rngSeed = Math.floor(Math.random() * searchedCollection.length);
+        randomRecord = [searchedCollection[rngSeed]];
+      }
     }
   }
   else
   {
     if (DEBUG) console.log("Random without Search")
-    
-    // Pick a record from the full collection
-    var recordCollection = await buildCollection();
-    randomNum = Math.floor(Math.random() * recordCollection.length);
-    randomRecord = [recordCollection[randomNum]];
+
+    if(inputSeed !== -1)
+    {
+      randomRecord = [recordCollection[inputSeed]];
+    }
+    else
+    {
+      rngSeed = Math.floor(Math.random() * recordCollection.length);
+      randomRecord = [recordCollection[rngSeed]];
+    }
   }
 
-  if (DEBUG) console.log(`RNG: ${randomNum}`)
+  if (DEBUG) console.log(`RNG: ${rngSeed}`)
 
-  readCollection(randomRecord);
+  readCollection(randomRecord, inputShowKeywords);
+  lastFunction = "RANDOM";
 }
 
 // Determines if the blacklist bar is currently displayed
@@ -119,9 +153,39 @@ function htmlClearAll()
   document.getElementById("htmlSearchTerms").value = "";
   document.getElementById("htmlBlacklist").value = "";
   document.getElementById("htmlBlacklist").style.visibility = "hidden";
+
   document.getElementById("htmlIsAnd").checked = false;
   document.getElementById("htmlIsBlacklist").checked = false;
+  document.getElementById("htmlShowKeywords").checked = false;
+  
+  // Clear record display
   htmlSearchCollection("", "");
+  lastFunction = "CLEAR";
+}
+
+function htmlKeywordDisplay(inputSearch, inputBlacklist)
+{
+  var isTableVisible = document.getElementById("colorKey").style.visibility === "visible";
+
+  if (DEBUG) console.log(`RNG Seed: ${rngSeed}`)
+
+    if (DEBUG) console.log(`Keyword Display: ${lastFunction}`)
+  if(lastFunction === "READ")
+  {
+    htmlReadCollection();
+  }
+  else if(lastFunction === "SEARCH")
+  {
+      htmlSearchCollection(inputSearch, inputBlacklist);
+  }
+  else if(lastFunction === "RANDOM")
+  {
+      htmlRandomRecord(inputSearch, inputBlacklist, rngSeed)
+  }
+  else
+  {
+    // Do nothing
+  }
 }
 
 // TODO
@@ -136,13 +200,14 @@ const browseButton = document.getElementById("browseButton")
 const searchButton = document.getElementById("searchButton")
 const randomButton = document.getElementById("randomButton")
 const clearButton = document.getElementById("clearButton")
-const queueButton = document.getElementById("queueButton")
+//const queueButton = document.getElementById("queueButton")
 
 const htmlSearchTerms = document.getElementById("htmlSearchTerms")
 const htmlBlacklist = document.getElementById("htmlBlacklist")
 
 const htmlIsAnd = document.getElementById("htmlIsAnd")
 const htmlIsBlacklist = document.getElementById("htmlIsBlacklist")
+const htmlShowKeywords = document.getElementById("htmlShowKeywords")
 
 
 // Browse button functionality
@@ -166,9 +231,10 @@ clearButton.addEventListener("click", () =>
 );
 
 // Queue button functionality
-queueButton.addEventListener("click", () => 
-  htmlDisplayQueue()
-);
+// queueButton.addEventListener("click", () => 
+//   htmlDisplayQueue()
+// );
+
 
 // Listener for typing in the search bar
 htmlSearchTerms.addEventListener("keyup", (e) => 
@@ -180,6 +246,7 @@ htmlBlacklist.addEventListener("keyup", (e) =>
   htmlSearchCollection(htmlSearchTerms.value, e.target.value)
 );
 
+
 // Listener for AND checkbox
 htmlIsAnd.addEventListener("click", () => 
   htmlSearchCollection(htmlSearchTerms.value, htmlBlacklist.value)
@@ -188,6 +255,11 @@ htmlIsAnd.addEventListener("click", () =>
 // Listener for blacklist checkbox
 htmlIsBlacklist.addEventListener("click", () => 
   htmlBlacklistToggle(htmlSearchTerms.value, htmlBlacklist.value)
+);
+
+// Listener for keywords checkbox
+htmlShowKeywords.addEventListener("click", () => 
+  htmlKeywordDisplay(htmlSearchTerms.value, htmlBlacklist.value)
 );
 
 

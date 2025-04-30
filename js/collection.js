@@ -83,17 +83,28 @@ async function buildCollection()
 // and displays it as a table
 // TODO: Find different way to convert to table
 // TODO: Make key boxes clickable
-// TODO: Display keyword column when there's enough room
-async function readCollection(recordCollection)
+async function readCollection(recordCollection, showKeywords)
 {
   // Begin building record table
   var outputHTML = "<table>"
-  outputHTML += `<tr class="labelHeader">
-                  <th style="width:40%">Artist</th>
-                  <th>Album</th>
-                </tr>`;
 
-  if (DEBUG) console.log(`Collection size: ${recordCollection.length}`);
+  if(showKeywords)
+  {
+    outputHTML += `<tr class="labelHeader">
+                    <th style="width:25%">Artist</th>
+                    <th style="width:35%">Album</th>
+                    <th>Keywords</th>
+                  </tr>`;
+  }
+  else
+  {
+    outputHTML += `<tr class="labelHeader">
+                    <th style="width:40%">Artist</th>
+                    <th>Album</th>
+                  </tr>`;
+  }
+
+  if (DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
 
   // Iterate through collection
   for(var i = 0; i < recordCollection.length; i++)
@@ -110,11 +121,21 @@ async function readCollection(recordCollection)
     {
       // Dynamically add current record to the table
       // TODO: <td><button id="queueButton">Submit</button></td>
-      // TODO: <td class=${recordType}>${curRecord.keywords}</td>
-      outputHTML += `<tr>
-                      <td class=${recordType}>${curRecord.album}</td>
-                      <td class=${recordType}>${curRecord.artist}</td>
-                    </tr>`;
+      if(showKeywords)
+      {
+        outputHTML += `<tr>
+                        <td class=${recordType}>${curRecord.album}</td>
+                        <td class=${recordType}>${curRecord.artist}</td>
+                        <td class=${recordType}>${curRecord.keywords.join(", ")}</td>
+                      </tr>`;
+      }
+      else
+      {
+        outputHTML += `<tr>
+                        <td class=${recordType}>${curRecord.album}</td>
+                        <td class=${recordType}>${curRecord.artist}</td>
+                      </tr>`;
+      }
     }
   }
   outputHTML += "</table>";
@@ -123,10 +144,12 @@ async function readCollection(recordCollection)
   if(recordCollection.length > 0)
   {
     document.getElementById("htmlCollection").innerHTML = outputHTML;
+    document.getElementById("colorKey").style.visibility = "visible";
   }
   else
   {
     document.getElementById("htmlCollection").innerHTML = "";
+    document.getElementById("colorKey").style.visibility = "hidden";
   }
 }
 
