@@ -7,7 +7,7 @@
 // TODO: Code cleanup
 
 // Testing constants
-const DEBUG = true;
+const DEBUG = false;
 const TEST_URL = false;
 
 // Wait to do anything until page is loaded
