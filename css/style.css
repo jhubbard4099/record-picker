@@ -40,8 +40,10 @@ body {
   gap: 10px;
 }
 
-#htmlSearchTerms,
-#htmlBlacklist {
+.formContainer {
+  max-width: 95%;
+}
+.searchForm {
   padding: 0px 5px 0px 5px;
   font-size: large;
   color: lightgrey;
@@ -52,7 +54,7 @@ body {
 }
 
 #htmlBlacklist {
-  background-color: black;
+  background-color: rgb(24, 24, 24);
 }
 
 .checkboxForm {
@@ -61,7 +63,7 @@ body {
   gap: 2px;
   zoom: 1.5;
 
-  font-size: small;
+  font-size: 12px;
   accent-color: darkred;
   color: lightgrey;
   filter: drop-shadow(1px 1px 2px #000000b4);
@@ -111,6 +113,10 @@ button:active {
 
 #htmlSearchTerms:focus {
   background-color: rgb(109, 0, 0);
+}
+
+#htmlBlacklist:focus {
+  background-color: rgb(0, 0, 0);
 }
 
 table, td {
