@@ -21,7 +21,6 @@
 }
 
 /* Main Rules */
-/* TODO: Fix horizontal scroll on record rotation */
 body {
   min-height: 100vh;
   display: flex;
@@ -40,9 +39,11 @@ body {
   gap: 10px;
 }
 
+/* TODO: Figure out why buttons resize on small devices */
 .formContainer {
   max-width: 95%;
 }
+
 .searchForm {
   padding: 0px 5px 0px 5px;
   font-size: large;
@@ -123,46 +124,71 @@ table, td {
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
-  border-collapse: collapse;
+  border-collapse: separate; /* Don't collapse */
+  border-spacing: 0;
 
-  width: 90%;
+  width: 95%;
   height: 40px;
   padding: 4px;
-  border: 2px solid;
-
-  border-color: rgb(0, 0, 0);
-  background-color: rgb(95, 0, 0);
   color: lightgrey;
   filter: drop-shadow(0px 0px 5px #000000c7);
 }
 
-.keyHeader {
-  height: 40px;
-  font-size: smaller;
+td {
+  border: 1px solid;
+  border-color: rgb(0, 0, 0);
 }
 
-.labelHeader {
-  height: 30px;
-  font-size: larger;
+th {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  border-left: 1px solid;
+  border-color: black;
+}
+
+.tblStandardArtist {
+  font-size: smaller;
+}
+.tblStandardAlbum {
+  font-size: normal;
+}
+.tblExpandedArtist {
+  font-size: x-small;
+}
+.tblExpandedAlbum {
+  font-size: smaller;
+}
+.tblExpandedKeywords {
+  font-size: xx-small;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 60px;
+  font-size: large;
   background-color: rgb(59, 58, 68);
+  filter: drop-shadow(0px 0px 5px #000000c7);
+}
+
+#colorKey {
+  font-size: small;
 }
 
 .TBLTraditional {
   background-color: rgb(61, 2, 45);
 }
-
 .TBLScore {
   background-color: rgb(52, 0, 95);
 }
-
 .TBLCover {
   background-color: rgb(0, 45, 82);
 }
-
 .TBLVGM {
   background-color: rgb(0, 59, 50);
 }
-
 .TBLMisc {
   background-color: rgb(35, 71, 0);
 }

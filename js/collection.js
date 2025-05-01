@@ -85,26 +85,38 @@ async function buildCollection()
 // TODO: Make key boxes clickable
 async function readCollection(recordCollection, showKeywords)
 {
+  if (DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
+
   // Begin building record table
   var outputHTML = "<table>"
+
+  outputHTML += `<thead>`;
+  outputHTML += `<tr id="colorKey">
+                    <th class="TBLTraditional">Normal Music</th>
+                    <th class="TBLScore">Media Score</th>
+                    <th class="TBLCover">VGM Cover</th>
+                    <th class="TBLVGM">VGM Score</th>
+                    <th class="TBLMisc">Misc</th>
+                 </tr>`;
 
   if(showKeywords)
   {
     outputHTML += `<tr class="labelHeader">
-                    <th style="width:25%">Artist</th>
-                    <th style="width:35%">Album</th>
-                    <th>Keywords</th>
+                    <th colspan="1">Artist</th>
+                    <th colspan="2">Album</th>
+                    <th colspan="2">Keywords</th>
                   </tr>`;
   }
   else
   {
     outputHTML += `<tr class="labelHeader">
-                    <th style="width:40%">Artist</th>
-                    <th>Album</th>
+                    <th colspan="2">Artist</th>
+                    <th colspan="3">Album</th>
                   </tr>`;
   }
 
-  if (DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
+  outputHTML += `</thead>
+                 <tbody>`;
 
   // Iterate through collection
   for(var i = 0; i < recordCollection.length; i++)
@@ -124,32 +136,31 @@ async function readCollection(recordCollection, showKeywords)
       if(showKeywords)
       {
         outputHTML += `<tr>
-                        <td class=${recordType}>${curRecord.album}</td>
-                        <td class=${recordType}>${curRecord.artist}</td>
-                        <td class=${recordType}>${curRecord.keywords.join(", ")}</td>
+                        <td colspan="1" class="tblExpandedArtist ${recordType}">${curRecord.album}</td>
+                        <td colspan="2" class="tblExpandedAlbum ${recordType}">${curRecord.artist}</td>
+                        <td colspan="2" class="tblExpandedKeywords ${recordType}">${curRecord.keywords.join(", ")}</td>
                       </tr>`;
       }
       else
       {
         outputHTML += `<tr>
-                        <td class=${recordType}>${curRecord.album}</td>
-                        <td class=${recordType}>${curRecord.artist}</td>
+                        <td colspan="2" class="tblStandardArtist ${recordType}">${curRecord.album}</td>
+                        <td colspan="3" class="tblStandardAlbum ${recordType}">${curRecord.artist}</td>
                       </tr>`;
       }
     }
   }
-  outputHTML += "</table>";
+  outputHTML += `</tbody>
+                </table>`;
 
   // Only display if there are actually records to show
   if(recordCollection.length > 0)
   {
     document.getElementById("htmlCollection").innerHTML = outputHTML;
-    document.getElementById("colorKey").style.visibility = "visible";
   }
   else
   {
     document.getElementById("htmlCollection").innerHTML = "";
-    document.getElementById("colorKey").style.visibility = "hidden";
   }
 }
 
