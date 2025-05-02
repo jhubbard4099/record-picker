@@ -81,87 +81,36 @@ async function buildCollection()
 
 // Reads the global record collection,
 // and displays it as a table
-// TODO: Find different way to convert to table
+// Parameters:  recordCollection - collection to display as a table
+//              showKeywords - boolean on if the keywords column should be displayed
+//              recordIndex - optional field if just a single record should be displayed
 // TODO: Make key boxes clickable
 async function readCollection(recordCollection, showKeywords)
 {
   if (DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
 
+  // Only display if there are actually records to show
+  if(recordCollection.length <= 0)
+  {
+    clearCollection();
+    return;
+  }
+
   // Begin building record table
-  var outputHTML = "<table>"
+  var outputHTML = beginCollectionTable(showKeywords);
 
-  outputHTML += `<thead>`;
-  outputHTML += `<tr id="colorKey">
-                    <th class="TBLTraditional">Normal Music</th>
-                    <th class="TBLScore">Media Score</th>
-                    <th class="TBLCover">VGM Cover</th>
-                    <th class="TBLVGM">VGM Score</th>
-                    <th class="TBLMisc">Misc</th>
-                 </tr>`;
-
-  if(showKeywords)
-  {
-    outputHTML += `<tr class="labelHeader">
-                    <th colspan="1">Artist</th>
-                    <th colspan="2">Album</th>
-                    <th colspan="2">Keywords</th>
-                  </tr>`;
-  }
-  else
-  {
-    outputHTML += `<tr class="labelHeader">
-                    <th colspan="2">Artist</th>
-                    <th colspan="3">Album</th>
-                  </tr>`;
-  }
-
-  outputHTML += `</thead>
-                 <tbody>`;
-
-  // Iterate through collection
+  // Convert each record to HTML and add to output
   for(var i = 0; i < recordCollection.length; i++)
   {
     var curRecord = recordCollection[i];
 
     if (DEBUG) console.log(`Record #${i+1}:`);
-    recordToString(curRecord);
-
-    // Choose class for table coloring
-    var recordType = findRecordType(curRecord);
-
-    if(curRecord !== undefined)
-    {
-      // Dynamically add current record to the table
-      // TODO: <td><button id="queueButton">Submit</button></td>
-      if(showKeywords)
-      {
-        outputHTML += `<tr>
-                        <td colspan="1" class="tblExpandedArtist ${recordType}">${curRecord.album}</td>
-                        <td colspan="2" class="tblExpandedAlbum ${recordType}">${curRecord.artist}</td>
-                        <td colspan="2" class="tblExpandedKeywords ${recordType}">${curRecord.keywords.join(", ")}</td>
-                      </tr>`;
-      }
-      else
-      {
-        outputHTML += `<tr>
-                        <td colspan="2" class="tblStandardArtist ${recordType}">${curRecord.album}</td>
-                        <td colspan="3" class="tblStandardAlbum ${recordType}">${curRecord.artist}</td>
-                      </tr>`;
-      }
-    }
+    
+    outputHTML += recordToTable(curRecord, showKeywords);
   }
-  outputHTML += `</tbody>
-                </table>`;
+  outputHTML += endCollectionTable();
 
-  // Only display if there are actually records to show
-  if(recordCollection.length > 0)
-  {
-    document.getElementById("htmlCollection").innerHTML = outputHTML;
-  }
-  else
-  {
-    document.getElementById("htmlCollection").innerHTML = "";
-  }
+  document.getElementById("htmlCollection").innerHTML = outputHTML;
 }
 
 // Converts an input string (comma separated list) to an array
@@ -224,4 +173,61 @@ async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
   }
 
   return searchedCollection;
+}
+
+// Runs any queries involving reading in the record collection
+// This includes Browse, Search, and Random
+// Parameters:  inputSearch: comma separated string of search terms
+//              inputBlacklist: comma separated string of blacklist terms
+//              inputSeed: optional field to determine which record to read
+async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
+{
+  var recordCollection = await buildCollection();
+  
+  // Read state of the "AND results" checkbox
+  const inputIsAnd = document.getElementById("htmlIsAnd").checked;
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  if (DEBUG) console.log(`SEARCH: ${inputSearch} | BLACKLIST: ${inputBlacklist} | AND: ${inputIsAnd} | KEYWORDS: ${inputShowKeywords}`)
+
+  // Ignore blacklist if it isn't shown
+  if(!isBlacklistVisible())
+  {
+    inputBlacklist = "";
+  }
+
+  // Check if we need to search the collection
+  if(lastFunction === "SEARCH" || inputSearch !== "" || inputBlacklist !== "")
+  {
+    if (DEBUG) console.log("Search Query");
+    recordCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
+  }
+
+  // Check if we need to replace collection with a random record
+  if(lastFunction === "RANDOM")
+  {
+    if (DEBUG) console.log("Random Query");
+    var randomRecord = "";
+
+    // If no seed was input, use global seed
+    if(inputSeed !== -1)
+    {
+      recordCollection = [recordCollection[inputSeed]];
+    }
+    else
+    {
+      rngSeed = Math.floor(Math.random() * recordCollection.length);
+      recordCollection = [recordCollection[rngSeed]];
+    }
+  }
+  
+  readCollection(recordCollection, inputShowKeywords);
+}
+
+// Clears all HTML from the collection table
+function clearCollection()
+{
+  document.getElementById("htmlCollection").innerHTML = "";
 }

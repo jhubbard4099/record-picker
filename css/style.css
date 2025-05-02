@@ -8,6 +8,7 @@
 
 /* * {border:1px solid lightblue} */
 
+
 /* Animations */
 /* TODO: Make record spin faster after clicking */
 .spinningRecord {
@@ -19,6 +20,7 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(-360deg); }
 }
+
 
 /* Main Rules */
 body {
@@ -44,6 +46,25 @@ body {
   max-width: 95%;
 }
 
+.rowContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 2px;
+  filter: drop-shadow(0px 0px 4px #000000b4);
+}
+
+#row1 {
+  align-items: flex-end;
+}
+
+.header, .footer {
+  display: flex;
+  align-items: center;
+}
+
+
+/* Search Bar Rules */
 .searchForm {
   padding: 0px 5px 0px 5px;
   font-size: large;
@@ -53,11 +74,19 @@ body {
 #htmlSearchTerms {
   background-color: darkred;
 }
+#htmlSearchTerms:focus {
+  background-color: rgb(109, 0, 0);
+}
 
 #htmlBlacklist {
   background-color: rgb(24, 24, 24);
 }
+#htmlBlacklist:focus {
+  background-color: rgb(0, 0, 0);
+}
 
+
+/* Checkbox Rules */
 .checkboxForm {
   display: flex;
   align-items: flex-start;
@@ -70,27 +99,8 @@ body {
   filter: drop-shadow(1px 1px 2px #000000b4);
 }
 
-.rowContainer1,
-.rowContainer2,
-.rowContainer3,
-.rowContainer4 {
-  display: flex;
-  justify-content: space-between;
-  gap: 2px;
-  padding: 2px;
-  filter: drop-shadow(0px 0px 4px #000000b4);
-}
 
-.rowContainer1 {
-  align-items: flex-end;
-}
-
-.header, .footer {
-  display: flex;
-  align-items: center;
-}
-
-/* Element Rules */
+/* Button Rules */
 button {
   width: 90px;
   padding: 8px;
@@ -107,19 +117,12 @@ button {
 button:hover {
   background-color: rgb(85, 0, 0);
 }
-
 button:active {
   background-color: rgb(160, 0, 0);
 }
 
-#htmlSearchTerms:focus {
-  background-color: rgb(109, 0, 0);
-}
 
-#htmlBlacklist:focus {
-  background-color: rgb(0, 0, 0);
-}
-
+/* Table Rules */
 table, td {
   table-layout: fixed;
   margin-left: auto;
@@ -193,6 +196,8 @@ thead {
   background-color: rgb(35, 71, 0);
 }
 
+
+/* Misc Rules */
 ul {
   list-style-type: none;
 }
