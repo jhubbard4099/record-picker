@@ -141,7 +141,6 @@ function stringToArray(inputString)
 // Parameters:  recordCollection: collection to search
 //              searchTerms: comma seperated string of terms
 //              isAnd: boolean for if the search terms should be AND'd
-// TODO: Add blacklist support
 async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];

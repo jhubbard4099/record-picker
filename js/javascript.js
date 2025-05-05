@@ -30,7 +30,6 @@ window.onload=function(){
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
-// TODO: Combine into htmlQueryCollection
 async function htmlBrowse()
 {
   lastFunction = "READ";
@@ -59,13 +58,14 @@ async function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
   if (DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`)
   if (DEBUG) console.log(`Global RNG: ${rngSeed} | Local RNG: ${inputSeed}`)
 
-  await queryCollection(inputSearch, inputBlacklist, inputSeed)
+  queryCollection(inputSearch, inputBlacklist, inputSeed)
 }
 
 // Toggles visibility of the blacklist bar
 // Also re-runs a search to reflect change in blacklist visibility
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
+// TODO: Reruns either search OR browse depending on context
 function htmlBlacklistToggle(inputSearch, inputBlacklist)
 {
   lastFunction = "SEARCH";
@@ -127,8 +127,9 @@ function htmlKeywordToggle(inputSearch, inputBlacklist)
   }
 }
 
-// TODO
-function htmlDisplayQueue()
+// TODO: Basic "login" system to allow people to pick a Username
+// TODO: Queue control buttons only for me
+function htmlQueue()
 {
   window.alert("Our dev gnomes are working very hard on this button right now!");
 }
@@ -139,7 +140,7 @@ const browseButton = document.getElementById("browseButton")
 const searchButton = document.getElementById("searchButton")
 const randomButton = document.getElementById("randomButton")
 const clearButton = document.getElementById("clearButton")
-//const queueButton = document.getElementById("queueButton")
+// const queueButton = document.getElementById("queueButton")
 
 const htmlSearchTerms = document.getElementById("htmlSearchTerms")
 const htmlBlacklist = document.getElementById("htmlBlacklist")
@@ -171,7 +172,7 @@ clearButton.addEventListener("click", () =>
 
 // Queue button functionality
 // queueButton.addEventListener("click", () => 
-//   htmlDisplayQueue()
+//   htmlQueue()
 // );
 
 
