@@ -4,7 +4,7 @@
 
 
 // Opens an HTML table, builds headers, and opens the body
-// Parameters:  showKeywords - boolean on if the keywords column should be displayed
+// Parameters: showKeywords - boolean on if the keywords column should be displayed
 // TODO: Make header labels clickable - sorts table
 function beginCollectionTable(showKeywords)
 {
@@ -46,8 +46,8 @@ function beginCollectionTable(showKeywords)
 }
 
 // Converts a record to HTML to be added to the full table
-// Parameters:  record - record object to convert
-//              showKeywords - boolean on if the keywords column should be displayed
+// Parameters: record       - record object to convert
+//             showKeywords - boolean on if the keywords column should be displayed
 // TODO: Add to Queue button
 function recordToTable(record, showKeywords)
 {

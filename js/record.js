@@ -4,10 +4,10 @@
 
 
 // Object representing a vinyl record
-// Parameters:  album - string representing the album name
-//              artist - string representing the artist of the album
-//              keywords - array of strings including genre & other relevant info
-//              type - string representing the type of record it is
+// Parameters: album    - string representing the album name
+//             artist   - string representing the artist of the album
+//             keywords - array of strings including genre & other relevant info
+//             type     - string representing the type of record it is
 class Record {
   constructor(album, artist, keywords, type) {
     this.album = album;
@@ -18,8 +18,9 @@ class Record {
 }
 
 // Create a record object from input spreadsheet row
-// Parameters:  row: spreadsheet row to convert to a Record object
-// Returns:     a new Record object
+// Parameters: row - spreadsheet row to convert to a Record object
+// Returns:    a new Record object
+//
 // Note: assumes the following row format:
 //    Artist - Album - Owned - Genre - Media - Misc
 function createRecord(row)
@@ -54,8 +55,8 @@ function createRecord(row)
 }
 
 // Convert record to a printable string, which is also sent to the console
-// Parameters:  record: a Record object to convert to a string
-// Returns:     a string representation of a record
+// Parameters: record - a Record object to convert to a string
+// Returns:    a string representation of a record
 function recordToString(record)
 {
   var recordString = "";
@@ -71,10 +72,10 @@ function recordToString(record)
 }
 
 // Used to colorize the collection table based on type of record
-// Parameters:  genre: genre field of the record to determine
-//              media: media field of the record to determine
-//              misc: misc field of the record to determine
-// Returns: HTML class used to pick row color
+// Parameters: genre  - genre field of the record to determine
+//             media  - media field of the record to determine
+//             misc   - misc field of the record to determine
+// Returns:    HTML class used to pick row color
 function findRecordType(genre, media, misc)
 {
   var recordType = "";
@@ -106,9 +107,9 @@ function findRecordType(genre, media, misc)
 }
 
 // Determines if a record contains an input search term
-// Parameters:  record: record to search
-//              searchTerm: string of a single search term
-// Returns:     true if the record contains the given term, false otherwise
+// Parameters: record     - record to search
+//             searchTerm - string of a single search term
+// Returns:    true if the record contains the given term, false otherwise
 function doesRecordContain(record, searchTerm)
 {
   if(record === undefined || searchTerm === "")
@@ -130,12 +131,12 @@ function doesRecordContain(record, searchTerm)
 }
 
 // Searches the current record for the input search terms
-// Parameters:  record: record to search
-//              searchArray: string array of search terms
-//              isAnd: boolean for if the search terms should be AND'd
-// Returns:     true if the record contains any searches if isAnd is false, OR
-//              true if the record contains all searches if isAnd is true
-//              false otherwise
+// Parameters: record       - record to search
+//             searchArray  - string array of search terms
+//             isAnd        - boolean for if the search terms should be AND'd
+// Returns:    true if the record contains any searches if isAnd is false, OR
+//             true if the record contains all searches if isAnd is true,
+//             false otherwise
 function searchRecord(record, searchArray, isAnd)
 {
   if(record === undefined)
@@ -188,9 +189,9 @@ function searchRecord(record, searchArray, isAnd)
 }
 
 // Determines if the input record has any blacklisted terms present
-// Parameters:  record: record to search
-//              blacklistArray: string array of blacklist terms
-// Returns:     true if the record has any of the blacklisted terms, false otherwise
+// Parameters: record         - record to search
+//             blacklistArray - string array of blacklist terms
+// Returns:    true if the record has any of the blacklisted terms, false otherwise
 function isRecordOnBlacklist(record, blacklistArray)
 {
   if(record === undefined)

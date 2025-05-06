@@ -11,8 +11,8 @@ var lastCollection = [];
 
 
 // Converts an input string (comma separated list) to an array
-// Parameters:  inputString - comma separated string list
-// Returns:     an array of strings
+// Parameters: inputString - comma separated string list
+// Returns:    an array of strings
 function stringToArray(inputString)
 {
   // Return empty string if input is undefined or empty
@@ -35,8 +35,9 @@ function stringToArray(inputString)
 }
 
 // Checks if a row is valid to be turned into a record
-// Parameters:  row: spreadsheet row to convert to a record object
-// Returns:     true if the row is valid, false otherwise
+// Parameters: row - spreadsheet row to convert to a record object
+// Returns:    true if the row is valid, false otherwise
+// 
 // Note: assumes the following row format:
 //    Artist - Album - Owned - Genre - Media - Misc
 function rowIsValid(row)
@@ -51,8 +52,7 @@ function rowIsValid(row)
 
 
 // Accesses the Google sheet & parses the information into a json object
-// Returns the json object representing the full spreadsheet
-// Returns:   a spreadsheet containing record collection data
+// Returns: json object representing the full spreadsheet
 async function fetchSheetData()
 {
   // Declare scraper variables
@@ -85,7 +85,7 @@ async function fetchSheetData()
 // Fetches the spreadsheet json, creates records
 // for each valid row of the spreadsheet, and stores
 // them into the global record collection
-// Returns:   an array representing a record collection
+// Returns: an array representing a record collection
 async function buildCollection()
 {
   const recordCollection = [];
@@ -113,8 +113,8 @@ async function buildCollection()
 
 // Reads the global record collection,
 // and displays it as a table
-// Parameters:  recordCollection - collection to display as a table
-//              showKeywords - boolean on if the keywords column should be displayed
+// Parameters: recordCollection - collection to display as a table
+//             showKeywords     - boolean on if the keywords column should be displayed
 function readCollection(recordCollection, showKeywords)
 {
   if (COLLECTION_DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
@@ -144,11 +144,11 @@ function readCollection(recordCollection, showKeywords)
 }
 
 // Searches the collection and returns all matches
-// Parameters:  recordCollection: collection to search
-//              searchTerms: comma seperated string of search terms
-//              blacklist: comma seperated string of blacklist terms
-//              isAnd: boolean for if the search terms should be AND'd
-// Returns:     an array of searched records
+// Parameters: recordCollection - collection to search
+//             searchTerms      - comma seperated string of search terms
+//             blacklist        - comma seperated string of blacklist terms
+//             isAnd            - boolean for if the search terms should be AND'd
+// Returns:    an array of searched records
 function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
@@ -184,9 +184,9 @@ function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 
 // Runs any queries involving reading in the record collection
 // This includes Browse, Search, and Random
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
-//              inputSeed: optional field to determine which record to read
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
+//             inputSeed      - optional field to determine which record to read
 async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
 {
   var recordCollection = await mainCollection;

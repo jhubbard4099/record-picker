@@ -25,8 +25,8 @@ function isBlacklistVisible()
 }
 
 // Removes all extraneous commas from input string
-// Parameters:  inputField: string to trim
-// Returns:     trimmed string
+// Parameters: inputField - string to trim
+// Returns:    trimmed string
 function trimField(inputField)
 {
   // Remove all leading/trailing commas
@@ -66,8 +66,8 @@ function htmlBrowse()
 
 // Wrapper function to be called by the HTML
 // to search the collection on button press
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
 function htmlSearch(inputSearch, inputBlacklist)
 {
   lastFunction = "SEARCH";
@@ -76,9 +76,9 @@ function htmlSearch(inputSearch, inputBlacklist)
 
 // Wrapper function to be called by the HTML
 // to show a single random record on button press
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
-//              inputSeed: optional field to preset RNG seed
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
+//             inputSeed      - optional field to preset RNG seed
 function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
 {
   lastFunction = "RANDOM";
@@ -115,7 +115,7 @@ function htmlQueue()
 }
 
 // HTML wrapper for when a section of the table key is clicked
-// Parameters:  recordType: type of record to narrow display down to
+// Parameters: recordType - type of record to narrow display down to
 function htmlTableKey(recordType)
 {
   lastFunction = "TABLE";
@@ -145,8 +145,8 @@ function htmlTableKey(recordType)
 
 // Toggles the ANDing of search results
 // Also re-runs a search to reflect changes
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
 function htmlANDToggle(inputSearch, inputBlacklist)
 {
   // Re-run search
@@ -158,8 +158,8 @@ function htmlANDToggle(inputSearch, inputBlacklist)
 
 // Toggles visibility of the blacklist bar
 // Also re-runs a search to reflect change in blacklist visibility
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
 function htmlBlacklistToggle(inputSearch, inputBlacklist)
 {
   if(isBlacklistVisible())
@@ -180,8 +180,8 @@ function htmlBlacklistToggle(inputSearch, inputBlacklist)
 
 // HTML wrapper function to re-run the most recent action,
 // now with keywords either enabled or disabled
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
+// Parameters: inputSearch    - comma separated string of search terms
+//             inputBlacklist - comma separated string of blacklist terms
 function htmlKeywordToggle()
 {
   if (HTML_DEBUG) console.log(`Keyword Display: ${lastFunction}`);
