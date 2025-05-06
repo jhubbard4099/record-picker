@@ -14,21 +14,6 @@ function Record(album, artist, keywords)
   this.keywords = keywords;
 }
 
-// Convert record to a printable string, which is also sent to the console
-function recordToString(record)
-{
-  var recordString = "";
-
-  if(record !== undefined)
-  {
-    recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
-  }
-
-  if (RECORD_DEBUG) console.log(recordString);
-  
-  return recordString
-}
-
 // Create a record object from input spreadsheet row
 // Note: assumes the following row format:
 //    Artist - Album - Owned - Genre - Media - Misc
@@ -58,6 +43,21 @@ function createRecord(row)
 
   // Build and return a Record object
   return new Record(curAlbum, curArtist, curKeywords);
+}
+
+// Convert record to a printable string, which is also sent to the console
+function recordToString(record)
+{
+  var recordString = "";
+
+  if(record !== undefined)
+  {
+    recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
+  }
+
+  if (RECORD_DEBUG) console.log(recordString);
+  
+  return recordString
 }
 
 // Used to colorize the collection table based on type of record
@@ -94,7 +94,7 @@ function findRecordType(record)
     recordType = "TBLMisc";
   }
 
-  if (RECORD_DEBUG) console.log(`Record Type: ${recordType}`)
+  if (RECORD_DEBUG) console.log(`Record Type: ${recordType}`);
   return recordType;
 }
 

@@ -6,6 +6,44 @@
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
 
+// Converts an input string (comma separated list) to an array
+// Parameters:  inputString - comma separated string list
+// Returns:     an array of strings
+function stringToArray(inputString)
+{
+  // Return empty string if input is undefined or empty
+  if(inputString === undefined || inputString === "")
+  {
+    if (COLLECTION_DEBUG) console.log("returning empty array");
+    return [];
+  }
+
+  // Split and trim all whitespace from input string
+  var outputArray = inputString.split(",");
+  for(var i = 0; i < outputArray.length; i++)
+  {
+    outputArray[i] = outputArray[i].trim().toLowerCase();
+  }
+
+  if (COLLECTION_DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
+
+  return outputArray;
+}
+
+// Checks if a row is valid to be turned into a record
+// Note: assumes the following row format:
+//    Artist - Album - Owned - Genre - Media - Misc
+function rowIsValid(row)
+{
+  // Checks if the artist exists & the record is currently owned
+  const isValid = row[0] !== null && row[2].v !== false;
+
+  if (COLLECTION_DEBUG && !isValid) console.error("INVALID RECORD");
+
+  return isValid;
+}
+
+
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
 // TODO: Refactor to only fetch spreadsheet once
@@ -36,19 +74,6 @@ async function fetchSheetData()
   if (COLLECTION_DEBUG) console.log(sheet);
 
   return sheet;
-}
-
-// Checks if a row is valid to be turned into a record
-// Note: assumes the following row format:
-//    Artist - Album - Owned - Genre - Media - Misc
-function rowIsValid(row)
-{
-  // Checks if the artist exists & the record is currently owned
-  const isValid = row[0] !== null && row[2].v !== false;
-
-  if (COLLECTION_DEBUG && !isValid) console.error("INVALID RECORD");
-
-  return isValid;
 }
 
 // Fetches the spreadsheet json, creates records
@@ -112,30 +137,6 @@ async function readCollection(recordCollection, showKeywords)
   outputHTML += endCollectionTable();
 
   document.getElementById("htmlCollection").innerHTML = outputHTML;
-}
-
-// Converts an input string (comma separated list) to an array
-// Parameters:  inputString - comma separated string list
-// Returns:     an array of strings
-function stringToArray(inputString)
-{
-  // Return empty string if input is undefined or empty
-  if(inputString === undefined || inputString === "")
-  {
-    if (COLLECTION_DEBUG) console.log("returning empty array");
-    return [];
-  }
-
-  // Split and trim all whitespace from input string
-  var outputArray = inputString.split(",");
-  for(var i = 0; i < outputArray.length; i++)
-  {
-    outputArray[i] = outputArray[i].trim().toLowerCase();
-  }
-
-  if (COLLECTION_DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
-
-  return outputArray;
 }
 
 // Searches the collection and returns all matches

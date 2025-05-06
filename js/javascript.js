@@ -23,7 +23,7 @@ var lastCollection = [];
 // Returns: true if visible, false otherwise
 function isBlacklistVisible()
 {
-  if (HTML_DEBUG) console.log(`Blacklist Visibility: ${document.getElementById("htmlBlacklist").style.visibility}`)
+  if (HTML_DEBUG) console.log(`Blacklist Visibility: ${document.getElementById("htmlBlacklist").style.visibility}`);
   return document.getElementById("htmlBlacklist").style.visibility === "visible";
 }
 
@@ -59,10 +59,10 @@ async function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
 {
   lastFunction = "RANDOM";
 
-  if (HTML_DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`)
-  if (HTML_DEBUG) console.log(`Global RNG: ${rngSeed} | Local RNG: ${inputSeed}`)
+  if (HTML_DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`);
+  if (HTML_DEBUG) console.log(`Global RNG: ${rngSeed} | Local RNG: ${inputSeed}`);
 
-  queryCollection(inputSearch, inputBlacklist, inputSeed)
+  queryCollection(inputSearch, inputBlacklist, inputSeed);
 }
 
 // HTML wrapper function to clear all fields
@@ -131,7 +131,7 @@ function htmlBlacklistToggle(inputSearch, inputBlacklist)
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
 // TODO: Store copy of collection to re-display instead of re-running query
-function htmlKeywordToggle(inputSearch, inputBlacklist)
+function htmlKeywordToggle()
 {
   if (HTML_DEBUG) console.log(`Keyword Display: ${lastFunction}`)
 
@@ -143,18 +143,18 @@ function htmlKeywordToggle(inputSearch, inputBlacklist)
 
 
 // Element declarations
-const browseButton = document.getElementById("browseButton")
-const searchButton = document.getElementById("searchButton")
-const randomButton = document.getElementById("randomButton")
-const clearButton = document.getElementById("clearButton")
-// const queueButton = document.getElementById("queueButton")
+const browseButton = document.getElementById("browseButton");
+const searchButton = document.getElementById("searchButton");
+const randomButton = document.getElementById("randomButton");
+const clearButton = document.getElementById("clearButton");
+// const queueButton = document.getElementById("queueButton");
 
-const htmlSearchTerms = document.getElementById("htmlSearchTerms")
-const htmlBlacklist = document.getElementById("htmlBlacklist")
+const htmlSearchTerms = document.getElementById("htmlSearchTerms");
+const htmlBlacklist = document.getElementById("htmlBlacklist");
 
-const htmlIsAnd = document.getElementById("htmlIsAnd")
-const htmlIsBlacklist = document.getElementById("htmlIsBlacklist")
-const htmlShowKeywords = document.getElementById("htmlShowKeywords")
+const htmlIsAnd = document.getElementById("htmlIsAnd");
+const htmlIsBlacklist = document.getElementById("htmlIsBlacklist");
+const htmlShowKeywords = document.getElementById("htmlShowKeywords");
 
 
 // Browse button functionality
@@ -206,7 +206,7 @@ htmlIsBlacklist.addEventListener("click", () =>
 
 // Listener for keywords checkbox
 htmlShowKeywords.addEventListener("click", () => 
-  htmlKeywordToggle(htmlSearchTerms.value, htmlBlacklist.value)
+  htmlKeywordToggle()
 );
 
 
@@ -219,8 +219,8 @@ async function test()
   const recordCollection = await buildCollection();
   //readCollection(recordCollection);
 
-  //const searchTest = await searchCollection(recordCollection, "metal, test,everhood, Helynt", false)
-  const searchTest = await searchCollection(recordCollection, "electronic, techno", true)
+  //const searchTest = await searchCollection(recordCollection, "metal, test,everhood, Helynt", false);
+  const searchTest = await searchCollection(recordCollection, "electronic, techno", true);
 
   readCollection(searchTest);
 }
