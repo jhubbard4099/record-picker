@@ -1,6 +1,6 @@
 // Website for browsing & selecting from my vinyl record collection
 // This file contains all the functions related to the full Record collection
-// Note: relies on DEBUG and TEST_URL variable from the main javascript.js file
+// Note: relies on COLLECTION_DEBUG and TEST_URL variable from the main javascript.js file
 //
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
@@ -33,7 +33,7 @@ async function fetchSheetData()
 
   }).catch(error => console.log(error));
 
-  if (DEBUG) console.log(sheet);
+  if (COLLECTION_DEBUG) console.log(sheet);
 
   return sheet;
 }
@@ -46,7 +46,7 @@ function rowIsValid(row)
   // Checks if the artist exists & the record is currently owned
   const isValid = row[0] !== null && row[2].v !== false;
 
-  if (DEBUG && !isValid) console.error("INVALID RECORD");
+  if (COLLECTION_DEBUG && !isValid) console.error("INVALID RECORD");
 
   return isValid;
 }
@@ -66,13 +66,13 @@ async function buildCollection()
   for(var i = 0; i < count; i++)
   {
     var curRow = sheet.table.rows[i].c;
-    if (DEBUG) console.log(curRow);
+    if (COLLECTION_DEBUG) console.log(curRow);
 
     if(rowIsValid(curRow))
     {
       var curRecord = createRecord(curRow);
       recordCollection.push(curRecord);
-      if (DEBUG) recordToString(curRecord);
+      if (COLLECTION_DEBUG) recordToString(curRecord);
     }
   }
 
@@ -85,9 +85,10 @@ async function buildCollection()
 //              showKeywords - boolean on if the keywords column should be displayed
 //              recordIndex - optional field if just a single record should be displayed
 // TODO: Make key boxes clickable
+// TODO: Make header labels clickable
 async function readCollection(recordCollection, showKeywords)
 {
-  if (DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
+  if (COLLECTION_DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
 
   // Only display if there are actually records to show
   if(recordCollection.length <= 0)
@@ -104,7 +105,7 @@ async function readCollection(recordCollection, showKeywords)
   {
     var curRecord = recordCollection[i];
 
-    if (DEBUG) console.log(`Record #${i+1}:`);
+    if (COLLECTION_DEBUG) console.log(`Record #${i+1}:`);
     
     outputHTML += recordToTable(curRecord, showKeywords);
   }
@@ -121,7 +122,7 @@ function stringToArray(inputString)
   // Return empty string if input is undefined or empty
   if(inputString === undefined || inputString === "")
   {
-    if (DEBUG) console.log("returning empty array");
+    if (COLLECTION_DEBUG) console.log("returning empty array");
     return [];
   }
 
@@ -132,7 +133,7 @@ function stringToArray(inputString)
     outputArray[i] = outputArray[i].trim().toLowerCase();
   }
 
-  if (DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
+  if (COLLECTION_DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
 
   return outputArray;
 }
@@ -160,13 +161,13 @@ async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
   {
     var curRecord = recordCollection[i];
 
-    if (DEBUG) recordToString(curRecord);
+    if (COLLECTION_DEBUG) recordToString(curRecord);
 
     // Normal case: check if the current record contains any of the search terms
     // AND case:    check if the current record contains ALL of the search terms
     if(searchRecord(curRecord, searchArray, isAnd) && !isRecordOnBlacklist(curRecord, blacklistArray))
     {
-      if (DEBUG) console.warn("Pushing record to collection");
+      if (COLLECTION_DEBUG) console.warn("Pushing record to collection");
       searchedCollection.push(curRecord);
     }
   }
@@ -189,7 +190,7 @@ async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
   // Read state of the "Show Keywords" checkbox
   const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
 
-  if (DEBUG) console.log(`SEARCH: ${inputSearch} | BLACKLIST: ${inputBlacklist} | AND: ${inputIsAnd} | KEYWORDS: ${inputShowKeywords}`)
+  if (COLLECTION_DEBUG) console.log(`SEARCH: ${inputSearch} | BLACKLIST: ${inputBlacklist} | AND: ${inputIsAnd} | KEYWORDS: ${inputShowKeywords}`)
 
   // Ignore blacklist if it isn't shown
   if(!isBlacklistVisible())
@@ -200,14 +201,14 @@ async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
   // Check if we need to search the collection
   if(lastFunction === "SEARCH" || inputSearch !== "" || inputBlacklist !== "")
   {
-    if (DEBUG) console.log("Search Query");
+    if (COLLECTION_DEBUG) console.log("Search Query");
     recordCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
   }
 
   // Check if we need to replace collection with a random record
   if(lastFunction === "RANDOM")
   {
-    if (DEBUG) console.log("Random Query");
+    if (COLLECTION_DEBUG) console.log("Random Query");
     var randomRecord = "";
 
     // If no seed was input, use global seed
@@ -222,11 +223,13 @@ async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
     }
   }
   
+  lastCollection = recordCollection;
   readCollection(recordCollection, inputShowKeywords);
 }
 
 // Clears all HTML from the collection table
 function clearCollection()
 {
+  lastCollection = [];
   document.getElementById("htmlCollection").innerHTML = "";
 }

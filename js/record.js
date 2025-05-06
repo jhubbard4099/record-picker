@@ -1,6 +1,6 @@
 // Website for browsing & selecting from my vinyl record collection
 // This file contains all the functions related to Record objects
-// Note: relies on DEBUG variable from the main javascript.js file
+// Note: relies on RECORD_DEBUG variable from the main javascript.js file
 
 
 // Object representing a vinyl record
@@ -24,7 +24,7 @@ function recordToString(record)
     recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
   }
 
-  if (DEBUG) console.log(recordString);
+  if (RECORD_DEBUG) console.log(recordString);
   
   return recordString
 }
@@ -94,7 +94,7 @@ function findRecordType(record)
     recordType = "TBLMisc";
   }
 
-  if (DEBUG) console.log(`Record Type: ${recordType}`)
+  if (RECORD_DEBUG) console.log(`Record Type: ${recordType}`)
   return recordType;
 }
 
@@ -126,7 +126,7 @@ function searchRecord(record, searchArray, isAnd)
 {
   if(record === undefined)
   {
-    if (DEBUG) console.error("Undefined record!");
+    if (RECORD_DEBUG) console.error("Undefined record!");
     return false;
   }
 
@@ -147,7 +147,7 @@ function searchRecord(record, searchArray, isAnd)
       // If normal case, we're done
       if(!isAnd)
       {
-        if (DEBUG) console.warn("Match found!");
+        if (RECORD_DEBUG) console.warn("Match found!");
         return true;
       }
     }
@@ -165,7 +165,7 @@ function searchRecord(record, searchArray, isAnd)
   // If we made it this far in the AND case, then there were no misses
   if(isAnd)
   {
-    if (DEBUG) console.warn("Match found!");
+    if (RECORD_DEBUG) console.warn("Match found!");
     return true;
   }
 
@@ -181,7 +181,7 @@ function isRecordOnBlacklist(record, blacklistArray)
 {
   if(record === undefined)
   {
-    if (DEBUG) console.error("Undefined record!");
+    if (RECORD_DEBUG) console.error("Undefined record!");
     return false;
   }
 
@@ -193,11 +193,11 @@ function isRecordOnBlacklist(record, blacklistArray)
     // Check if the current search term is present in any of the record fields
     if(doesRecordContain(record, curSearch))
     {
-      if (DEBUG) console.warn("Record is on blacklist");
+      if (RECORD_DEBUG) console.warn("Record is on blacklist");
       return true;
     }
   }
 
-  if (DEBUG) console.warn("Record is NOT on blacklist");
+  if (RECORD_DEBUG) console.warn("Record is NOT on blacklist");
   return false;
 }

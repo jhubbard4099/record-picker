@@ -1,6 +1,6 @@
 // Website for browsing & selecting from my vinyl record collection
 // This file contains all the functions related to building the HTML table
-// Note: relies on DEBUG variable from the main javascript.js file
+// Note: relies on TABLE_DEBUG variable from the main javascript.js file
 
 
 // Opens an HTML table, builds headers, and opens the body
@@ -47,9 +47,10 @@ function beginCollectionTable(showKeywords)
 // Converts a record to HTML to be added to the full table
 // Parameters:  record - record object to convert
 //              showKeywords - boolean on if the keywords column should be displayed
+// TODO: Add to Queue button
 function recordToTable(record, showKeywords)
 {
-  if (DEBUG) recordToString(record);
+  if (TABLE_DEBUG) recordToString(record);
 
   // Choose class for table coloring
   var recordType = findRecordType(record);

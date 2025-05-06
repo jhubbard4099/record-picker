@@ -8,18 +8,22 @@
 // TODO: Comment cleanup
 
 // Testing constants
-const DEBUG = false;
+const HTML_DEBUG = true;
+const COLLECTION_DEBUG = true;
+const TABLE_DEBUG = false;
+const RECORD_DEBUG = false;
 const TEST_URL = false;
 
-// Variables used for the Show Keywords toggle
+// Global variables
 var lastFunction = "CLEAR";
 var rngSeed = -1;
+var lastCollection = [];
 
 // Determines if the blacklist bar is currently displayed
 // Returns: true if visible, false otherwise
 function isBlacklistVisible()
 {
-  if (DEBUG) console.log(`Blacklist Visibility: ${document.getElementById("htmlBlacklist").style.visibility}`)
+  if (HTML_DEBUG) console.log(`Blacklist Visibility: ${document.getElementById("htmlBlacklist").style.visibility}`)
   return document.getElementById("htmlBlacklist").style.visibility === "visible";
 }
 
@@ -55,32 +59,10 @@ async function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
 {
   lastFunction = "RANDOM";
 
-  if (DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`)
-  if (DEBUG) console.log(`Global RNG: ${rngSeed} | Local RNG: ${inputSeed}`)
+  if (HTML_DEBUG) console.log(`RNGTERMS: ${inputSearch} | RNGBLACKLIST: ${inputBlacklist}`)
+  if (HTML_DEBUG) console.log(`Global RNG: ${rngSeed} | Local RNG: ${inputSeed}`)
 
   queryCollection(inputSearch, inputBlacklist, inputSeed)
-}
-
-// Toggles visibility of the blacklist bar
-// Also re-runs a search to reflect change in blacklist visibility
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
-// TODO: Reruns either search OR browse depending on context
-function htmlBlacklistToggle(inputSearch, inputBlacklist)
-{
-  lastFunction = "SEARCH";
-
-  if(isBlacklistVisible())
-  {
-    document.getElementById("htmlBlacklist").style.visibility = "hidden";
-  }
-  else
-  {
-    document.getElementById("htmlBlacklist").style.visibility = "visible";
-  }
-
-  // Re-run search
-  queryCollection(inputSearch, inputBlacklist)
 }
 
 // HTML wrapper function to clear all fields
@@ -101,37 +83,62 @@ function htmlClear()
   clearCollection();
 }
 
-// HTML wrapper function to re-run the most recent action,
-// now with keywords either enabled or disabled
-// Parameters:  inputSearch: comma separated string of search terms
-//              inputBlacklist: comma separated string of blacklist terms
-function htmlKeywordToggle(inputSearch, inputBlacklist)
-{
-  if (DEBUG) console.log(`Keyword Display: ${lastFunction}`)
-
-  if(lastFunction === "READ")
-  {
-    htmlBrowse();
-  }
-  else if(lastFunction === "SEARCH")
-  {
-    htmlSearch(inputSearch, inputBlacklist);
-  }
-  else if(lastFunction === "RANDOM")
-  {
-    htmlRandom(inputSearch, inputBlacklist, rngSeed);
-  }
-  else
-  {
-    // Do nothing
-  }
-}
-
 // TODO: Basic "login" system to allow people to pick a Username
 // TODO: Queue control buttons only for me
 function htmlQueue()
 {
   window.alert("Our dev gnomes are working very hard on this button right now!");
+}
+
+
+// Toggles the ANDing of search results
+// Also re-runs a search to reflect changes
+// Parameters:  inputSearch: comma separated string of search terms
+//              inputBlacklist: comma separated string of blacklist terms
+function htmlANDToggle(inputSearch, inputBlacklist)
+{
+  // Re-run search
+  if(lastFunction === "SEARCH")
+  {
+    htmlSearch(inputSearch, inputBlacklist);
+  }
+}
+
+// Toggles visibility of the blacklist bar
+// Also re-runs a search to reflect change in blacklist visibility
+// Parameters:  inputSearch: comma separated string of search terms
+//              inputBlacklist: comma separated string of blacklist terms
+function htmlBlacklistToggle(inputSearch, inputBlacklist)
+{
+  if(isBlacklistVisible())
+  {
+    document.getElementById("htmlBlacklist").style.visibility = "hidden";
+  }
+  else
+  {
+    document.getElementById("htmlBlacklist").style.visibility = "visible";
+  }
+
+  // Re-run search
+  if(lastFunction === "SEARCH")
+  {
+    htmlSearch(inputSearch, inputBlacklist);
+  }
+}
+
+// HTML wrapper function to re-run the most recent action,
+// now with keywords either enabled or disabled
+// Parameters:  inputSearch: comma separated string of search terms
+//              inputBlacklist: comma separated string of blacklist terms
+// TODO: Store copy of collection to re-display instead of re-running query
+function htmlKeywordToggle(inputSearch, inputBlacklist)
+{
+  if (HTML_DEBUG) console.log(`Keyword Display: ${lastFunction}`)
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  readCollection(lastCollection, inputShowKeywords);
 }
 
 
@@ -189,7 +196,7 @@ htmlBlacklist.addEventListener("keyup", (e) =>
 
 // Listener for AND checkbox
 htmlIsAnd.addEventListener("click", () => 
-  htmlSearch(htmlSearchTerms.value, htmlBlacklist.value)
+  htmlANDToggle(htmlSearchTerms.value, htmlBlacklist.value)
 );
 
 // Listener for blacklist checkbox
@@ -207,7 +214,7 @@ htmlShowKeywords.addEventListener("click", () =>
 async function test()
 {
   var temp = new Record("A Very Mary Cliffmas", "Cliff King", ["christmas", "holiday", "parody"]);
-  if (DEBUG) recordToString(temp);
+  if (HTML_DEBUG) recordToString(temp);
 
   const recordCollection = await buildCollection();
   //readCollection(recordCollection);
