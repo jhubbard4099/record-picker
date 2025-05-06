@@ -8,11 +8,11 @@
 // TODO: Comment cleanup
 
 // Testing constants
-const HTML_DEBUG = true;
-const COLLECTION_DEBUG = true;
+const TEST_URL = false;
+const HTML_DEBUG = false;
+const COLLECTION_DEBUG = false;
 const TABLE_DEBUG = false;
 const RECORD_DEBUG = false;
-const TEST_URL = false;
 
 // Global variables
 var lastFunction = "CLEAR";
