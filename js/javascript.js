@@ -17,7 +17,6 @@ const RECORD_DEBUG = false;
 // Global variables
 var lastFunction = "CLEAR";
 var rngSeed = -1;
-var lastCollection = [];
 
 // Determines if the blacklist bar is currently displayed
 // Returns: true if visible, false otherwise
@@ -30,11 +29,10 @@ function isBlacklistVisible()
 // Wait to do anything until page is loaded
 window.onload=function(){
 
-
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
-async function htmlBrowse()
+function htmlBrowse()
 {
   lastFunction = "READ";
   queryCollection("", "");
@@ -44,7 +42,7 @@ async function htmlBrowse()
 // to search the collection on button press
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
-async function htmlSearch(inputSearch, inputBlacklist)
+function htmlSearch(inputSearch, inputBlacklist)
 {
   lastFunction = "SEARCH";
   queryCollection(inputSearch, inputBlacklist);
@@ -55,7 +53,7 @@ async function htmlSearch(inputSearch, inputBlacklist)
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
 //              inputSeed: optional field to preset RNG seed
-async function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
+function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
 {
   lastFunction = "RANDOM";
 

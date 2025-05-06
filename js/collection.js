@@ -5,6 +5,10 @@
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
+// TODO: Collection mananger class
+const mainCollection = buildCollection();
+var lastCollection = [];
+
 
 // Converts an input string (comma separated list) to an array
 // Parameters:  inputString - comma separated string list
@@ -46,7 +50,6 @@ function rowIsValid(row)
 
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
-// TODO: Refactor to only fetch spreadsheet once
 async function fetchSheetData()
 {
   // Declare scraper variables
@@ -111,7 +114,7 @@ async function buildCollection()
 //              recordIndex - optional field if just a single record should be displayed
 // TODO: Make key boxes clickable
 // TODO: Make header labels clickable
-async function readCollection(recordCollection, showKeywords)
+function readCollection(recordCollection, showKeywords)
 {
   if (COLLECTION_DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
 
@@ -143,7 +146,7 @@ async function readCollection(recordCollection, showKeywords)
 // Parameters:  recordCollection: collection to search
 //              searchTerms: comma seperated string of terms
 //              isAnd: boolean for if the search terms should be AND'd
-async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
+function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
 
@@ -183,7 +186,7 @@ async function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 //              inputSeed: optional field to determine which record to read
 async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
 {
-  var recordCollection = await buildCollection();
+  var recordCollection = await mainCollection;
   
   // Read state of the "AND results" checkbox
   const inputIsAnd = document.getElementById("htmlIsAnd").checked;
