@@ -4,12 +4,10 @@
 // Breakdown of helper files:
 //    record.js - all functions specific to the Record objects
 //    collection.js - all functions specific to the collection of Record objects
-// TODO: Code cleanup
-// TODO: Comment cleanup
 
 // Testing constants
 const TEST_URL = false;
-const HTML_DEBUG = false;
+const HTML_DEBUG = true;
 const COLLECTION_DEBUG = false;
 const TABLE_DEBUG = false;
 const RECORD_DEBUG = false;
@@ -26,9 +24,37 @@ function isBlacklistVisible()
   return document.getElementById("htmlBlacklist").style.visibility === "visible";
 }
 
-// Wait to do anything until page is loaded
-window.onload=function(){
+// Removes all extraneous commas from input string
+// Parameters:  inputField: string to trim
+// Returns:     trimmed string
+function trimField(inputField)
+{
+  // Remove all leading/trailing commas
+  inputField = inputField.replace(/(^[,\s]+)|([,\s]+$)/g, '');
 
+  // Removes all inner commas
+  while(inputField.includes(", ,"))
+  {
+    inputField = inputField.replace(", ,", ",");
+  }
+
+  return inputField;
+}
+
+// Removes extaneous commas from all user input fields
+function trimAllFields()
+{
+  var curSearch = document.getElementById("htmlSearchTerms").value;
+  var curBlacklist = document.getElementById("htmlBlacklist").value;
+  
+  curSearch = trimField(curSearch);
+  curBlacklist = trimField(curBlacklist);
+
+  document.getElementById("htmlSearchTerms").value = curSearch;
+  document.getElementById("htmlBlacklist").value = curBlacklist;
+}
+
+  
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
@@ -88,6 +114,34 @@ function htmlQueue()
   window.alert("Our dev gnomes are working very hard on this button right now!");
 }
 
+// HTML wrapper for when a section of the table key is clicked
+// Parameters:  recordType: type of record to narrow display down to
+function htmlTableKey(recordType)
+{
+  lastFunction = "TABLE";
+  const keySearch = `type:${recordType}`;
+  const curSearch = document.getElementById("htmlSearchTerms").value;
+
+  if(curSearch === "")
+  {
+    if (HTML_DEBUG) console.log("Key Search Default");
+    document.getElementById("htmlSearchTerms").value = `type:${recordType}`;
+  }
+  else if(!curSearch.includes(keySearch))
+  {
+    if (HTML_DEBUG) console.log("Key Search Add");
+    document.getElementById("htmlSearchTerms").value += `, type:${recordType}`;
+  }
+  else
+  {
+    if (HTML_DEBUG) console.log("Key Search Remove");
+    document.getElementById("htmlSearchTerms").value = curSearch.replace(keySearch, "");
+  }
+  
+  trimAllFields();
+  queryCollection(document.getElementById("htmlSearchTerms").value, document.getElementById("htmlBlacklist").value);
+}
+
 
 // Toggles the ANDing of search results
 // Also re-runs a search to reflect changes
@@ -96,7 +150,7 @@ function htmlQueue()
 function htmlANDToggle(inputSearch, inputBlacklist)
 {
   // Re-run search
-  if(lastFunction === "SEARCH")
+  if(lastFunction === "SEARCH" || lastFunction === "TABLE")
   {
     htmlSearch(inputSearch, inputBlacklist);
   }
@@ -118,7 +172,7 @@ function htmlBlacklistToggle(inputSearch, inputBlacklist)
   }
 
   // Re-run search
-  if(lastFunction === "SEARCH")
+  if(lastFunction === "SEARCH" || lastFunction === "TABLE")
   {
     htmlSearch(inputSearch, inputBlacklist);
   }
@@ -128,10 +182,9 @@ function htmlBlacklistToggle(inputSearch, inputBlacklist)
 // now with keywords either enabled or disabled
 // Parameters:  inputSearch: comma separated string of search terms
 //              inputBlacklist: comma separated string of blacklist terms
-// TODO: Store copy of collection to re-display instead of re-running query
 function htmlKeywordToggle()
 {
-  if (HTML_DEBUG) console.log(`Keyword Display: ${lastFunction}`)
+  if (HTML_DEBUG) console.log(`Keyword Display: ${lastFunction}`);
 
   // Read state of the "Show Keywords" checkbox
   const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
@@ -217,11 +270,9 @@ async function test()
   const recordCollection = await buildCollection();
   //readCollection(recordCollection);
 
-  //const searchTest = await searchCollection(recordCollection, "metal, test,everhood, Helynt", false);
-  const searchTest = await searchCollection(recordCollection, "electronic, techno", true);
+  //const searchTest = searchCollection(recordCollection, "metal, test,everhood, Helynt", false);
+  const searchTest = searchCollection(recordCollection, "electronic, techno", true);
 
   readCollection(searchTest);
 }
 //test();
-
-}

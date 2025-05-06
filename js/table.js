@@ -5,6 +5,8 @@
 
 // Opens an HTML table, builds headers, and opens the body
 // Parameters:  showKeywords - boolean on if the keywords column should be displayed
+// TODO: Make key boxes clickable - narrows search
+// TODO: Make header labels clickable - sorts table
 function beginCollectionTable(showKeywords)
 {
   // Initialize
@@ -12,12 +14,12 @@ function beginCollectionTable(showKeywords)
 
   // 1st header: color key
   tableHTML += `<thead>`;
-  tableHTML += `<tr id="colorKey">
-                    <th class="TBLTraditional">Normal Music</th>
-                    <th class="TBLScore">Media Score</th>
-                    <th class="TBLCover">VGM Cover</th>
-                    <th class="TBLVGM">VGM Score</th>
-                    <th class="TBLMisc">Misc</th>
+  tableHTML += `<tr>
+                    <th class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
+                    <th class="colorKey TBLScore" onclick="htmlTableKey('TBLScore')">Media Score</th>
+                    <th class="colorKey TBLCover" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
+                    <th class="colorKey TBLVGM" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
+                    <th class="colorKey TBLMisc" onclick="htmlTableKey('TBLMisc')">Misc</th>
                  </tr>`;
 
   // 2nd header: table key
@@ -52,9 +54,6 @@ function recordToTable(record, showKeywords)
 {
   if (TABLE_DEBUG) recordToString(record);
 
-  // Choose class for table coloring
-  var recordType = findRecordType(record);
-
   var recordHTML = "<tr>";
   if(record !== undefined)
   {
@@ -62,14 +61,14 @@ function recordToTable(record, showKeywords)
     // TODO: <td><button id="queueButton">Submit</button></td>
     if(showKeywords)
     {
-      recordHTML += `<td colspan="1" class="tblExpandedArtist ${recordType}">${record.album}</td>
-                     <td colspan="2" class="tblExpandedAlbum ${recordType}">${record.artist}</td>
-                     <td colspan="2" class="tblExpandedKeywords ${recordType}">${record.keywords.join(", ")}</td>`;
+      recordHTML += `<td colspan="1" class="tblExpandedArtist ${record.type}">${record.album}</td>
+                     <td colspan="2" class="tblExpandedAlbum ${record.type}">${record.artist}</td>
+                     <td colspan="2" class="tblExpandedKeywords ${record.type}">${record.keywords.join(", ")}</td>`;
     }
     else
     {
-      recordHTML += `<td colspan="2" class="tblStandardArtist ${recordType}">${record.album}</td>
-                     <td colspan="3" class="tblStandardAlbum ${recordType}">${record.artist}</td>`;
+      recordHTML += `<td colspan="2" class="tblStandardArtist ${record.type}">${record.album}</td>
+                     <td colspan="3" class="tblStandardAlbum ${record.type}">${record.artist}</td>`;
     }
   }
   recordHTML += "</tr>";

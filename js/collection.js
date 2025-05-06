@@ -35,6 +35,8 @@ function stringToArray(inputString)
 }
 
 // Checks if a row is valid to be turned into a record
+// Parameters:  row: spreadsheet row to convert to a record object
+// Returns:     true if the row is valid, false otherwise
 // Note: assumes the following row format:
 //    Artist - Album - Owned - Genre - Media - Misc
 function rowIsValid(row)
@@ -50,6 +52,7 @@ function rowIsValid(row)
 
 // Accesses the Google sheet & parses the information into a json object
 // Returns the json object representing the full spreadsheet
+// Returns:   a spreadsheet containing record collection data
 async function fetchSheetData()
 {
   // Declare scraper variables
@@ -82,6 +85,7 @@ async function fetchSheetData()
 // Fetches the spreadsheet json, creates records
 // for each valid row of the spreadsheet, and stores
 // them into the global record collection
+// Returns:   an array representing a record collection
 async function buildCollection()
 {
   const recordCollection = [];
@@ -111,15 +115,12 @@ async function buildCollection()
 // and displays it as a table
 // Parameters:  recordCollection - collection to display as a table
 //              showKeywords - boolean on if the keywords column should be displayed
-//              recordIndex - optional field if just a single record should be displayed
-// TODO: Make key boxes clickable
-// TODO: Make header labels clickable
 function readCollection(recordCollection, showKeywords)
 {
   if (COLLECTION_DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
 
   // Only display if there are actually records to show
-  if(recordCollection.length <= 0)
+  if(recordCollection.length <= 0 && lastFunction !== "TABLE")
   {
     clearCollection();
     return;
@@ -144,8 +145,10 @@ function readCollection(recordCollection, showKeywords)
 
 // Searches the collection and returns all matches
 // Parameters:  recordCollection: collection to search
-//              searchTerms: comma seperated string of terms
+//              searchTerms: comma seperated string of search terms
+//              blacklist: comma seperated string of blacklist terms
 //              isAnd: boolean for if the search terms should be AND'd
+// Returns:     an array of searched records
 function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
 {
   const searchedCollection = [];
@@ -206,14 +209,13 @@ async function queryCollection(inputSearch, inputBlacklist, inputSeed=-1)
   if(lastFunction === "SEARCH" || inputSearch !== "" || inputBlacklist !== "")
   {
     if (COLLECTION_DEBUG) console.log("Search Query");
-    recordCollection = await searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
+    recordCollection = searchCollection(recordCollection, inputSearch, inputBlacklist, inputIsAnd);
   }
 
   // Check if we need to replace collection with a random record
   if(lastFunction === "RANDOM")
   {
     if (COLLECTION_DEBUG) console.log("Random Query");
-    var randomRecord = "";
 
     // If no seed was input, use global seed
     if(inputSeed !== -1)

@@ -7,14 +7,19 @@
 // Parameters:  album - string representing the album name
 //              artist - string representing the artist of the album
 //              keywords - array of strings including genre & other relevant info
-function Record(album, artist, keywords)
-{
-  this.album = album;
-  this.artist = artist;
-  this.keywords = keywords;
+//              type - string representing the type of record it is
+class Record {
+  constructor(album, artist, keywords, type) {
+    this.album = album;
+    this.artist = artist;
+    this.keywords = keywords;
+    this.type = type;
+  }
 }
 
 // Create a record object from input spreadsheet row
+// Parameters:  row: spreadsheet row to convert to a Record object
+// Returns:     a new Record object
 // Note: assumes the following row format:
 //    Artist - Album - Owned - Genre - Media - Misc
 function createRecord(row)
@@ -41,11 +46,16 @@ function createRecord(row)
     curKeywords = curKeywords.concat(curMisc);
   }
 
+  // Find album record type
+  var curType = findRecordType(curGenre, curMedia, curMisc);
+
   // Build and return a Record object
-  return new Record(curAlbum, curArtist, curKeywords);
+  return new Record(curAlbum, curArtist, curKeywords, curType);
 }
 
 // Convert record to a printable string, which is also sent to the console
+// Parameters:  record: a Record object to convert to a string
+// Returns:     a string representation of a record
 function recordToString(record)
 {
   var recordString = "";
@@ -61,31 +71,28 @@ function recordToString(record)
 }
 
 // Used to colorize the collection table based on type of record
+// Parameters:  genre: genre field of the record to determine
+//              media: media field of the record to determine
+//              misc: misc field of the record to determine
 // Returns: HTML class used to pick row color
-// TODO: Update logic when genre/media/misc fields are all separate
-function findRecordType(record)
+function findRecordType(genre, media, misc)
 {
   var recordType = "";
 
-  if(record === undefined)
-  {
-    return "";
-  }
-
   // Determine record type based on specific criteria
-  if(!record.keywords.includes("soundtrack") && !record.keywords.includes("cover") && !record.keywords.includes("mystery") && !record.keywords.includes("non-music"))
+  if(media[0] === " " && !genre.includes("non-music") && !misc.includes("mystery"))
   {
     recordType = "TBLTraditional";
   }
-  else if(record.keywords.includes("soundtrack") && !record.keywords.includes("vgm"))
+  else if(misc.includes("soundtrack") && !media.includes("vgm"))
   {
     recordType = "TBLScore";
   }
-  else if(record.keywords.includes("cover"))
+  else if(misc.includes("cover"))
   {
     recordType = "TBLCover";
   }
-  else if(record.keywords.includes("soundtrack") && record.keywords.includes("vgm"))
+  else if(misc.includes("soundtrack") && media.includes("vgm"))
   {
     recordType = "TBLVGM";
   }
@@ -107,6 +114,13 @@ function doesRecordContain(record, searchTerm)
   if(record === undefined || searchTerm === "")
   {
     return false;
+  }
+
+  const searchQuery = searchTerm.split(":");
+  if(searchQuery[0] === "type")
+  {
+    if (RECORD_DEBUG) console.log(`Advanced Search Mode - Query: ${searchQuery} | Type: ${record.type}`)
+    return searchQuery[1] == record.type.toLowerCase();
   }
 
   // Check each field of the Record object separately
@@ -175,7 +189,7 @@ function searchRecord(record, searchArray, isAnd)
 
 // Determines if the input record has any blacklisted terms present
 // Parameters:  record: record to search
-//              searchArray: string array of search terms
+//              blacklistArray: string array of blacklist terms
 // Returns:     true if the record has any of the blacklisted terms, false otherwise
 function isRecordOnBlacklist(record, blacklistArray)
 {
