@@ -31,7 +31,6 @@ function createRecord(row)
 
   // Fetch genre, media, and misc strings,
   // then split them into arrays
-  // TODO: use trim()?
   var curGenre = row[3].v.split(", ");
   var curMedia = row[4].v.split(", ");
   var curMisc = row[5].v.split(", ");

@@ -33,6 +33,7 @@ body {
   background: rgb(39, 48, 56);
 }
 
+/* TODO: Record & UI next to each other on desktop */
 .content {
   display: flex;
   flex-direction: column;
@@ -40,7 +41,7 @@ body {
   gap: 10px;
 }
 
-/* TODO: Add small space between edge and UI elements */
+/* TODO: Add small space between phone edge and UI elements */
 .formContainer {
   display: flex;
   flex-direction: column;
@@ -207,7 +208,6 @@ thead {
 .TBLMisc {
   background-color: rgb(35, 71, 0);
 }
-
 
 /* Misc Rules */
 ul {

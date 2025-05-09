@@ -5,7 +5,7 @@
 
 // Opens an HTML table, builds headers, and opens the body
 // Parameters: showKeywords - boolean on if the keywords column should be displayed
-// TODO: Make header labels clickable - sorts table
+// TODO: Make header labels clickable (sorts table)
 function beginCollectionTable(showKeywords)
 {
   // Initialize
@@ -14,7 +14,7 @@ function beginCollectionTable(showKeywords)
   // 1st header: color key
   tableHTML += `<thead>`;
   tableHTML += `<tr>
-                    <th class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
+                    <th id="keyTraditional" class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
                     <th class="colorKey TBLScore" onclick="htmlTableKey('TBLScore')">Media Score</th>
                     <th class="colorKey TBLCover" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
                     <th class="colorKey TBLVGM" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
@@ -48,7 +48,7 @@ function beginCollectionTable(showKeywords)
 // Converts a record to HTML to be added to the full table
 // Parameters: record       - record object to convert
 //             showKeywords - boolean on if the keywords column should be displayed
-// TODO: Add to Queue button
+// TODO: "Add to Queue" button
 function recordToTable(record, showKeywords)
 {
   if (TABLE_DEBUG) recordToString(record);

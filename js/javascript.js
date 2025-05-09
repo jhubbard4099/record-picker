@@ -4,10 +4,12 @@
 // Breakdown of helper files:
 //    record.js - all functions specific to the Record objects
 //    collection.js - all functions specific to the collection of Record objects
+// TODO: Color themes
+// TODO: Cleanup document.getElementById() usage
 
 // Testing constants
 const TEST_URL = false;
-const HTML_DEBUG = false;
+const HTML_DEBUG = true;
 const COLLECTION_DEBUG = false;
 const TABLE_DEBUG = false;
 const RECORD_DEBUG = false;
@@ -53,6 +55,40 @@ function trimAllFields()
   document.getElementById("htmlSearchTerms").value = curSearch;
   document.getElementById("htmlBlacklist").value = curBlacklist;
 }
+
+// Clears current search of all advanced search terms based on input string
+// Parameters: search - string of the advanced search to clear, format ${search}:
+function clearAdvancedSearch(search)
+{
+  // Regex searches for arbitrary number of characters after the ":",
+  // including up to a comma if one is found
+  const regex = new RegExp(`${search}:.*?(?=,|$)`)
+  var curSearch = document.getElementById("htmlSearchTerms").value;
+  var itemsToRemove = curSearch.match(regex);
+
+  // Loop through item removals until all searches are removed
+  while(itemsToRemove !== null)
+  {
+    if (HTML_DEBUG) console.log(curSearch);
+    document.getElementById("htmlSearchTerms").value = curSearch.replace(itemsToRemove[0], "");
+    
+    curSearch = document.getElementById("htmlSearchTerms").value;
+    itemsToRemove = curSearch.match(regex);
+  }
+}
+
+// TODO
+// function clearTableHover()
+// {
+  
+// }
+// function simulateTableHover(element)
+// {
+//   console.log(typeof(element));
+//   element = element.replace("TBL", "key");
+//   console.log(element);
+//   document.getElementById(`${element}`).style.filter = "brightness(115%)";
+// }
 
   
 // Wrapper function to be called by the HTML
@@ -107,6 +143,7 @@ function htmlClear()
   clearCollection();
 }
 
+// TODO: Add queue support
 // TODO: Basic "login" system to allow people to pick a Username
 // TODO: Queue control buttons only for me
 function htmlQueue()
@@ -120,22 +157,25 @@ function htmlTableKey(recordType)
 {
   lastFunction = "TABLE";
   const keySearch = `type:${recordType}`;
-  const curSearch = document.getElementById("htmlSearchTerms").value;
+  var curSearch = document.getElementById("htmlSearchTerms").value;
 
   if(curSearch === "")
   {
     if (HTML_DEBUG) console.log("Key Search Default");
     document.getElementById("htmlSearchTerms").value = `type:${recordType}`;
+    // simulateTableHover(recordType);
   }
   else if(!curSearch.includes(keySearch))
   {
     if (HTML_DEBUG) console.log("Key Search Add");
+    clearAdvancedSearch("type");
     document.getElementById("htmlSearchTerms").value += `, type:${recordType}`;
+    // simulateTableHover(recordType);
   }
   else
   {
     if (HTML_DEBUG) console.log("Key Search Remove");
-    document.getElementById("htmlSearchTerms").value = curSearch.replace(keySearch, "");
+    clearAdvancedSearch("type");
   }
   
   trimAllFields();
