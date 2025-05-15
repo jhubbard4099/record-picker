@@ -4,16 +4,29 @@
 
 
 // Object representing a vinyl record
-// Parameters: album    - string representing the album name
-//             artist   - string representing the artist of the album
-//             keywords - array of strings including genre & other relevant info
-//             type     - string representing the type of record it is
+// Parameters: albumRecord  - string representing the album name, or a record to copy
+//             artist       - string representing the artist of the album
+//             keywords     - array of strings including genre & other relevant info
+//             type         - string representing the type of record it is
+//             location     - string representing the location of the record
 class Record {
-  constructor(album, artist, keywords, type) {
-    this.album = album;
-    this.artist = artist;
-    this.keywords = keywords;
-    this.type = type;
+  constructor(albumRecord, artist, keywords, type, location) {
+    if(artist === undefined)
+    { // Copy Constructor
+      this.album = albumRecord.album;
+      this.artist = albumRecord.artist;
+      this.keywords = albumRecord.keywords;
+      this.type = albumRecord.type;
+      this.location = albumRecord.location;
+    }
+    else
+    { // Standard Constructor
+      this.album = albumRecord;
+      this.artist = artist;
+      this.keywords = keywords;
+      this.type = type;
+      this.location = location;
+    }
   }
 }
 
@@ -22,12 +35,13 @@ class Record {
 // Returns:    a new Record object
 //
 // Note: assumes the following row format:
-//    Artist - Album - Owned - Genre - Media - Misc
+//    Artist - Album - Owned - Genre - Media - Misc - Location
 function createRecord(row)
 {
-  // Fetch album and artist strings
+  // Fetch album, artist, and location strings
   var curAlbum = row[0].v;
   var curArtist = row[1].v;
+  var curLocation = row[6].v;
 
   // Fetch genre, media, and misc strings,
   // then split them into arrays
@@ -50,7 +64,7 @@ function createRecord(row)
   var curType = findRecordType(curGenre, curMedia, curMisc);
 
   // Build and return a Record object
-  return new Record(curAlbum, curArtist, curKeywords, curType);
+  return new Record(curAlbum, curArtist, curKeywords, curType, curLocation);
 }
 
 // Convert record to a printable string, which is also sent to the console
@@ -62,7 +76,15 @@ function recordToString(record)
 
   if(record !== undefined)
   {
-    recordString = `Album: ${record.album}\nArtist: ${record.artist}\nKeywords: ${record.keywords}`;
+    recordString = `Album: ${record.album}
+                    Artist: ${record.artist}
+                    Keywords: ${record.keywords}
+                    Type: ${record.type}
+                    Location: ${record.location}`;
+  }
+  else
+  {
+    recordString = "ERROR: Undefined Record!"
   }
 
   if (RECORD_DEBUG) console.log(recordString);
@@ -88,7 +110,7 @@ function findRecordType(genre, media, misc)
   {
     recordType = "TBLScore";
   }
-  else if(misc.includes("cover"))
+  else if(misc.includes("cover") && !misc.includes("soundtrack"))
   {
     recordType = "TBLCover";
   }

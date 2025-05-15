@@ -6,6 +6,7 @@
 // Opens an HTML table, builds headers, and opens the body
 // Parameters: showKeywords - boolean on if the keywords column should be displayed
 // TODO: Make header labels clickable (sorts table)
+// TODO: Find a way to have key separate AND scroll with screen
 function beginCollectionTable(showKeywords)
 {
   // Initialize
@@ -14,27 +15,29 @@ function beginCollectionTable(showKeywords)
   // 1st header: color key
   tableHTML += `<thead>`;
   tableHTML += `<tr>
-                    <th id="keyTraditional" class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
-                    <th class="colorKey TBLScore" onclick="htmlTableKey('TBLScore')">Media Score</th>
-                    <th class="colorKey TBLCover" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
-                    <th class="colorKey TBLVGM" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
-                    <th class="colorKey TBLMisc" onclick="htmlTableKey('TBLMisc')">Misc</th>
+                    <th colspan="2" class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
+                    <th colspan="2" class="colorKey TBLScore" onclick="htmlTableKey('TBLScore')">Media Score</th>
+                    <th colspan="2" class="colorKey TBLCover" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
+                    <th colspan="2" class="colorKey TBLVGM" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
+                    <th colspan="2" class="colorKey TBLMisc" onclick="htmlTableKey('TBLMisc')">Misc</th>
                  </tr>`;
 
   // 2nd header: table key
   if(showKeywords)
   {
     tableHTML += `<tr class="labelHeader">
-                    <th colspan="1">Artist</th>
-                    <th colspan="2">Album</th>
-                    <th colspan="2">Keywords</th>
+                    <th colspan="2">Artist</th>
+                    <th colspan="3">Album</th>
+                    <th colspan="3">Keywords</th>
+                    <th colspan="2">Queue</th>
                   </tr>`;
   }
   else
   {
     tableHTML += `<tr class="labelHeader">
-                    <th colspan="2">Artist</th>
-                    <th colspan="3">Album</th>
+                    <th colspan="3">Artist</th>
+                    <th colspan="5">Album</th>
+                    <th colspan="2">Queue</th>
                   </tr>`;
   }
 
@@ -57,22 +60,46 @@ function recordToTable(record, showKeywords)
   if(record !== undefined)
   {
     // Dynamically add current record to the table
-    // TODO: <td><button id="queueButton">Submit</button></td>
     if(showKeywords)
     {
-      recordHTML += `<td colspan="1" class="tblExpandedArtist ${record.type}">${record.album}</td>
-                     <td colspan="2" class="tblExpandedAlbum ${record.type}">${record.artist}</td>
-                     <td colspan="2" class="tblExpandedKeywords ${record.type}">${record.keywords.join(", ")}</td>`;
+      recordHTML += `<td colspan="2" class="tblExpandedArtist ${record.type}">${record.album}</td>
+                     <td colspan="3" class="tblExpandedAlbum ${record.type}">${record.artist}</td>
+                     <td colspan="3" class="tblExpandedKeywords ${record.type}">${record.keywords.join(", ")}</td>`;
     }
     else
     {
-      recordHTML += `<td colspan="2" class="tblStandardArtist ${record.type}">${record.album}</td>
-                     <td colspan="3" class="tblStandardAlbum ${record.type}">${record.artist}</td>`;
+      recordHTML += `<td colspan="3" class="tblStandardArtist ${record.type}">${record.album}</td>
+                     <td colspan="5" class="tblStandardAlbum ${record.type}">${record.artist}</td>`;
     }
+
+    recordHTML += `<td colspan="2" class="${record.type}">`
+    recordHTML += buildQueueButton(record);
+    recordHTML += `</td>`;
   }
   recordHTML += "</tr>";
 
   return recordHTML;
+}
+
+function buildQueueButton(record)
+{
+  const recordID = `${record.artist}-${record.album}`;
+  if (TABLE_DEBUG) console.log(`Record ID: ${recordID}`);
+  if (TABLE_DEBUG) recordToString(record);
+
+  // TODO
+  // const buttonHTML = `<button id="${recordID}" 
+  //                     class="queueButton ${record.type}" 
+  //                     onclick="queueAdd('${recordCopy}')">
+  //                       Add
+  //                     </button>`;
+
+const buttonHTML = `<button id="${recordID}" 
+                      class="queueButton ${record.type}" 
+                      onclick="this.textContent = '${record.location}'">
+                        Add
+                      </button>`;
+  return buttonHTML;
 }
 
 // Closes an HTML table's body and the main table
@@ -84,3 +111,22 @@ function endCollectionTable()
   
   return tableHTML;
 }
+
+// TODO
+// function queueAdd(record)
+// {
+//   const recordID = `${record.artist}-${record.album}`;
+  
+//   if (TABLE_DEBUG) console.log(`Adding location ${record.location} from record ${recordID}`);
+//   if (TABLE_DEBUG) recordToString(record);
+
+//   var button = document.getElementById(recordID);
+//   button.value = record.location;
+// }
+// function queueAdd(recordID, location)
+// {
+//   if (TABLE_DEBUG) console.log(`Adding location ${location} from record ${recordID}`);
+  
+//   var button = document.getElementById(recordID);
+//   button.value = location;
+// }

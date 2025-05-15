@@ -39,7 +39,7 @@ function stringToArray(inputString)
 // Returns:    true if the row is valid, false otherwise
 // 
 // Note: assumes the following row format:
-//    Artist - Album - Owned - Genre - Media - Misc
+//    Artist - Album - Owned - Genre - Media - Misc - Location
 function rowIsValid(row)
 {
   // Checks if the artist exists & the record is currently owned

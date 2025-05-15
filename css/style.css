@@ -121,6 +121,13 @@ button {
   color: lightgrey;
 }
 
+.queueButton {
+  display: block;
+  width: 100%;
+  border-color: rgba(0, 0, 0, 0.438);
+  filter: grayscale(20%);
+}
+
 button:hover {
   filter: brightness(115%);
 }

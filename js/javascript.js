@@ -9,7 +9,7 @@
 
 // Testing constants
 const TEST_URL = false;
-const HTML_DEBUG = true;
+const HTML_DEBUG = false;
 const COLLECTION_DEBUG = false;
 const TABLE_DEBUG = false;
 const RECORD_DEBUG = false;
