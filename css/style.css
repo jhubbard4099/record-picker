@@ -11,6 +11,8 @@
 
 /* Animations */
 /* TODO: Make record spin faster after clicking */
+/* TODO: Record Clicker: record scratch, needles, plays music,
+                         limited time per ascension, etc. */
 .spinningRecord {
   filter: drop-shadow(0px 0px 10px #00000077);
   animation: rotate 10s linear infinite ;
@@ -137,6 +139,7 @@ button:active {
 
 
 /* Table Rules */
+/* TODO: Row :hover zooms in, shows box art & adds Submit button */
 table, td {
   table-layout: fixed;
   margin-left: auto;
@@ -154,6 +157,19 @@ table, td {
 td {
   border: 1px solid;
   border-color: rgb(0, 0, 0);
+}
+
+/* TODO: cursor: pointer; when the whole row is clickable*/
+tr.tblBody:hover {
+  position: sticky;
+  z-index: 999;
+
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  transition: transform .2s;
+
+  filter: drop-shadow(0px 0px 5px #00000075);
+  filter: brightness(110%);
 }
 
 th {

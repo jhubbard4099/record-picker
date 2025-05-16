@@ -25,7 +25,7 @@ function beginCollectionTable(showKeywords)
   // 2nd header: table key
   if(showKeywords)
   {
-    tableHTML += `<tr class="labelHeader">
+    tableHTML += `<tr>
                     <th colspan="2">Artist</th>
                     <th colspan="3">Album</th>
                     <th colspan="3">Keywords</th>
@@ -34,7 +34,7 @@ function beginCollectionTable(showKeywords)
   }
   else
   {
-    tableHTML += `<tr class="labelHeader">
+    tableHTML += `<tr>
                     <th colspan="3">Artist</th>
                     <th colspan="5">Album</th>
                     <th colspan="2">Queue</th>
@@ -56,7 +56,7 @@ function recordToTable(record, showKeywords)
 {
   if (TABLE_DEBUG) recordToString(record);
 
-  var recordHTML = "<tr>";
+  var recordHTML = "<tr class='tblBody'>";
   if(record !== undefined)
   {
     // Dynamically add current record to the table
@@ -81,6 +81,9 @@ function recordToTable(record, showKeywords)
   return recordHTML;
 }
 
+// TODO: Replace with clicking the row to add
+// Creates a button to add the current record to queue
+// Parameters: record - Record object to link to queue button
 function buildQueueButton(record)
 {
   const recordID = `${record.artist}-${record.album}`;
@@ -97,7 +100,7 @@ function buildQueueButton(record)
 const buttonHTML = `<button id="${recordID}" 
                       class="queueButton ${record.type}" 
                       onclick="this.textContent = '${record.location}'">
-                        Add
+                        +
                       </button>`;
   return buttonHTML;
 }

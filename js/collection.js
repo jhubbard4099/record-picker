@@ -6,6 +6,7 @@
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
 // TODO: Collection mananger class
+// TODO: Store as a dictionary?
 const mainCollection = buildCollection();
 var lastCollection = [];
 
