@@ -58,6 +58,11 @@ body {
   filter: drop-shadow(0px 0px 4px #000000b4);
 }
 
+#row4 {
+  justify-content: flex-end;
+  align-content: flex-end;
+}
+
 .header, .footer {
   display: flex;
   align-items: center;
@@ -88,6 +93,7 @@ body {
 
 
 /* Checkbox Rules */
+/* TODO: line up elements horizontally */
 #checkboxContainer {
   display: flex;
   justify-content: flex-end;
@@ -106,6 +112,20 @@ body {
   accent-color: darkred;
   color: lightgrey;
   filter: drop-shadow(1px 1px 2px #000000b4);
+}
+
+#clearButton {
+  border-radius: 2px;
+  border-color: rgba(255, 0, 0, 0.438);
+  background: rgb(117, 13, 13);
+  color: lightgrey;
+}
+
+#clearButton:hover {
+  filter: brightness(115%);
+}
+#clearButton:active {
+  filter: brightness(85%);
 }
 
 
@@ -157,6 +177,12 @@ table, td {
 td {
   border: 1px solid;
   border-color: rgb(0, 0, 0);
+}
+
+tr.tblBody {
+  -webkit-transform: scale(1.00);
+  transform: scale(1.00);
+  transition: transform .2s;
 }
 
 /* TODO: cursor: pointer; when the whole row is clickable*/

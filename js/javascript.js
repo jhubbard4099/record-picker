@@ -237,8 +237,7 @@ function htmlKeywordToggle()
 const browseButton = document.getElementById("browseButton");
 const searchButton = document.getElementById("searchButton");
 const randomButton = document.getElementById("randomButton");
-const clearButton = document.getElementById("clearButton");
-// const queueButton = document.getElementById("queueButton");
+const queueButton = document.getElementById("queueButton");
 
 const htmlSearchTerms = document.getElementById("htmlSearchTerms");
 const htmlBlacklist = document.getElementById("htmlBlacklist");
@@ -246,6 +245,7 @@ const htmlBlacklist = document.getElementById("htmlBlacklist");
 const htmlIsAnd = document.getElementById("htmlIsAnd");
 const htmlIsBlacklist = document.getElementById("htmlIsBlacklist");
 const htmlShowKeywords = document.getElementById("htmlShowKeywords");
+const clearButton = document.getElementById("clearButton");
 
 
 // Browse button functionality
@@ -269,9 +269,9 @@ clearButton.addEventListener("click", () =>
 );
 
 // Queue button functionality
-// queueButton.addEventListener("click", () => 
-//   htmlQueue()
-// );
+queueButton.addEventListener("click", () => 
+  htmlQueue()
+);
 
 
 // Listener for typing in the search bar
