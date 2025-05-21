@@ -10,31 +10,6 @@
 const mainCollection = buildCollection();
 var lastCollection = [];
 
-
-// Converts an input string (comma separated list) to an array
-// Parameters: inputString - comma separated string list
-// Returns:    an array of strings
-function stringToArray(inputString)
-{
-  // Return empty string if input is undefined or empty
-  if(inputString === undefined || inputString === "")
-  {
-    if (COLLECTION_DEBUG) console.log("returning empty array");
-    return [];
-  }
-
-  // Split and trim all whitespace from input string
-  var outputArray = inputString.split(",");
-  for(var i = 0; i < outputArray.length; i++)
-  {
-    outputArray[i] = outputArray[i].trim().toLowerCase();
-  }
-
-  if (COLLECTION_DEBUG) console.log(`input: ${inputString} | output: ${outputArray}`);
-
-  return outputArray;
-}
-
 // Checks if a row is valid to be turned into a record
 // Parameters: row - spreadsheet row to convert to a record object
 // Returns:    true if the row is valid, false otherwise
@@ -161,8 +136,8 @@ function searchCollection(recordCollection, searchTerms, blacklist, isAnd)
   }
 
   // split terms into an array and trim all whitespace
-  const searchArray = stringToArray(searchTerms);
-  const blacklistArray = stringToArray(blacklist);
+  const searchArray = stringToArray(searchTerms, ",");
+  const blacklistArray = stringToArray(blacklist, ",");
 
   // Iterate through record collection
   for(var i = 0; i < recordCollection.length; i++)
