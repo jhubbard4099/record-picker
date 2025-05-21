@@ -15,11 +15,11 @@ function beginCollectionTable(showKeywords)
   // 1st header: color key
   tableHTML += `<thead>`;
   tableHTML += `<tr>
-                    <th colspan="2" class="colorKey TBLTraditional" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
-                    <th colspan="2" class="colorKey TBLScore" onclick="htmlTableKey('TBLScore')">Media Score</th>
-                    <th colspan="2" class="colorKey TBLCover" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
-                    <th colspan="2" class="colorKey TBLVGM" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
-                    <th colspan="2" class="colorKey TBLMisc" onclick="htmlTableKey('TBLMisc')">Misc</th>
+                    <th colspan="2" class="colorKey TBLTraditional hoverable" onclick="htmlTableKey('TBLTraditional')">Normal Music</th>
+                    <th colspan="2" class="colorKey TBLScore hoverable" onclick="htmlTableKey('TBLScore')">Media Score</th>
+                    <th colspan="2" class="colorKey TBLCover hoverable" onclick="htmlTableKey('TBLCover')">VGM Cover</th>
+                    <th colspan="2" class="colorKey TBLVGM hoverable" onclick="htmlTableKey('TBLVGM')">VGM Score</th>
+                    <th colspan="2" class="colorKey TBLMisc hoverable" onclick="htmlTableKey('TBLMisc')">Misc</th>
                  </tr>`;
 
   // 2nd header: table key
@@ -51,12 +51,11 @@ function beginCollectionTable(showKeywords)
 // Converts a record to HTML to be added to the full table
 // Parameters: record       - record object to convert
 //             showKeywords - boolean on if the keywords column should be displayed
-// TODO: "Add to Queue" button
 function recordToTable(record, showKeywords)
 {
   if (TABLE_DEBUG) recordToString(record);
 
-  var recordHTML = "<tr class='tblBody'>";
+  var recordHTML = "<tr class='tblBody' onclick='queueAdd(this)'>";
   if(record !== undefined)
   {
     // Dynamically add current record to the table
@@ -81,27 +80,20 @@ function recordToTable(record, showKeywords)
   return recordHTML;
 }
 
-// TODO: Replace with clicking the row to add
 // Creates a button to add the current record to queue
 // Parameters: record - Record object to link to queue button
+// TODO: Remove recordID?
 function buildQueueButton(record)
 {
   const recordID = `${record.artist}-${record.album}`;
   if (TABLE_DEBUG) console.log(`Record ID: ${recordID}`);
   if (TABLE_DEBUG) recordToString(record);
 
-  // TODO
-  // const buttonHTML = `<button id="${recordID}" 
-  //                     class="queueButton ${record.type}" 
-  //                     onclick="queueAdd('${recordCopy}')">
-  //                       Add
-  //                     </button>`;
-
-const buttonHTML = `<button id="${recordID}" 
-                      class="queueButton ${record.type}" 
-                      onclick="this.textContent = '${record.location}'">
-                        +
+  const buttonHTML = `<button id="${recordID}" 
+                      class="${record.location} ${record.type} queueButton">
+                      +
                       </button>`;
+
   return buttonHTML;
 }
 
@@ -115,21 +107,46 @@ function endCollectionTable()
   return tableHTML;
 }
 
-// TODO
-// function queueAdd(record)
-// {
-//   const recordID = `${record.artist}-${record.album}`;
-  
-//   if (TABLE_DEBUG) console.log(`Adding location ${record.location} from record ${recordID}`);
-//   if (TABLE_DEBUG) recordToString(record);
+// Adds the record at the current row to the "queue"
+// Currently, just replaces the button text with it's location
+// Parameters: row - table row representing a record to add
+// 
+// Note: Assumes the following row format(s):
+//    Artist - Album - Button
+//    Artist - Album - Keywords - Button
+// TODO: Update once proper queue handling is implemented
+function queueAdd(row)
+{
+  console.log(row);
 
-//   var button = document.getElementById(recordID);
-//   button.value = record.location;
-// }
-// function queueAdd(recordID, location)
-// {
-//   if (TABLE_DEBUG) console.log(`Adding location ${location} from record ${recordID}`);
-  
-//   var button = document.getElementById(recordID);
-//   button.value = location;
-// }
+  // Convert row json into cell array
+  const cells = row.cells;
+
+  const artist = cells[0].textContent;
+  const album = cells[1].textContent;
+  var button = undefined;
+  var keywords = undefined;
+
+  // Fetch button depending on number of table columns
+  if(cells.length === 3)
+  {
+    button = cells[2].getElementsByTagName('button')[0];
+  }
+  else // cells.length === 4
+  {
+    keywords = cells[2].textContent;
+    button = cells[3].getElementsByTagName('button')[0];
+  }
+
+  // Button classes: location RecordType queueButton
+  const buttonClasses = button.className.split(" ");
+  const location = buttonClasses[0];
+
+  if (TABLE_DEBUG) console.log(`    Artist: ${artist}
+    Album: ${album}
+    Button ID: ${button.id}
+    Location: ${location}
+    Keywords: ${keywords}`);
+
+  button.textContent = location;
+}

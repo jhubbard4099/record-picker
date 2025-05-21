@@ -25,38 +25,37 @@
       
       <div class="formContainer">
 
-        <!-- TODO: Work on layout -->
         <div class="rowContainer" id="row1">
-          <button id="browseButton">Browse</button>
+          <button id="browseButton" class="hoverable">Browse</button>
           <div id="checkboxContainer">
-            <div class="checkboxForm">
+            <label class="checkboxForm hoverable">
               <input type="checkbox" id="htmlIsAnd"/>
-              <label class="checkboxLabel">AND Results</label>
-            </div>
-            <div class="checkboxForm">
+              AND Results
+            </label>
+            <label class="checkboxForm hoverable">
               <input type="checkbox" id="htmlIsBlacklist"/>
-              <label class="checkboxLabel">Blacklist</label>
-            </div>
-            <div class="checkboxForm">
+              Blacklist
+            </label>
+            <label class="checkboxForm hoverable">
               <input type="checkbox" id="htmlShowKeywords"/>
-              <label class="checkboxLabel">Show Keywords</label>
-            </div>
-            <input type="reset" value="Clear" id="clearButton">
+              Show Keywords
+            </label>
+            <input type="reset" value="Clear" id="clearButton" class="hoverable">
           </div>
         </div>
 
         <div class="rowContainer" id="row2">
-          <button id="searchButton">Search</button>
-          <input type="search" class="searchForm" id="htmlSearchTerms" placeholder="Search..."/>
+          <button id="searchButton" class="hoverable">Search</button>
+          <input type="search" class="hoverable" id="htmlSearchTerms" placeholder="Search..."/>
         </div>
 
         <div class="rowContainer" id="row3">
-          <button id="randomButton">Random</button>
-          <input type="search" class="searchForm" id="htmlBlacklist" style="visibility:hidden" placeholder="Blacklist"/>
+          <button id="randomButton" class="hoverable">Random</button>
+          <input type="search" class="hoverable" id="htmlBlacklist" style="visibility:hidden" placeholder="Blacklist"/>
         </div>
 
         <div class="rowContainer" id="row4">
-          <button id="queueButton" style="visibility:hidden">Queue</button>
+          <button id="queueButton" class="hoverable" style="display:none">Queue</button>
         </div>
 
       </div>

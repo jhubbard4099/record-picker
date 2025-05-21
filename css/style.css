@@ -1,4 +1,5 @@
 /* TODO: Cleanup rule organization */
+/* TODO: Prevent resize when scrolls bar appears */
 /* Universal Rules */
 * {
   margin: 0;
@@ -21,6 +22,38 @@
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(-360deg); }
+}
+
+/* TODO: figure out why colorKey elements re-animate on click */
+tr.tblBody:hover,
+.hoverable:hover,
+.searchForm:focus {
+  position: sticky;
+  z-index: 999;
+
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  transition: transform .2s;
+
+  filter: drop-shadow(0px 0px 5px #00000075);
+  filter: brightness(110%);
+}
+
+tr.tblBody,
+.hoverable {
+  -webkit-transform: scale(1.00);
+  transform: scale(1.00);
+  transition: transform .2s;
+}
+
+
+/* Pointer Rules */
+button,
+tr.tblBody,
+.checkboxForm,
+input[type="checkbox"],
+input[type="reset"] {
+  cursor: pointer;
 }
 
 
@@ -53,7 +86,7 @@ body {
 .rowContainer {
   display: flex;
   justify-content: space-between;
-  gap: 2px;
+  gap: 4px;
   padding: 2px;
   filter: drop-shadow(0px 0px 4px #000000b4);
 }
@@ -71,7 +104,7 @@ body {
 
 /* Search Bar Rules */
 /* TODO: Figure out why search bars won't flex */
-.searchForm {
+input[type="search"] {
   padding: 0 5px 0 5px;
   font-size: large;
   color: lightgrey;
@@ -114,20 +147,6 @@ body {
   filter: drop-shadow(1px 1px 2px #000000b4);
 }
 
-#clearButton {
-  border-radius: 2px;
-  border-color: rgba(255, 0, 0, 0.438);
-  background: rgb(117, 13, 13);
-  color: lightgrey;
-}
-
-#clearButton:hover {
-  filter: brightness(115%);
-}
-#clearButton:active {
-  filter: brightness(85%);
-}
-
 
 /* Button Rules */
 button {
@@ -158,8 +177,24 @@ button:active {
 }
 
 
+/* Reset Button Rules */
+input[type="reset"] {
+  border-radius: 2px;
+  border-color: rgba(255, 0, 0, 0.438);
+  background: rgb(117, 13, 13);
+  color: lightgrey;
+}
+
+input[type="reset"]:hover {
+  filter: brightness(115%);
+}
+input[type="reset"]:active {
+  filter: brightness(85%);
+}
+
+
 /* Table Rules */
-/* TODO: Row :hover zooms in, shows box art & adds Submit button */
+/* TODO: Row :hover shows box art*/
 table, td {
   table-layout: fixed;
   margin-left: auto;
@@ -177,25 +212,6 @@ table, td {
 td {
   border: 1px solid;
   border-color: rgb(0, 0, 0);
-}
-
-tr.tblBody {
-  -webkit-transform: scale(1.00);
-  transform: scale(1.00);
-  transition: transform .2s;
-}
-
-/* TODO: cursor: pointer; when the whole row is clickable*/
-tr.tblBody:hover {
-  position: sticky;
-  z-index: 999;
-
-  -webkit-transform: scale(1.05);
-  transform: scale(1.05);
-  transition: transform .2s;
-
-  filter: drop-shadow(0px 0px 5px #00000075);
-  filter: brightness(110%);
 }
 
 th {
@@ -257,6 +273,7 @@ thead {
 .TBLMisc {
   background-color: rgb(35, 71, 0);
 }
+
 
 /* Misc Rules */
 ul {
