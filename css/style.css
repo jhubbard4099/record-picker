@@ -11,23 +11,40 @@
 
 
 /* Animations */
-/* TODO: Make record spin faster after clicking */
+/* TODO: https://stackoverflow.com/questions/47578337/css-change-animation-duration-without-jumping */
 /* TODO: Record Clicker: record scratch, needles, plays music,
                          limited time per ascension, etc. */
-.spinningRecord {
+#spinningRecord {
   filter: drop-shadow(0px 0px 10px #00000077);
-  animation: rotate 10s linear infinite ;
+  animation: rotate 10s linear infinite;
+  transition-property: all;
+  transition-duration: 1s;
 }
+
+#spinningRecord.maxSpin {
+  filter: drop-shadow(0px 0px 100px #ff0000cc);
+}
+
+/* TODO */
+/* #spinningRecord {
+  --_a: rotate 5s linear infinite;
+  animation: var(--_a),var(--_a),var(--_a) paused;
+  animation-composition: add;
+}
+#spinningRecord:hover {
+  animation-play-state: running;
+} */
 
 @keyframes rotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(-360deg); }
 }
 
-/* TODO: figure out why colorKey elements re-animate on click */
+/* TODO: Figure out why colorKey elements re-animate on click */
+/* TODO: Row expands to show album art/record & music preview */
 tr.tblBody:hover,
 .hoverable:hover,
-.searchForm:focus {
+input[type="search"]:focus {
   position: sticky;
   z-index: 999;
 
@@ -194,7 +211,6 @@ input[type="reset"]:active {
 
 
 /* Table Rules */
-/* TODO: Row :hover shows box art*/
 table, td {
   table-layout: fixed;
   margin-left: auto;

@@ -4,6 +4,66 @@
 // Note: relies on HTML_DEBUG variable from the main javascript.js file
 
 
+// Wrapper function to be called by the HTML which increments
+// the records rotation speed & applies various effects
+// TODO: Smoother rotation increases
+function htmlRecord()
+{
+  var spinningRecord = document.getElementById("spinningRecord");
+  var spinDuration = spinningRecord.style.animationDuration;
+  
+  // Field is blank by default, so fill with known starting value
+  if (spinDuration === "") spinDuration = "10000ms";
+
+  // Split duration into a numeric and alphabetic parts
+  var durationArray = spinDuration.match(/[a-zA-Z]+|[0-9]+/g);
+  const curDuration = durationArray[0];
+
+  // Determine how much to increase rotation speed
+  if(curDuration > 5000)
+  {
+    durationArray[0] -= 1000;
+  }
+  else if(curDuration > 1000)
+  {
+    durationArray[0] -= 500;
+  }
+  else if(curDuration > 100)
+  {
+    durationArray[0] -= 100;
+  }
+  else if(curDuration > 10)
+  {
+    durationArray[0] -= 10;
+  }
+  else if(curDuration > 1)
+  {
+    durationArray[0] -= 1;
+  }
+  else // Max speed
+  {
+    durationArray[0] = curDuration;
+  }
+
+  // Switch to blured image when rotating fast
+  if(durationArray[0] < 500 && spinningRecord.src.includes("/img/record.png"))
+  {
+    spinningRecord.src = "./img/record rotating.png";
+  }
+
+  // Activate max spin mode when rotation speed is maxed out
+  if(durationArray[0] == 1 && !spinningRecord.classList.contains("maxSpin"))
+  {
+    spinningRecord.classList.toggle("maxSpin");
+  }
+
+  // Re-combine into a duration string
+  spinDuration = durationArray.join("");
+
+  if (HTML_DEBUG) console.log(`Spin Duration: ${spinDuration}`);
+  spinningRecord.style.animationDuration = spinDuration;
+}
+
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 // TODO: Color each row dependent on either artist or game
@@ -51,6 +111,16 @@ function htmlClear()
   document.getElementById("htmlIsAnd").checked = false;
   document.getElementById("htmlIsBlacklist").checked = false;
   document.getElementById("htmlShowKeywords").checked = false;
+
+  // Reset record effects
+  var spinningRecord = document.getElementById("spinningRecord");
+  spinningRecord.style.animationDuration = "10000ms";
+  spinningRecord.src = "./img/record.png";
+
+  if(spinningRecord.classList.contains("maxSpin"))
+  {
+    spinningRecord.classList.toggle("maxSpin");
+  }
   
   // Clear record display
   clearCollection();
@@ -147,6 +217,8 @@ function htmlKeywordToggle()
 
 
 // Element declarations
+const spinningRecord = document.getElementById("spinningRecord");
+
 const browseButton = document.getElementById("browseButton");
 const searchButton = document.getElementById("searchButton");
 const randomButton = document.getElementById("randomButton");
@@ -159,6 +231,12 @@ const htmlIsAnd = document.getElementById("htmlIsAnd");
 const htmlIsBlacklist = document.getElementById("htmlIsBlacklist");
 const htmlShowKeywords = document.getElementById("htmlShowKeywords");
 const clearButton = document.getElementById("clearButton");
+
+
+// Browse button functionality
+spinningRecord.addEventListener("click", () => 
+  htmlRecord()
+);
 
 
 // Browse button functionality
