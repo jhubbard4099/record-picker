@@ -9,10 +9,17 @@
 // TODO: Smoother rotation increases
 function htmlRecord()
 {
-  var spinningRecord = document.getElementById("spinningRecord");
-  var spinDuration = spinningRecord.style.animationDuration;
+  // TODO
+  // var sound = new Audio("./sfx/record-scratch.wav");
+  // sound.volume = 0.2;
+  // sound.play();
+  
+  var fullRecord = document.getElementById("recordContainer");
+  var recordBody = document.getElementById("record");
+  var recordText = document.getElementById("recordText");
   
   // Field is blank by default, so fill with known starting value
+  var spinDuration = fullRecord.style.animationDuration;
   if (spinDuration === "") spinDuration = "10000ms";
 
   // Split duration into a numeric and alphabetic parts
@@ -46,22 +53,24 @@ function htmlRecord()
   }
 
   // Switch to blured image when rotating fast
-  if(durationArray[0] < 500 && spinningRecord.src.includes("/img/record.png"))
+  if(durationArray[0] < 500 && recordBody.src.includes("/img/record.png"))
   {
-    spinningRecord.src = "./img/record rotating.png";
+    recordBody.src = "./img/record rotating.png";
+    recordText.src = "./img/text rotating.png";
   }
 
   // Activate max spin mode when rotation speed is maxed out
-  if(durationArray[0] == 1 && !spinningRecord.classList.contains("maxSpin"))
+  if(durationArray[0] == 1 && !fullRecord.classList.contains("maxSpin"))
   {
-    spinningRecord.classList.toggle("maxSpin");
+    fullRecord.classList.toggle("maxSpin");
   }
 
   // Re-combine into a duration string
   spinDuration = durationArray.join("");
 
   if (HTML_DEBUG) console.log(`Spin Duration: ${spinDuration}`);
-  spinningRecord.style.animationDuration = spinDuration;
+
+  fullRecord.style.animationDuration = spinDuration;
 }
 
 // Wrapper function to be called by the HTML
@@ -113,13 +122,14 @@ function htmlClear()
   document.getElementById("htmlShowKeywords").checked = false;
 
   // Reset record effects
-  var spinningRecord = document.getElementById("spinningRecord");
-  spinningRecord.style.animationDuration = "10000ms";
-  spinningRecord.src = "./img/record.png";
+  var fullRecord = document.getElementById("recordContainer");
+  fullRecord.style.animationDuration = "10000ms";
+  document.getElementById("record").src = "./img/record.png";
+  document.getElementById("recordText").src = "./img/text.png";
 
-  if(spinningRecord.classList.contains("maxSpin"))
+  if(fullRecord.classList.contains("maxSpin"))
   {
-    spinningRecord.classList.toggle("maxSpin");
+    fullRecord.classList.toggle("maxSpin");
   }
   
   // Clear record display
@@ -217,7 +227,7 @@ function htmlKeywordToggle()
 
 
 // Element declarations
-const spinningRecord = document.getElementById("spinningRecord");
+const spinningRecord = document.getElementById("recordContainer");
 
 const browseButton = document.getElementById("browseButton");
 const searchButton = document.getElementById("searchButton");

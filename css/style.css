@@ -14,14 +14,15 @@
 /* TODO: https://stackoverflow.com/questions/47578337/css-change-animation-duration-without-jumping */
 /* TODO: Record Clicker: record scratch, needles, plays music,
                          limited time per ascension, etc. */
-#spinningRecord {
+/* TODO: Display record/logo as 2 separate images */
+#recordContainer {
   filter: drop-shadow(0px 0px 10px #00000077);
   animation: rotate 10s linear infinite;
   transition-property: all;
   transition-duration: 1s;
 }
 
-#spinningRecord.maxSpin {
+#recordContainer.maxSpin {
   filter: drop-shadow(0px 0px 100px #ff0000cc);
 }
 
@@ -63,6 +64,14 @@ tr.tblBody,
   transition: transform .2s;
 }
 
+
+/* Record Rules */
+#recordText {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 
 /* Pointer Rules */
 button,
