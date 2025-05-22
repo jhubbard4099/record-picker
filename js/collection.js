@@ -10,6 +10,7 @@
 const mainCollection = buildCollection();
 var lastCollection = [];
 
+
 // Checks if a row is valid to be turned into a record
 // Parameters: row - spreadsheet row to convert to a record object
 // Returns:    true if the row is valid, false otherwise

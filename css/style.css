@@ -1,6 +1,7 @@
-/* TODO: Cleanup rule organization */
-/* TODO: Prevent resize when scrolls bar appears */
-/* Universal Rules */
+
+/* ----------------- */
+/*  Universal Rules  */
+/* ----------------- */
 * {
   margin: 0;
   padding: 0;
@@ -10,11 +11,11 @@
 /* * {border:1px solid lightblue} */
 
 
-/* Animations */
+/* ------------ */
+/*  Animations  */
+/* ------------ */
+
 /* TODO: https://stackoverflow.com/questions/47578337/css-change-animation-duration-without-jumping */
-/* TODO: Record Clicker: record scratch, needles, plays music,
-                         limited time per ascension, etc. */
-/* TODO: Display record/logo as 2 separate images */
 #recordContainer {
   filter: drop-shadow(0px 0px 10px #00000077);
   animation: rotate 10s linear infinite;
@@ -26,6 +27,11 @@
   filter: drop-shadow(0px 0px 100px #ff0000cc);
 }
 
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
 /* TODO */
 /* #spinningRecord {
   --_a: rotate 5s linear infinite;
@@ -35,11 +41,6 @@
 #spinningRecord:hover {
   animation-play-state: running;
 } */
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
 
 /* TODO: Figure out why colorKey elements re-animate on click */
 /* TODO: Row expands to show album art/record & music preview */
@@ -65,15 +66,10 @@ tr.tblBody,
 }
 
 
-/* Record Rules */
-#recordText {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
+/* --------------- */
+/*  Pointer Rules  */
+/* --------------- */
 
-/* Pointer Rules */
 button,
 tr.tblBody,
 .checkboxForm,
@@ -83,7 +79,11 @@ input[type="reset"] {
 }
 
 
-/* Main Rules */
+/* ------------ */
+/*  Main Rules  */
+/* ------------ */
+
+/* TODO: Prevent resize when scrolls bar appears */
 body {
   min-height: 100vh;
   display: flex;
@@ -95,7 +95,7 @@ body {
 }
 
 /* TODO: Record & UI next to each other on desktop */
-.content {
+#content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -103,7 +103,7 @@ body {
 }
 
 /* TODO: Add small space between phone edge and UI elements */
-.formContainer {
+#formContainer {
   display: flex;
   flex-direction: column;
   align-items: baseline;
@@ -128,7 +128,22 @@ body {
 }
 
 
-/* Search Bar Rules */
+/* -------------- */
+/*  Record Rules  */
+/* -------------- */
+
+#recordText {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+/* ------------------ */
+/*  Search Bar Rules  */
+/* ------------------ */
+
 /* TODO: Figure out why search bars won't flex */
 input[type="search"] {
   padding: 0 5px 0 5px;
@@ -151,7 +166,10 @@ input[type="search"] {
 }
 
 
-/* Checkbox Rules */
+/* ---------------- */
+/*  Checkbox Rules  */
+/* ---------------- */
+
 /* TODO: line up elements horizontally */
 #checkboxContainer {
   display: flex;
@@ -174,7 +192,10 @@ input[type="search"] {
 }
 
 
-/* Button Rules */
+/* -------------- */
+/*  Button Rules  */
+/* -------------- */
+
 button {
   width: 90px;
   padding: 8px;
@@ -219,7 +240,10 @@ input[type="reset"]:active {
 }
 
 
-/* Table Rules */
+/* ------------- */
+/*  Table Rules  */
+/* ------------- */
+
 table, td {
   table-layout: fixed;
   margin-left: auto;
@@ -234,9 +258,14 @@ table, td {
   filter: drop-shadow(0px 0px 5px #000000c7);
 }
 
-td {
-  border: 1px solid;
-  border-color: rgb(0, 0, 0);
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  height: 60px;
+  font-size: large;
+  background-color: rgb(59, 58, 68);
+  filter: drop-shadow(0px 0px 5px #000000c7);
 }
 
 th {
@@ -247,6 +276,22 @@ th {
   border-color: black;
 }
 
+td {
+  border: 1px solid;
+  border-color: rgb(0, 0, 0);
+}
+
+.colorKey {
+  font-size: small;
+}
+.colorKey:hover {
+  filter: brightness(115%);
+}
+.colorKey:active {
+  filter: brightness(85%);
+}
+
+/* Font sizes depending on how many columns */
 .tblStandardArtist {
   font-size: smaller;
 }
@@ -263,26 +308,7 @@ th {
   font-size: xx-small;
 }
 
-thead {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  height: 60px;
-  font-size: large;
-  background-color: rgb(59, 58, 68);
-  filter: drop-shadow(0px 0px 5px #000000c7);
-}
-
-.colorKey {
-  font-size: small;
-}
-.colorKey:hover {
-  filter: brightness(115%);
-}
-.colorKey:active {
-  filter: brightness(85%);
-}
-
+/* Table row colors */
 .TBLTraditional {
   background-color: rgb(61, 2, 45);
 }
@@ -300,7 +326,10 @@ thead {
 }
 
 
-/* Misc Rules */
+/* ------------ */
+/*  Misc Rules  */
+/* ------------ */
+
 ul {
   list-style-type: none;
 }

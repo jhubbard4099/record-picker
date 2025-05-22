@@ -7,13 +7,15 @@
 // Wrapper function to be called by the HTML which increments
 // the records rotation speed & applies various effects
 // TODO: Smoother rotation increases
+// TODO: Record Clicker - record scratch, needles, plays music,
+//                        limited time per ascension, etc.
 function htmlRecord()
 {
   // TODO
   // var sound = new Audio("./sfx/record-scratch.wav");
   // sound.volume = 0.2;
   // sound.play();
-  
+
   var fullRecord = document.getElementById("recordContainer");
   var recordBody = document.getElementById("record");
   var recordText = document.getElementById("recordText");
@@ -75,7 +77,6 @@ function htmlRecord()
 
 // Wrapper function to be called by the HTML
 // to display the collection on button press
-// TODO: Color each row dependent on either artist or game
 function htmlBrowse()
 {
   lastFunction = "READ";
@@ -136,9 +137,9 @@ function htmlClear()
   clearCollection();
 }
 
-// TODO: Add queue support
-// TODO: Basic "login" system to allow people to pick a Username
-// TODO: Queue control buttons only for me
+// TODO: - Add queue support
+//       - Basic "login" system to allow people to pick a Username
+//       - Queue control buttons only for me
 function htmlQueue()
 {
   window.alert("Our dev gnomes are working very hard on this button right now!");

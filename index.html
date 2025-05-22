@@ -16,21 +16,16 @@
   </head>
 
   <body>
-    <div class="header">
-
-    </div>
-
-    <!-- TODO: Cleanup class vs. id -->
-     <!-- TODO: Add background image -->
-    <div class="content">
+    <!-- TODO: Add background image -->
+    <div id="content">
       <div id="recordContainer">
         <img id="record" src="./img/record.png" alt="A spinning record with a blank red label" height="250" width="250"/>
         <img id="recordText" src="./img/text.png" alt="Round circular text that reads 'RECORD PICKER'" height="250" width="250"/>
       </div>
 
-      <div class="formContainer">
+      <div id="formContainer">
 
-        <div class="rowContainer" id="row1">
+        <div id="row1" class="rowContainer">
           <button id="browseButton" class="hoverable">Browse</button>
           <div id="checkboxContainer">
             <label class="checkboxForm hoverable">
@@ -49,27 +44,25 @@
           </div>
         </div>
 
-        <div class="rowContainer" id="row2">
+        <div id="row2" class="rowContainer">
           <button id="searchButton" class="hoverable">Search</button>
           <input type="search" class="hoverable" id="htmlSearchTerms" placeholder="Search..."/>
         </div>
 
-        <div class="rowContainer" id="row3">
+        <div id="row3" class="rowContainer">
           <button id="randomButton" class="hoverable">Random</button>
           <input type="search" class="hoverable" id="htmlBlacklist" style="visibility:hidden" placeholder="Blacklist"/>
         </div>
 
-        <div class="rowContainer" id="row4">
+        <div id="row4" class="rowContainer">
           <button id="queueButton" class="hoverable" style="display:none">Queue</button>
         </div>
 
       </div>
 
       <div id="htmlCollection"></div>
+      
     </div>
     
-    <div class="footer">
-
-    </div>
   </body>
 </html>

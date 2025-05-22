@@ -6,7 +6,6 @@
 // Opens an HTML table, builds headers, and opens the body
 // Parameters: showKeywords - boolean on if the keywords column should be displayed
 // TODO: Make header labels clickable (sorts table)
-// TODO: Find a way to have key separate AND scroll with screen
 function beginCollectionTable(showKeywords)
 {
   // Initialize
@@ -82,15 +81,11 @@ function recordToTable(record, showKeywords)
 
 // Creates a button to add the current record to queue
 // Parameters: record - Record object to link to queue button
-// TODO: Remove recordID?
 function buildQueueButton(record)
 {
-  const recordID = `${record.artist}-${record.album}`;
-  if (TABLE_DEBUG) console.log(`Record ID: ${recordID}`);
   if (TABLE_DEBUG) recordToString(record);
 
-  const buttonHTML = `<button id="${recordID}" 
-                      class="${record.location} ${record.type} queueButton">
+  const buttonHTML = `<button class="${record.location} ${record.type} queueButton">
                       +
                       </button>`;
 
