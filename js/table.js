@@ -50,11 +50,13 @@ function beginCollectionTable(showKeywords)
 // Converts a record to HTML to be added to the full table
 // Parameters: record       - record object to convert
 //             showKeywords - boolean on if the keywords column should be displayed
-function recordToTable(record, showKeywords)
+// TODO: Rework for queue changes
+function recordToTable(record, showKeywords, isQueue)
 {
   if (TABLE_DEBUG) recordToString(record);
+  const queueFunction = isQueue ? "queueRemove" : "queueAdd";
 
-  var recordHTML = "<tr class='tblBody' onclick='queueAdd(this)'>";
+  var recordHTML = `<tr class='tblBody' onclick='${queueFunction}(this)'>`;
   if(record !== undefined)
   {
     // Dynamically add current record to the table
@@ -71,7 +73,7 @@ function recordToTable(record, showKeywords)
     }
 
     recordHTML += `<td colspan="2" class="${record.type}">`
-    recordHTML += buildQueueButton(record);
+    recordHTML += buildQueueButton(record, isQueue);
     recordHTML += `</td>`;
   }
   recordHTML += "</tr>";
@@ -81,12 +83,13 @@ function recordToTable(record, showKeywords)
 
 // Creates a button to add the current record to queue
 // Parameters: record - Record object to link to queue button
-function buildQueueButton(record)
+function buildQueueButton(record, isQueue)
 {
   if (TABLE_DEBUG) recordToString(record);
+  const buttonLabel = isQueue ? "-" : "+";
 
   const buttonHTML = `<button class="${record.location} ${record.type} queueButton">
-                      +
+                      ${buttonLabel}
                       </button>`;
 
   return buttonHTML;

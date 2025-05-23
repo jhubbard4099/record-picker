@@ -84,6 +84,7 @@ input[type="reset"] {
 /* ------------ */
 
 /* TODO: Prevent resize when scrolls bar appears */
+/* TODO: Fix top/bottom margins without adding scroll bar */
 body {
   min-height: 100vh;
   display: flex;

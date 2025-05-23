@@ -135,14 +135,29 @@ function htmlClear()
   
   // Clear record display
   clearCollection();
+  clearQueue();
 }
 
-// TODO: - Add queue support
+// Wrapper function to be called by the HTML
+// to display the current queue of records
+// TODO: - Add true queue support
 //       - Basic "login" system to allow people to pick a Username
 //       - Queue control buttons only for me
 function htmlQueue()
 {
-  window.alert("Our dev gnomes are working very hard on this button right now!");
+  lastFunction = "QUEUE";
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  if(currentQueue.length !== 0)
+  {
+    readCollection(currentQueue, inputShowKeywords);
+  }
+  else // Empty queue
+  {
+    window.alert("The queue is currently empty! Why not fix that? :)");
+  }
 }
 
 // HTML wrapper for when a section of the table key is clicked
@@ -223,7 +238,14 @@ function htmlKeywordToggle()
   // Read state of the "Show Keywords" checkbox
   const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
 
-  readCollection(lastCollection, inputShowKeywords);
+  if(lastFunction === "QUEUE")
+  {
+    readCollection(currentQueue, inputShowKeywords);
+  }
+  else
+  {
+    readCollection(lastCollection, inputShowKeywords);
+  }
 }
 
 

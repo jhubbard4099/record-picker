@@ -104,34 +104,73 @@ function clearAdvancedSearch(search)
   }
 }
 
-// Adds the record at the current row to the "queue"
-// Currently, just replaces the button text with it's location
+// Adds the record at the current row to the queue
+// Currently, adds record to a local queue
 // Parameters: row - table row representing a record to add
-// 
-// Note: Assumes the following row format(s):
-//    Artist - Album - Button
-//    Artist - Album - Keywords - Button
 // TODO: Update once proper queue handling is implemented
 function queueAdd(row)
 {
   if(MAIN_DEBUG) console.log(row);
 
+  // Update queue button with record location (for now)
+  updateQueueButton(row);
+
+  // Subtract 2 to ignore header rows
+  const recordIndex = row.rowIndex - 2;
+
+  // Fetch record from selected row
+  const recordToAdd = lastCollection[recordIndex];
+
+  if (MAIN_DEBUG) console.log(`Adding: ${recordToRemove}`);
+
+  // Add record to queue
+  if(!currentQueue.includes(recordToAdd))
+  {
+    currentQueue.push(recordToAdd);
+  }
+}
+
+// Removes the record from the input row from the queue
+// Currently, removes the record from a local queue
+// Parameters: row - table row representing a record to remove
+function queueRemove(row)
+{
+  if(MAIN_DEBUG) console.log(row);
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  // Subtract 2 to ignore header rows
+  const recordIndex = row.rowIndex - 2;
+
+  // Fetch record from selected row
+  const recordToRemove = lastCollection[recordIndex];
+
+  if (MAIN_DEBUG) console.log(`Removing: ${recordToRemove}`);
+
+  currentQueue.splice(recordIndex, 1);
+  readCollection(currentQueue, inputShowKeywords);
+}
+
+// Updates the queue button of the input row to show location
+// Parameters: row - table row containing a button to update
+//
+// Note: Assumes the following row format(s):
+//    Artist - Album - Button
+//    Artist - Album - Keywords - Button
+function updateQueueButton(row)
+{
   // Convert row json into cell array
   const cells = row.cells;
 
-  const artist = cells[0].textContent;
-  const album = cells[1].textContent;
-  var button = undefined;
-  var keywords = undefined;
-
   // Fetch button depending on number of table columns
+  var button = undefined;
   if(cells.length === 3)
   {
     button = cells[2].getElementsByTagName('button')[0];
   }
   else // cells.length === 4
   {
-    keywords = cells[2].textContent;
     button = cells[3].getElementsByTagName('button')[0];
   }
 
@@ -139,13 +178,13 @@ function queueAdd(row)
   const buttonClasses = stringToArray(button.className, " ");
   const location = buttonClasses[0];
 
-  if (MAIN_DEBUG) console.log(`    Artist: ${artist}
-    Album: ${album}
-    Button ID: ${button.id}
-    Location: ${location}
-    Keywords: ${keywords}`);
-
   button.textContent = location;
+}
+
+// Clears the queue of all records
+function clearQueue()
+{
+  currentQueue = [];
 }
 
 // TODO

@@ -9,6 +9,7 @@
 // TODO: Store as a dictionary?
 const mainCollection = buildCollection();
 var lastCollection = [];
+var currentQueue = [];
 
 
 // Checks if a row is valid to be turned into a record
@@ -92,9 +93,12 @@ async function buildCollection()
 // and displays it as a table
 // Parameters: recordCollection - collection to display as a table
 //             showKeywords     - boolean on if the keywords column should be displayed
+// TODO: Modify to handle queue table differently
 function readCollection(recordCollection, showKeywords)
 {
   if (COLLECTION_DEBUG) console.log(`Collection size: ${recordCollection.length} | Show Keywords: ${showKeywords}`);
+  
+  const isQueue = recordCollection === currentQueue;
 
   // Only display if there are actually records to show
   if(recordCollection.length <= 0 && lastFunction !== "TABLE")
@@ -113,7 +117,7 @@ function readCollection(recordCollection, showKeywords)
 
     if (COLLECTION_DEBUG) console.log(`Record #${i+1}:`);
     
-    outputHTML += recordToTable(curRecord, showKeywords);
+    outputHTML += recordToTable(curRecord, showKeywords, isQueue);
   }
   outputHTML += endCollectionTable();
 
