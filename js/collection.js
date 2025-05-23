@@ -9,7 +9,6 @@
 // TODO: Store as a dictionary?
 const mainCollection = buildCollection();
 var lastCollection = [];
-var currentQueue = [];
 
 
 // Checks if a row is valid to be turned into a record
