@@ -5,11 +5,20 @@
 // Main sheet: https://docs.google.com/spreadsheets/d/1xr7AxVFrFkv1fBzspuMmcXcOBlGwNVRYmdGTj3gkvBQ
 // Test sheet: https://docs.google.com/spreadsheets/d/13ooKXitlRdYBmN1CWV8ylQULB_wPFZmnIZONTYyRR8k
 
+
+// --------------------- //
+//  CONSTANTS & GLOBALS  //
+// --------------------- //
+
 // TODO: Collection mananger class
 // TODO: Store as a dictionary?
 const mainCollection = buildCollection();
 var lastCollection = [];
 
+
+// ------------------ //
+//  HELPER FUNCTIONS  //
+// ------------------ //
 
 // Checks if a row is valid to be turned into a record
 // Parameters: row - spreadsheet row to convert to a record object
@@ -27,6 +36,10 @@ function rowIsValid(row)
   return isValid;
 }
 
+
+// -------------------- //
+//  BUILDING FUNCTIONS  //
+// -------------------- //
 
 // Accesses the Google sheet & parses the information into a json object
 // Returns: json object representing the full spreadsheet
@@ -87,6 +100,11 @@ async function buildCollection()
 
   return recordCollection;
 }
+
+
+// ---------------------- //
+//  PROCESSING FUNCTIONS  //
+// ---------------------- //
 
 // Reads the global record collection,
 // and displays it as a table

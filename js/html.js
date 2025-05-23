@@ -4,6 +4,10 @@
 // Note: relies on HTML_DEBUG variable from the main javascript.js file
 
 
+// ------------------ //
+//  RECORD FUNCTIONS  //
+// ------------------ //
+
 // Wrapper function to be called by the HTML which increments
 // the records rotation speed & applies various effects
 // TODO: Smoother rotation increases
@@ -75,6 +79,11 @@ function htmlRecord()
   fullRecord.style.animationDuration = spinDuration;
 }
 
+
+// ----------------------- //
+//  MAIN BUTTON FUNCTIONS  //
+// ----------------------- //
+
 // Wrapper function to be called by the HTML
 // to display the collection on button press
 function htmlBrowse()
@@ -108,6 +117,33 @@ function htmlRandom(inputSearch, inputBlacklist, inputSeed=-1)
   queryCollection(inputSearch, inputBlacklist, inputSeed);
 }
 
+// Wrapper function to be called by the HTML
+// to display the current queue of records
+// TODO: - Add true queue support
+//       - Basic "login" system to allow people to pick a Username
+//       - Queue control buttons only for me
+function htmlQueue()
+{
+  lastFunction = "QUEUE";
+
+  // Read state of the "Show Keywords" checkbox
+  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
+
+  if(currentQueue.length !== 0)
+  {
+    readCollection(currentQueue, inputShowKeywords);
+  }
+  else // Empty queue
+  {
+    window.alert("The queue is currently empty! Why not fix that? :)");
+  }
+}
+
+
+// ------------------------ //
+//  OTHER BUTTON FUNCTIONS  //
+// ------------------------ //
+
 // HTML wrapper function to clear all fields
 function htmlClear()
 {
@@ -136,28 +172,6 @@ function htmlClear()
   // Clear record display
   clearCollection();
   clearQueue();
-}
-
-// Wrapper function to be called by the HTML
-// to display the current queue of records
-// TODO: - Add true queue support
-//       - Basic "login" system to allow people to pick a Username
-//       - Queue control buttons only for me
-function htmlQueue()
-{
-  lastFunction = "QUEUE";
-
-  // Read state of the "Show Keywords" checkbox
-  const inputShowKeywords = document.getElementById("htmlShowKeywords").checked;
-
-  if(currentQueue.length !== 0)
-  {
-    readCollection(currentQueue, inputShowKeywords);
-  }
-  else // Empty queue
-  {
-    window.alert("The queue is currently empty! Why not fix that? :)");
-  }
 }
 
 // HTML wrapper for when a section of the table key is clicked
@@ -191,6 +205,10 @@ function htmlTableKey(recordType)
   queryCollection(document.getElementById("htmlSearchTerms").value, document.getElementById("htmlBlacklist").value);
 }
 
+
+// -------------------- //
+//  CHECKBOX FUNCTIONS  //
+// -------------------- //
 
 // Toggles the ANDing of search results
 // Also re-runs a search to reflect changes
@@ -249,7 +267,10 @@ function htmlKeywordToggle()
 }
 
 
-// Element declarations
+// ---------------------- //
+//  ELEMENT DECLARATIONS  //
+// ---------------------- //
+
 const spinningRecord = document.getElementById("recordContainer");
 
 const browseButton = document.getElementById("browseButton");
@@ -257,20 +278,29 @@ const searchButton = document.getElementById("searchButton");
 const randomButton = document.getElementById("randomButton");
 const queueButton = document.getElementById("queueButton");
 
+const clearButton = document.getElementById("clearButton");
+
 const htmlSearchTerms = document.getElementById("htmlSearchTerms");
 const htmlBlacklist = document.getElementById("htmlBlacklist");
 
 const htmlIsAnd = document.getElementById("htmlIsAnd");
 const htmlIsBlacklist = document.getElementById("htmlIsBlacklist");
 const htmlShowKeywords = document.getElementById("htmlShowKeywords");
-const clearButton = document.getElementById("clearButton");
 
 
-// Browse button functionality
+// ------------------ //
+//  RECORD LISTENERS  //
+// ------------------ //
+
+// Spinning record functionality
 spinningRecord.addEventListener("click", () => 
   htmlRecord()
 );
 
+
+// ----------------------- //
+//  MAIN BUTTON LISTENERS  //
+// ----------------------- //
 
 // Browse button functionality
 browseButton.addEventListener("click", () => 
@@ -287,16 +317,25 @@ randomButton.addEventListener("click", () =>
   htmlRandom(htmlSearchTerms.value, htmlBlacklist.value)
 );
 
-// Clear button functionality
-clearButton.addEventListener("click", () => 
-  htmlClear()
-);
-
 // Queue button functionality
 queueButton.addEventListener("click", () => 
   htmlQueue()
 );
 
+
+// ------------------------ //
+//  OTHER BUTTON LISTENERS  //
+// ------------------------ //
+
+// Clear button functionality
+clearButton.addEventListener("click", () => 
+  htmlClear()
+);
+
+
+// ---------------------- //
+//  SEARCH BAR LISTENERS  //
+// ---------------------- //
 
 // Listener for typing in the search bar
 htmlSearchTerms.addEventListener("keyup", (e) => 
@@ -308,6 +347,10 @@ htmlBlacklist.addEventListener("keyup", (e) =>
   htmlSearch(htmlSearchTerms.value, e.target.value)
 );
 
+
+// -------------------- //
+//  CHECKBOX LISTENERS  //
+// -------------------- //
 
 // Listener for AND checkbox
 htmlIsAnd.addEventListener("click", () => 

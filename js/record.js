@@ -3,6 +3,40 @@
 // Note: relies on RECORD_DEBUG variable from the main javascript.js file
 
 
+// ------------------ //
+//  HELPER FUNCTIONS  //
+// ------------------ //
+
+// Convert record to a printable string, which is also sent to the console
+// Parameters: record - a Record object to convert to a string
+// Returns:    a string representation of a record
+function recordToString(record)
+{
+  var recordString = "";
+
+  if(record !== undefined)
+  {
+    recordString = `Album: ${record.album}
+                    Artist: ${record.artist}
+                    Keywords: ${record.keywords}
+                    Type: ${record.type}
+                    Location: ${record.location}`;
+  }
+  else
+  {
+    recordString = "ERROR: Undefined Record!"
+  }
+
+  if (RECORD_DEBUG) console.log(recordString);
+  
+  return recordString
+}
+
+
+// -------------------- //
+//  CREATION FUNCTIONS  //
+// -------------------- //
+
 // Object representing a vinyl record
 // Parameters: albumRecord  - string representing the album name, or a record to copy
 //             artist       - string representing the artist of the album
@@ -67,31 +101,6 @@ function createRecord(row)
   return new Record(curAlbum, curArtist, curKeywords, curType, curLocation);
 }
 
-// Convert record to a printable string, which is also sent to the console
-// Parameters: record - a Record object to convert to a string
-// Returns:    a string representation of a record
-function recordToString(record)
-{
-  var recordString = "";
-
-  if(record !== undefined)
-  {
-    recordString = `Album: ${record.album}
-                    Artist: ${record.artist}
-                    Keywords: ${record.keywords}
-                    Type: ${record.type}
-                    Location: ${record.location}`;
-  }
-  else
-  {
-    recordString = "ERROR: Undefined Record!"
-  }
-
-  if (RECORD_DEBUG) console.log(recordString);
-  
-  return recordString
-}
-
 // Used to colorize the collection table based on type of record
 // Parameters: genre  - genre field of the record to determine
 //             media  - media field of the record to determine
@@ -126,6 +135,11 @@ function findRecordType(genre, media, misc)
   if (RECORD_DEBUG) console.log(`Record Type: ${recordType}`);
   return recordType;
 }
+
+
+// ------------------ //
+//  SEARCH FUNCTIONS  //
+// ------------------ //
 
 // Determines if a record contains an input search term
 // Parameters: record     - record to search

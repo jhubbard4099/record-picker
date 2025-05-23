@@ -2,8 +2,17 @@
 // This file contains all the functions related to queue management
 // Note: relies on QUEUE_DEBUG variable from the main javascript.js file
 
+
+// --------------------- //
+//  CONSTANTS & GLOBALS  //
+// --------------------- //
+
 var currentQueue = [];
 
+
+// ---------------- //
+//  MAIN FUNCTIONS  //
+// ---------------- //
 
 // Adds the record at the current row to the queue
 // Currently, adds record to a local queue

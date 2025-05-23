@@ -7,6 +7,11 @@
 // TODO: Color themes
 // TODO: Cleanup document.getElementById() usage
 
+
+// --------------------- //
+//  CONSTANTS & GLOBALS  //
+// --------------------- //
+
 // Testing constants
 const TEST_URL = false;
 const MAIN_DEBUG = false;
@@ -20,6 +25,10 @@ const RECORD_DEBUG = false;
 var lastFunction = "CLEAR";
 var rngSeed = -1;
 
+
+// ------------------ //
+//  HELPER FUNCTIONS  //
+// ------------------ //
 
 // Converts an input string to an array
 // Parameters: inputString - string list of terms
@@ -53,6 +62,11 @@ function isBlacklistVisible()
   if (MAIN_DEBUG) console.log(`Blacklist Visibility: ${document.getElementById("htmlBlacklist").style.visibility}`);
   return document.getElementById("htmlBlacklist").style.visibility === "visible";
 }
+
+
+// ------------------------ //
+//  SEARCH FIELD FUNCTIONS  //
+// ------------------------ //
 
 // Removes all extraneous commas from input string
 // Parameters: inputField - string to trim
@@ -119,6 +133,10 @@ function clearAdvancedSearch(search)
 //   document.getElementById(`${element}`).style.filter = "brightness(115%)";
 // }
 
+
+// ------------------- //
+//  TESTING FUNCTIONS  //
+// ------------------- //
 
 // Tests various parts of the website functionality
 async function test()

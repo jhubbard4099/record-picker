@@ -3,6 +3,10 @@
 // Note: relies on TABLE_DEBUG variable from the main javascript.js file
 
 
+// ---------------- //
+//  MAIN FUNCTIONS  //
+// ---------------- //
+
 // Opens an HTML table, builds headers, and opens the body
 // Parameters: showKeywords - boolean on if the keywords column should be displayed
 // TODO: Make header labels clickable (sorts table)
