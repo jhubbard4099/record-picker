@@ -2,6 +2,7 @@
 /* ----------------- */
 /*  Universal Rules  */
 /* ----------------- */
+
 * {
   margin: 0;
   padding: 0;
@@ -44,6 +45,7 @@
 
 /* TODO: Figure out why colorKey elements re-animate on click */
 /* TODO: Row expands to show album art/record & music preview */
+/* TODO: Prevent hover going over header rows? */
 tr.tblBody:hover,
 .hoverable:hover,
 input[type="search"]:focus {
@@ -162,6 +164,7 @@ button:active {
 /* ------------------ */
 
 /* TODO: Figure out why search bars won't flex */
+/* TODO: Customize search bar X */
 input[type="search"] {
   max-width: 240px;
   padding: 0 5px 0 5px;
@@ -213,6 +216,7 @@ input[type="search"] {
 /* -------------------- */
 /*  Reset Button Rules  */
 /* -------------------- */
+
 input[type="reset"] {
   border-radius: 2px;
   border-color: rgba(255, 0, 0, 0.438);

@@ -111,7 +111,7 @@ function findRecordType(genre, media, misc)
   var recordType = "";
 
   // Determine record type based on specific criteria
-  if(media[0] === " " && !genre.includes("non-music") && !misc.includes("mystery"))
+  if(media.includes("music"))
   {
     recordType = "TBLTraditional";
   }
